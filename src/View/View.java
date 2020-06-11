@@ -12,8 +12,6 @@ public class View {
     public View() {
         printMenu();
         this.scanInput = new Scanner(System.in);
-
-
     }
 
     private void printMenu() {
@@ -35,6 +33,11 @@ public class View {
         } else if (action.equals(objects.get(2))) {
             System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <quantity>");
         }
+    }
+
+    public int getIdOfElementToDelete() {
+        System.out.println("Enter the id of the element you want to delete :");
+        return Integer.parseInt(scanInput.nextLine());
     }
 
     public String[] getAction() {

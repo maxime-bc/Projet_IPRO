@@ -6,6 +6,7 @@ import Model.Entity.EquipmentEntity;
 import Model.Entity.UserEntity;
 import View.ErrorMessages;
 import View.SuccessMessages;
+import View.View;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -117,5 +118,20 @@ public class ApplicationData implements Serializable {
             message = ErrorMessages.ADD_ERROR;
         }
         return message;
+    }
+
+    public String deleteUser(int id) {
+        userEntities.removeIf(user -> user.getID() == id);
+        return SuccessMessages.DELETE;
+    }
+
+    public String deleteBorrowing(int id) {
+        borrowingEntities.removeIf(borrowing -> borrowing.getID() == id);
+        return SuccessMessages.DELETE;
+    }
+
+    public String deleteEquipment(int id) {
+        equipmentEntities.removeIf(equipment -> equipment.getID() == id);
+        return SuccessMessages.DELETE;
     }
 }

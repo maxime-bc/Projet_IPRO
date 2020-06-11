@@ -77,6 +77,7 @@ public class Controller {
             msg = ErrorMessages.ARGS_ERROR;
         }
         this.view.display(msg);
+        Serialize.serialize(this.applicationData, Constants.APP_DATA_FILE);
     }
 
     private void update(String[] arguments) {
@@ -84,6 +85,20 @@ public class Controller {
     }
 
     private void delete(String[] arguments) {
+        int id = this.view.getIdOfElementToDelete();
+        String msg = "";
 
+        if (arguments[1].equals(View.objects.get(0))) {
+            msg = applicationData.deleteUser(id);
+
+        } else if (arguments[1].equals(View.objects.get(1))) {
+            msg = applicationData.deleteBorrowing(id);
+
+        } else if (arguments[1].equals(View.objects.get(2))) {
+            msg = applicationData.deleteEquipment(id);
+        }
+
+        this.view.display(msg);
+        Serialize.serialize(this.applicationData, Constants.APP_DATA_FILE);
     }
 }
