@@ -1,4 +1,4 @@
-package Model;
+package Model.Entity;
 
 import java.util.Date;
 
@@ -9,10 +9,8 @@ public class BorrowingEntity {
     private final int ID;
     private static int currentID = 0;
     private BorrowingReason reason;
-    private Date borrowingStart;
-    private Date borrowingEnd;
-    private int borrowedEquipmentID;
-    private int borrowerID;
+    private Date borrowingStart, borrowingEnd;
+    private int borrowedEquipmentID, borrowerID;
 
     public BorrowingEntity(BorrowingReason reason, Date borrowingStart, Date borrowingEnd, int borrowedEquipmentID, int borrowerID){
         this.ID = currentID;

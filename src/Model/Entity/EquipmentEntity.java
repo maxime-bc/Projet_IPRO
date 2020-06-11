@@ -1,4 +1,4 @@
-package Model;
+package Model.Entity;
 
 import java.util.Date;
 
@@ -15,8 +15,7 @@ public class EquipmentEntity {
     private double purchasePrice;
     private State state;
     private boolean isBorrowed;
-    private int storageID;
-    private int quantity;
+    private int storageID, quantity;
 
     public EquipmentEntity(Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, int quantity) {
         this.ID = currentID;

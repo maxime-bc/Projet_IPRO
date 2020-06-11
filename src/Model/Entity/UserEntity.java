@@ -1,4 +1,4 @@
-package Model;
+package Model.Entity;
 
 import java.util.ArrayList;
 
@@ -8,11 +8,7 @@ public class UserEntity {
 
     private final int ID;
     private static int currentID = 0;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String phoneNumber;
-    private String email;
+    private String firstName, lastName, address, phoneNumber, email;
     private final UserType userType;
     private ArrayList<BorrowingEntity> borrowedEquipments;
 
