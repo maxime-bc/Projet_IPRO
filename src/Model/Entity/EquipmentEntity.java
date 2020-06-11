@@ -1,8 +1,9 @@
 package Model.Entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class EquipmentEntity {
+public class EquipmentEntity implements Serializable {
 
     public enum State {NEW, GOOD, USED, BROKEN}
     public enum Owner {ENSIIE, TSP, C19, UEVE}

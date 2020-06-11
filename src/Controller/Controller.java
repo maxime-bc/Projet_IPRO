@@ -1,9 +1,7 @@
 package Controller;
 
-import Model.Entity.EquipmentEntity;
-import Model.Entity.PhoneEntity;
-import Model.Entity.PortableDeviceEntity;
-import Model.Entity.UserEntity;
+import Model.ApplicationData;
+import Model.Entity.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,9 +12,17 @@ public class Controller {
 
         //pour test
 
-        String file = "MyData.ser";
+        ApplicationData applicationData = ApplicationData.getInstance();
 
-        ArrayList<UserEntity> userEntities = new ArrayList<>();
+        applicationData.getUserEntities().add(new UserEntity("Bertrand", "Martin", "23 rue test",
+                "01.02.2", "test@test", UserEntity.UserType.OTHER));
+
+        applicationData.getUserEntities().add(new UserEntity("Christophe", "Bertrand", "23 rue lol",
+                "01.02.2", "test@test", UserEntity.UserType.OTHER));
+
+        String file = "app.data";
+
+/*        ArrayList<UserEntity> userEntities = new ArrayList<>();
 
         userEntities.add(new UserEntity("Bertrand", "Martin", "23 rue test",
                 "01.02.2", "test@test", UserEntity.UserType.OTHER));
@@ -30,9 +36,9 @@ public class Controller {
 
         PhoneEntity phoneEntity2 = new PhoneEntity(EquipmentEntity.Owner.C19, "b", new Date(),
                 0.1, EquipmentEntity.State.GOOD, false, -1, 1, 5.4,
-                PortableDeviceEntity.OperatingSystem.ANDROID);
+                PortableDeviceEntity.OperatingSystem.ANDROID);*/
 
-        Serialize.serialize(userEntities, file);
-        System.out.println(Serialize.deserialize());
+        Serialize.serialize(applicationData, file);
+        System.out.println(Serialize.deserialize(file));
     }
 }
