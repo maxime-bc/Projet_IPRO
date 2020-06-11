@@ -1,58 +1,26 @@
 package Controller;
 
 import Model.ApplicationData;
-import Model.Entity.UserEntity;
 import View.View;
+import View.ErrorMessages;
+import View.Constants;
 
 public class Controller {
-
-    private static final String APP_DATA_FILE = "app.data";
     private final View view;
     private final ApplicationData applicationData = ApplicationData.getInstance();
 
     public Controller() {
-
-        applicationData.getUserEntities().add(new UserEntity("Bertrand", "Martin", "23 rue test",
-                "01.02.2", "test@test", UserEntity.UserType.OTHER));
-
-        view = new View();
-        run();
-
-        //pour test
-
-/*        applicationData.getUserEntities().add(new UserEntity("Bertrand", "Martin", "23 rue test",
-                "01.02.2", "test@test", UserEntity.UserType.OTHER));
-
-        applicationData.getUserEntities().add(new UserEntity("Christophe", "Bertrand", "23 rue lol",
-                "01.02.2", "test@test", UserEntity.UserType.OTHER));
-
-
-
-/*        ArrayList<UserEntity> userEntities = new ArrayList<>();
-
-        userEntities.add(new UserEntity("Bertrand", "Martin", "23 rue test",
-                "01.02.2", "test@test", UserEntity.UserType.OTHER));
-
-        userEntities.add(new UserEntity("Christophe", "Bertrand", "23 rue lol",
-                "01.02.2", "test@test", UserEntity.UserType.OTHER));
-
-        PhoneEntity phoneEntity = new PhoneEntity(EquipmentEntity.Owner.C19, "b", new Date(),
-                0.1, EquipmentEntity.State.GOOD, false, -1, 1, 5.4,
-                PortableDeviceEntity.OperatingSystem.ANDROID);
-
-        PhoneEntity phoneEntity2 = new PhoneEntity(EquipmentEntity.Owner.C19, "b", new Date(),
-                0.1, EquipmentEntity.State.GOOD, false, -1, 1, 5.4,
-                PortableDeviceEntity.OperatingSystem.ANDROID);*/
-
-/*        Serialize.serialize(applicationData, APP_DATA_FILE);
-        System.out.println(Serialize.deserialize(APP_DATA_FILE));*/
+        this.view = new View();
+        loop();
+        Serialize.serialize(this.applicationData, Constants.APP_DATA_FILE);
     }
 
-    private void run() {
+    private void loop() {
         boolean quit = false;
         while (!quit) {
             quit = this.executeAction(this.view.getAction());
         }
+        this.view.closeScanner();
     }
 
     private boolean executeAction(String[] arguments) {
@@ -69,7 +37,7 @@ public class Controller {
         } else if (arguments[0].equals(View.actions.get(3))) {
             delete(arguments);
 
-        } else return arguments[0].equals("quitter");
+        } else return arguments[0].equals("quit");
 
         return false;
     }
@@ -88,7 +56,27 @@ public class Controller {
     }
 
     private void add(String[] arguments) {
+        String msg = "";
+        try {
+            if (arguments[1].equals(View.objects.get(0))) {
+                this.view.printUsage(View.objects.get(0));
+                msg = applicationData.addUser(this.view.getUserInput());
 
+            } else if (arguments[1].equals(View.objects.get(1))) {
+                this.view.printUsage(View.objects.get(1));
+                msg = applicationData.addBorrowing(this.view.getUserInput());
+
+            } else if (arguments[1].equals(View.objects.get(2))) {
+                this.view.printUsage(View.objects.get(2));
+                msg = applicationData.addEquipment(this.view.getUserInput());
+            }
+
+        } catch (NumberFormatException e) {
+            msg = ErrorMessages.TYPE_ERROR;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            msg = ErrorMessages.ARGS_ERROR;
+        }
+        this.view.display(msg);
     }
 
     private void update(String[] arguments) {

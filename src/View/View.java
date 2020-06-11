@@ -18,14 +18,23 @@ public class View {
 
     private void printMenu() {
         System.out.println("***********                MENU                 ***********");
-        System.out.println("**     Action : afficher, ajouter, modifier, supprimer   **");
-        System.out.println("**                 (ou quitter)                          **");
-        System.out.println("**	   Sur quoi ? : lots, clients, commandes, stock, menu  **");
-        System.out.println("**     si commande : clients ou boutique ?               **");
-        System.out.println("**   exemple : <ajouter> <clients/commandes/...>         **");
-        System.out.println("**   exemple : <afficher> <commandes> <boutique/client>  **");
-        System.out.println("**   exemple : <quitter>                                 **");
+        System.out.println("**   Actions : display, add, update, delete, quit        **");
+        System.out.println("**	 On what data type : user, borrowing, equipment      **");
+        System.out.println("**   Ex : add user <attributes>                          **");
+        System.out.println("**   Ex : display user                                   **");
+        System.out.println("**   ...                                                 **");
         System.out.println("***********************************************************");
+    }
+
+    public void printUsage(String action) {
+        if (action.equals(objects.get(0))) {
+            System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
+        } else if (action.equals(objects.get(1))) {
+            System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
+                    "<borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
+        } else if (action.equals(objects.get(2))) {
+            System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <quantity>");
+        }
     }
 
     public String[] getAction() {
@@ -33,7 +42,7 @@ public class View {
         String[] arguments = new String[2];
         try {
             do {
-                System.out.print("Que souhaitez-vous ? > ");
+                System.out.print("Enter an action > ");
                 argument = scanInput.nextLine();
                 String[] arg = argument.split(" ");
                 if (arg.length < 2) {
@@ -49,9 +58,9 @@ public class View {
                 }
 
                 if (arguments[0].equals("quit")) {
-                    scanInput.close();
-                    System.exit(0);
+                    return arguments;
                 }
+
             } while (!actions.contains(arguments[0]) || !objects.contains(arguments[1]));
 
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -61,8 +70,16 @@ public class View {
         return arguments;
     }
 
-    public void display(Object object){
+    public void display(Object object) {
         System.out.println(object);
     }
 
+    public String[] getUserInput() {
+        String string = scanInput.nextLine();
+        return string.split(" ");
+    }
+
+    public void closeScanner() {
+        scanInput.close();
+    }
 }
