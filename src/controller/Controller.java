@@ -2,6 +2,10 @@ package controller;
 
 import constants.ErrorMessages;
 import model.ApplicationData;
+import model.repository.BorrowingRepository;
+import model.repository.EquipmentRepository;
+import model.repository.StorageRepository;
+import model.repository.UserRepository;
 import view.View;
 
 import static constants.Constants.*;
@@ -47,14 +51,13 @@ public class Controller {
     private void display(String[] arguments) {
         Object toDisplay = null;
 
-        //TODO: all actions for storage
         if (arguments[OBJECT].equals(View.objects.get(USER_OBJECT))) {
             toDisplay = applicationData.getUserEntities();
         } else if (arguments[OBJECT].equals(View.objects.get(BORROWING_OBJECT))) {
             toDisplay = applicationData.getBorrowingEntities();
         } else if (arguments[OBJECT].equals(View.objects.get(EQUIPMENT_OBJECT))) {
             toDisplay = applicationData.getEquipmentEntities();
-        } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))){
+        } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))) {
             toDisplay = applicationData.getStorageEntities();
         }
 
@@ -66,20 +69,20 @@ public class Controller {
         String msg = "";
         try {
             if (arguments[OBJECT].equals(View.objects.get(USER_OBJECT))) {
-                this.view.printUsage(View.objects.get(USER_OBJECT));
-                msg = applicationData.addUser(this.view.getUserInput());
+                this.view.printAddUsage(View.objects.get(USER_OBJECT));
+                msg = UserRepository.addUser(this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(BORROWING_OBJECT))) {
-                this.view.printUsage(View.objects.get(BORROWING_OBJECT));
-                msg = applicationData.addBorrowing(this.view.getUserInput());
+                this.view.printAddUsage(View.objects.get(BORROWING_OBJECT));
+                msg = BorrowingRepository.addBorrowing(this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(EQUIPMENT_OBJECT))) {
-                this.view.printUsage(View.objects.get(EQUIPMENT_OBJECT));
-                msg = applicationData.addEquipment(this.view.getUserInput());
+                this.view.printAddUsage(View.objects.get(EQUIPMENT_OBJECT));
+                msg = EquipmentRepository.addEquipment(this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))) {
-                this.view.printUsage(View.objects.get(STORAGE_OBJECT));
-                msg = applicationData.addStorage(this.view.getUserInput());
+                this.view.printAddUsage(View.objects.get(STORAGE_OBJECT));
+                msg = StorageRepository.addStorage(this.view.getUserInput());
             }
 
         } catch (NumberFormatException e) {
@@ -96,20 +99,20 @@ public class Controller {
         String msg = "";
         try {
             if (arguments[OBJECT].equals(View.objects.get(USER_OBJECT))) {
-                this.view.printUsage(View.objects.get(USER_OBJECT));
-                msg = applicationData.updateUser(this.view.getIdOfElement(), this.view.getUserInput());
+                this.view.printAddUsage(View.objects.get(USER_OBJECT));
+                msg = UserRepository.updateUser(this.view.getIdOfElement(), this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(BORROWING_OBJECT))) {
-                this.view.printUsage(View.objects.get(BORROWING_OBJECT));
-                msg = applicationData.updateBorrowing(this.view.getIdOfElement(), this.view.getUserInput());
+                this.view.printAddUsage(View.objects.get(BORROWING_OBJECT));
+                msg = BorrowingRepository.updateBorrowing(this.view.getIdOfElement(), this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(EQUIPMENT_OBJECT))) {
-                this.view.printUsage(View.objects.get(EQUIPMENT_OBJECT));
-                msg = applicationData.updateEquipment(this.view.getIdOfElement(), this.view.getUserInput());
+                this.view.printAddUsage(View.objects.get(EQUIPMENT_OBJECT));
+                msg = EquipmentRepository.updateEquipment(this.view.getIdOfElement(), this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))) {
-                this.view.printUsage(View.objects.get(STORAGE_OBJECT));
-                msg = applicationData.updateStorage(this.view.getIdOfElement(), this.view.getUserInput());
+                this.view.printAddUsage(View.objects.get(STORAGE_OBJECT));
+                msg = StorageRepository.updateStorage(this.view.getIdOfElement(), this.view.getUserInput());
             }
 
         } catch (NumberFormatException e) {
@@ -127,16 +130,16 @@ public class Controller {
         String msg = "";
 
         if (arguments[OBJECT].equals(View.objects.get(USER_OBJECT))) {
-            msg = applicationData.deleteUser(id);
+            msg = UserRepository.deleteUser(id);
 
         } else if (arguments[OBJECT].equals(View.objects.get(BORROWING_OBJECT))) {
-            msg = applicationData.deleteBorrowing(id);
+            msg = BorrowingRepository.deleteBorrowing(id);
 
         } else if (arguments[OBJECT].equals(View.objects.get(EQUIPMENT_OBJECT))) {
-            msg = applicationData.deleteEquipment(id);
+            msg = EquipmentRepository.deleteEquipment(id);
 
         } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))) {
-            msg = applicationData.deleteStorage(id);
+            msg = StorageRepository.deleteStorage(id);
         }
 
         this.view.display(msg);

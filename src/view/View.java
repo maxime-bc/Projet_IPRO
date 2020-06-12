@@ -29,7 +29,20 @@ public class View {
         System.out.println("*********************************************************************");
     }
 
-    public void printUsage(String action) {
+    public void printAddUsage(String action) {
+        if (action.equals(objects.get(USER_OBJECT))) {
+            System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
+        } else if (action.equals(objects.get(BORROWING_OBJECT))) {
+            System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
+                    "<borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
+        } else if (action.equals(objects.get(EQUIPMENT_OBJECT))) {
+            System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <quantity>");
+        } else if (action.equals(objects.get(STORAGE_OBJECT))) {
+            System.out.println("<storage_area> <manager_id>");
+        }
+    }
+
+    public void printUpdateUsage(String action) {
         if (action.equals(objects.get(USER_OBJECT))) {
             System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
         } else if (action.equals(objects.get(BORROWING_OBJECT))) {
@@ -90,12 +103,12 @@ public class View {
         ArrayList<String> list = new ArrayList<>();
         Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(string);
         while (m.find()) {
-            list.add(m.group(1).replace("\"", "") );
+            list.add(m.group(1).replace("\"", ""));
         }
         return list;
     }
 
-    public void printWrongArg(String arg){
+    public void printWrongArg(String arg) {
         System.out.println(arg + " is not a valid argument.\n");
     }
 
