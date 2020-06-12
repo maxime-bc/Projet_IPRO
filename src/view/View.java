@@ -114,6 +114,12 @@ public class View {
         return Integer.parseInt(string);
     }
 
+    public String askEquipmentType(){
+        display("GameController | Headset | Mouse | Phone | Tablet | VRController | VRHeadset | Webcam");
+        display("Type > ");
+        return scanInput.nextLine();
+    }
+
     public void printWrongArg(String arg) {
         System.out.println(arg + " is not a valid argument.\n");
     }

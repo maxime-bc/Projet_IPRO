@@ -20,6 +20,8 @@ public class Controller {
     // TODO : remove quantity and create 1 object each time
     // TODO : ask user which type of equipment he wants to add
     // TODO : change toString
+    // https://www.sqlitetutorial.net/sqlite-java/
+    // https://openclassrooms.com/fr/courses/1469021-les-applications-web-avec-javafx/1469170-les-pre-requis
 
     public Controller() {
         this.view = new View();
