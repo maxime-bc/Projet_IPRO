@@ -8,6 +8,8 @@ import model.repository.StorageRepository;
 import model.repository.UserRepository;
 import view.View;
 
+import java.util.ArrayList;
+
 import static constants.Constants.*;
 import static constants.ErrorMessages.*;
 
@@ -82,7 +84,13 @@ public class Controller {
 
             } else if (arguments[OBJECT].equals(View.objects.get(EQUIPMENT_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(EQUIPMENT_OBJECT));
-                status = EquipmentRepository.addEquipment(this.view.getUserInput());
+                ArrayList<String> inputs = this.view.getUserInput();
+                int quantity = this.view.askQuantity();
+
+                for(int i = 0; i < quantity; i++){
+                    status = EquipmentRepository.addEquipment(inputs);
+                    if (!status.getCode()) { break; }
+                }
 
             } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(STORAGE_OBJECT));

@@ -15,10 +15,10 @@ public class EquipmentEntity implements Serializable {
     private double purchasePrice;
     private State state;
     private boolean isBorrowed;
-    private int storageID, quantity;
+    private int storageID;
 
     public EquipmentEntity(int currentId, Owner owner, String brand, Date purchaseDate, double purchasePrice,
-                           State state, boolean isBorrowed, int storageID, int quantity) {
+                           State state, boolean isBorrowed, int storageID) {
         this.id = currentId;
         this.owner = owner;
         this.brand = brand;
@@ -27,7 +27,6 @@ public class EquipmentEntity implements Serializable {
         this.state = state;
         this.isBorrowed = isBorrowed;
         this.storageID = storageID;
-        this.quantity = quantity;
     }
 
     public int getId() {
@@ -90,14 +89,6 @@ public class EquipmentEntity implements Serializable {
         this.storageID = storageID;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     @Override
     public String toString() {
         return "EquipmentEntity{" +
@@ -108,7 +99,6 @@ public class EquipmentEntity implements Serializable {
                 ", state=" + state +
                 ", isBorrowed=" + isBorrowed +
                 ", storageID=" + storageID +
-                ", quantity=" + quantity +
                 '}';
     }
 }

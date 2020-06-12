@@ -22,7 +22,7 @@ public class EquipmentRepository {
 
     public static Status addEquipment(ArrayList<String> inputs) {
         Status status = new Status();
-        if (inputs.size() != 7) {
+        if (inputs.size() != 6) {
             status.setStatus(ERROR, ARGS_ERROR);
             return status;
         }
@@ -33,7 +33,7 @@ public class EquipmentRepository {
             appData.getEquipmentEntities().add(new EquipmentEntity(appData.getCurrentEquipmentId(),
                     EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                     Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                    Integer.parseInt(inputs.get(5)), Integer.parseInt(inputs.get(6))));
+                    Integer.parseInt(inputs.get(5))));
 
             appData.setCurrentEquipmentId(appData.getCurrentEquipmentId() + 1);
 
@@ -49,14 +49,7 @@ public class EquipmentRepository {
 
         for (EquipmentEntity equipment : appData.getEquipmentEntities()) {
             if (equipment.getId() == id) {
-                int quantity = equipment.getQuantity();
-
-                if (quantity > 1) {
-                    equipment.setQuantity(quantity - 1);
-                } else {
-                    // Only one equipment
-                    appData.getEquipmentEntities().remove(equipment);
-                }
+                appData.getEquipmentEntities().remove(equipment);
                 status.setStatus(SUCCESS, DELETE);
                 break;
             }

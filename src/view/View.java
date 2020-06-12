@@ -36,7 +36,7 @@ public class View {
             System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
                     "<borrowing start: dd/mm/yyyy> <borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
         } else if (action.equals(objects.get(EQUIPMENT_OBJECT))) {
-            System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <quantity>");
+            System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
         } else if (action.equals(objects.get(STORAGE_OBJECT))) {
             System.out.println("<storage_area> <manager_id>");
         }
@@ -106,6 +106,12 @@ public class View {
             list.add(m.group(1).replace("\"", ""));
         }
         return list;
+    }
+
+    public int askQuantity(){
+        display("Quantity > ");
+        String string = scanInput.nextLine();
+        return Integer.parseInt(string);
     }
 
     public void printWrongArg(String arg) {

@@ -9,8 +9,8 @@ public class PortableDeviceEntity extends EquipmentEntity {
     private double screenSize;
     private OperatingSystem operatingSystem;
 
-    public PortableDeviceEntity(int currentId, Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, int quantity, double screenSize, OperatingSystem operatingSystem) {
-        super(currentId, owner, brand, purchaseDate, purchasePrice, state, isBorrowed, storageID, quantity);
+    public PortableDeviceEntity(int currentId, Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, double screenSize, OperatingSystem operatingSystem) {
+        super(currentId, owner, brand, purchaseDate, purchasePrice, state, isBorrowed, storageID);
         this.screenSize = screenSize;
         this.operatingSystem = operatingSystem;
     }
