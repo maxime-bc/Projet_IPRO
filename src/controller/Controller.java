@@ -1,7 +1,7 @@
 package controller;
 
-import constants.ErrorMessages;
-import model.ApplicationData;
+import data.ApplicationData;
+import data.Status;
 import model.repository.BorrowingRepository;
 import model.repository.EquipmentRepository;
 import model.repository.StorageRepository;
@@ -9,11 +9,13 @@ import model.repository.UserRepository;
 import view.View;
 
 import static constants.Constants.*;
+import static constants.ErrorMessages.*;
 
 
 public class Controller {
     private final View view;
     private final ApplicationData applicationData = ApplicationData.getInstance();
+    // TODO : remove quantity and create 1 object each time
 
     public Controller() {
         this.view = new View();
@@ -65,84 +67,91 @@ public class Controller {
     }
 
     private void add(String[] arguments) {
-        // TODO Change return type to bool and print message directly in methods (save even if error) + bug serialization ?
-        String msg = "";
+        Status status = new Status();
+
         try {
             if (arguments[OBJECT].equals(View.objects.get(USER_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(USER_OBJECT));
-                msg = UserRepository.addUser(this.view.getUserInput());
+                status = UserRepository.addUser(this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(BORROWING_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(BORROWING_OBJECT));
-                msg = BorrowingRepository.addBorrowing(this.view.getUserInput());
+                status = BorrowingRepository.addBorrowing(this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(EQUIPMENT_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(EQUIPMENT_OBJECT));
-                msg = EquipmentRepository.addEquipment(this.view.getUserInput());
+                status = EquipmentRepository.addEquipment(this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(STORAGE_OBJECT));
-                msg = StorageRepository.addStorage(this.view.getUserInput());
+                status = StorageRepository.addStorage(this.view.getUserInput());
             }
 
         } catch (NumberFormatException e) {
-            msg = ErrorMessages.TYPE_ERROR;
+            status.setStatus(ERROR, TYPE_ERROR);
+
         } catch (ArrayIndexOutOfBoundsException e) {
-            msg = ErrorMessages.ARGS_ERROR;
+            status.setStatus(ERROR, ARGS_ERROR);
         }
-        this.view.display(msg);
-        Serialize.serialize(this.applicationData, APP_DATA_FILE);
+        this.view.display(status.getMessage());
+
+        if (status.getCode()) {
+            Serialize.serialize(this.applicationData, APP_DATA_FILE);
+        }
     }
 
     private void update(String[] arguments) {
-        // TODO : delete Usage
-        String msg = "";
+        Status status = new Status();
         try {
             if (arguments[OBJECT].equals(View.objects.get(USER_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(USER_OBJECT));
-                msg = UserRepository.updateUser(this.view.getIdOfElement(), this.view.getUserInput());
+                status = UserRepository.updateUser(this.view.getIdOfElement(), this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(BORROWING_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(BORROWING_OBJECT));
-                msg = BorrowingRepository.updateBorrowing(this.view.getIdOfElement(), this.view.getUserInput());
+                status = BorrowingRepository.updateBorrowing(this.view.getIdOfElement(), this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(EQUIPMENT_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(EQUIPMENT_OBJECT));
-                msg = EquipmentRepository.updateEquipment(this.view.getIdOfElement(), this.view.getUserInput());
+                status = EquipmentRepository.updateEquipment(this.view.getIdOfElement(), this.view.getUserInput());
 
             } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))) {
                 this.view.printAddUsage(View.objects.get(STORAGE_OBJECT));
-                msg = StorageRepository.updateStorage(this.view.getIdOfElement(), this.view.getUserInput());
+                status = StorageRepository.updateStorage(this.view.getIdOfElement(), this.view.getUserInput());
             }
 
         } catch (NumberFormatException e) {
-            msg = ErrorMessages.TYPE_ERROR;
+            status.setStatus(ERROR, TYPE_ERROR);
         } catch (ArrayIndexOutOfBoundsException e) {
-            msg = ErrorMessages.ARGS_ERROR;
+            status.setStatus(ERROR, ARGS_ERROR);
         }
 
-        this.view.display(msg);
-        Serialize.serialize(this.applicationData, APP_DATA_FILE);
+        this.view.display(status.getMessage());
+        if (status.getCode()) {
+            Serialize.serialize(this.applicationData, APP_DATA_FILE);
+        }
     }
 
     private void delete(String[] arguments) {
         int id = this.view.getIdOfElement();
-        String msg = "";
+        Status status = new Status();
 
         if (arguments[OBJECT].equals(View.objects.get(USER_OBJECT))) {
-            msg = UserRepository.deleteUser(id);
+            status = UserRepository.deleteUser(id);
 
         } else if (arguments[OBJECT].equals(View.objects.get(BORROWING_OBJECT))) {
-            msg = BorrowingRepository.deleteBorrowing(id);
+            status = BorrowingRepository.deleteBorrowing(id);
 
         } else if (arguments[OBJECT].equals(View.objects.get(EQUIPMENT_OBJECT))) {
-            msg = EquipmentRepository.deleteEquipment(id);
+            status = EquipmentRepository.deleteEquipment(id);
 
         } else if (arguments[OBJECT].equals(View.objects.get(STORAGE_OBJECT))) {
-            msg = StorageRepository.deleteStorage(id);
+            status = StorageRepository.deleteStorage(id);
         }
 
-        this.view.display(msg);
-        Serialize.serialize(this.applicationData, APP_DATA_FILE);
+        this.view.display(status.getMessage());
+        if (status.getCode()) {
+            Serialize.serialize(this.applicationData, APP_DATA_FILE);
+        }
     }
 }

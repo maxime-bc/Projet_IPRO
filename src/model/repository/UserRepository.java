@@ -2,20 +2,26 @@ package model.repository;
 
 import constants.ErrorMessages;
 import constants.SuccessMessages;
-import model.ApplicationData;
+import data.ApplicationData;
+import data.Status;
 import model.entity.UserEntity;
 
 import java.util.ArrayList;
+
+import static constants.Constants.ERROR;
+import static constants.Constants.SUCCESS;
+import static constants.ErrorMessages.*;
+import static constants.SuccessMessages.*;
 
 public class UserRepository {
 
     private static final ApplicationData appData = ApplicationData.getInstance();
 
     //TODO : check user inputs
-    public static String addUser(ArrayList<String> inputs) {
-        String message;
+    public static Status addUser(ArrayList<String> inputs) {
+        Status status = new Status();
         if (inputs.size() != 6) {
-            return ErrorMessages.ARGS_ERROR;
+            status.setStatus(ERROR, ARGS_ERROR);
         }
 
         try {
@@ -23,28 +29,28 @@ public class UserRepository {
                     inputs.get(2), inputs.get(3), inputs.get(4), UserEntity.UserType.valueOf(inputs.get(5))));
             appData.setCurrentUserId(appData.getCurrentUserId() + 1);
 
-            message = SuccessMessages.ADD;
+            status.setStatus(SUCCESS, ADD);
         } catch (IllegalArgumentException e) {
-            message = ErrorMessages.ADD_ERROR;
+            status.setStatus(ERROR, ADD_ERROR);
         }
-        return message;
+        return status;
     }
 
-    public static String deleteUser(int id) {
-        String message = ErrorMessages.NONEXISTENT_ID;
+    public static Status deleteUser(int id) {
+        Status status = new Status(ERROR, NONEXISTENT_ID);
 
         for (UserEntity user : appData.getUserEntities()) {
             if (user.getId() == id) {
                 appData.getUserEntities().remove(user);
-                message = SuccessMessages.DELETE;
+                status.setStatus(SUCCESS, DELETE);
                 break;
             }
         }
-        return message;
+        return status;
     }
 
-    public static String updateUser(int id, ArrayList<String> inputs) {
-        String message = ErrorMessages.UPDATE_ERROR;
+    public static Status updateUser(int id, ArrayList<String> inputs) {
+        Status status = new Status(ERROR, UPDATE_ERROR);
 
         for (UserEntity user : appData.getUserEntities()) {
             if (user.getId() == id) {
@@ -55,10 +61,10 @@ public class UserRepository {
                 user.setEmail(inputs.get(4));
                 user.setUserType(UserEntity.UserType.valueOf(inputs.get(5)));
 
-                message = SuccessMessages.UPDATE;
+                status.setStatus(SUCCESS, UPDATE);
                 break;
             }
         }
-        return message;
+        return status;
     }
 }

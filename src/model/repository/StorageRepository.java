@@ -1,59 +1,70 @@
 package model.repository;
 
-import constants.ErrorMessages;
 import constants.SuccessMessages;
-import model.ApplicationData;
+import data.ApplicationData;
+import data.Status;
 import model.entity.StorageEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import static constants.Constants.ERROR;
+import static constants.Constants.SUCCESS;
+import static constants.ErrorMessages.*;
+import static constants.SuccessMessages.*;
 
 public class StorageRepository {
 
     private static final ApplicationData appData = ApplicationData.getInstance();
 
-    public static String addStorage(ArrayList<String> inputs) {
-        String message;
+    public static Status addStorage(ArrayList<String> inputs) {
+        Status status = new Status();
         if (inputs.size() != 2) {
-            return ErrorMessages.ARGS_ERROR;
+            status.setStatus(ERROR, ARGS_ERROR);
+            return status;
         }
-
         try {
             appData.getStorageEntities().add(new StorageEntity(appData.getCurrentStorageId(), inputs.get(0),
                     Integer.parseInt(inputs.get(1))));
             appData.setCurrentStorageId(appData.getCurrentStorageId() + 1);
-            message = SuccessMessages.ADD;
+
+            status.setStatus(SUCCESS, ADD);
         } catch (IllegalArgumentException e) {
-            message = ErrorMessages.ADD_ERROR;
+            status.setStatus(ERROR, ADD_ERROR);
         }
-        return message;
+        return status;
     }
 
-    public static String deleteStorage(int id) {
-        String message = ErrorMessages.NONEXISTENT_ID;
+    public static Status deleteStorage(int id) {
+        Status status = new Status(ERROR, NONEXISTENT_ID);
 
         for (StorageEntity storage : appData.getStorageEntities()) {
             if (storage.getId() == id) {
                 appData.getStorageEntities().remove(storage);
-                message = SuccessMessages.DELETE;
+                status.setStatus(SUCCESS, DELETE);
                 break;
             }
         }
-        return message;
+        return status;
     }
 
-    public static String updateStorage(int id, ArrayList<String> inputs) {
-        String message = ErrorMessages.UPDATE_ERROR;
+    public static Status updateStorage(int id, ArrayList<String> inputs) {
+        Status status = new Status(ERROR, UPDATE_ERROR);
+        if (inputs.size() != 2) {
+            status.setStatus(ERROR, ARGS_ERROR);
+            return status;
+        }
 
         for (StorageEntity storage : appData.getStorageEntities()) {
 
             if (storage.getId() == id) {
                 storage.setStorageArea(inputs.get(0));
                 storage.setManagerID(Integer.parseInt(inputs.get(1)));
-                message = SuccessMessages.UPDATE;
+                status.setStatus(SUCCESS, ADD);
 
                 break;
             }
         }
-        return message;
+        return status;
     }
 }

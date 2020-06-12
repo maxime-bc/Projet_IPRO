@@ -1,9 +1,8 @@
 package model.repository;
 
 import constants.Constants;
-import constants.ErrorMessages;
-import constants.SuccessMessages;
-import model.ApplicationData;
+import data.ApplicationData;
+import data.Status;
 import model.entity.BorrowingEntity;
 
 import java.text.DateFormat;
@@ -13,46 +12,55 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static constants.Constants.ERROR;
+import static constants.Constants.SUCCESS;
+import static constants.ErrorMessages.*;
+import static constants.SuccessMessages.*;
+
 public class BorrowingRepository {
 
     private static final ApplicationData appData = ApplicationData.getInstance();
 
-    public static String addBorrowing(ArrayList<String> inputs) {
-        String message;
+    public static Status addBorrowing(ArrayList<String> inputs) {
+        Status status = new Status();
         if (inputs.size() != 4) {
-            return ErrorMessages.ARGS_ERROR;
+            status.setStatus(ERROR, ARGS_ERROR);
+            return status;
         }
-
         try {
             DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
 
             appData.getBorrowingEntities().add(new BorrowingEntity(appData.getCurrentBorrowingId(),
                     BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)), new Date(), format.parse(inputs.get(1)),
                     Integer.parseInt(inputs.get(2)), Integer.parseInt(inputs.get(3))));
-
             appData.setCurrentBorrowingId(appData.getCurrentBorrowingId() + 1);
-            message = SuccessMessages.ADD;
+
+            status.setStatus(SUCCESS,  ADD);
         } catch (IllegalArgumentException | ParseException e) {
-            message = ErrorMessages.ADD_ERROR;
+            status.setStatus(ERROR, ADD_ERROR);
         }
-        return message;
+        return status;
     }
 
-    public static String deleteBorrowing(int id) {
-        String message = ErrorMessages.NONEXISTENT_ID;
+    public static Status deleteBorrowing(int id) {
+        Status status = new Status(ERROR, NONEXISTENT_ID);
 
         for (BorrowingEntity borrowing : appData.getBorrowingEntities()) {
             if (borrowing.getId() == id) {
                 appData.getBorrowingEntities().remove(borrowing);
-                message = SuccessMessages.DELETE;
+                status.setStatus(SUCCESS, DELETE);
                 break;
             }
         }
-        return message;
+        return status;
     }
 
-    public static String updateBorrowing(int id, ArrayList<String> inputs) {
-        String message = ErrorMessages.UPDATE_ERROR;
+    public static Status updateBorrowing(int id, ArrayList<String> inputs) {
+        Status status = new Status(ERROR, UPDATE_ERROR);
+        if (inputs.size() != 4) {
+            status.setStatus(ERROR, ARGS_ERROR);
+            return status;
+        }
 
         for (BorrowingEntity borrowing : appData.getBorrowingEntities()) {
 
@@ -64,14 +72,14 @@ public class BorrowingRepository {
                     borrowing.setBorrowingEnd(format.parse(inputs.get(2)));
                     borrowing.setBorrowedEquipmentID(Integer.parseInt(inputs.get(3)));
                     borrowing.setBorrowerID(Integer.parseInt(inputs.get(4)));
-                    message = SuccessMessages.UPDATE;
+                    status.setStatus(SUCCESS, UPDATE);
 
                 } catch (ParseException e) {
-                    message = ErrorMessages.TYPE_ERROR;
+                    status.setStatus(SUCCESS, TYPE_ERROR);
                 }
                 break;
             }
         }
-        return message;
+        return status;
     }
 }

@@ -1,4 +1,4 @@
-package model;
+package data;
 
 import controller.Serialize;
 import model.entity.BorrowingEntity;

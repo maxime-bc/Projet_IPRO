@@ -1,25 +1,31 @@
 package model.repository;
 
 import constants.Constants;
-import constants.ErrorMessages;
-import constants.SuccessMessages;
-import model.ApplicationData;
+import data.ApplicationData;
+import data.Status;
 import model.entity.EquipmentEntity;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+
+import static constants.Constants.ERROR;
+import static constants.Constants.SUCCESS;
+import static constants.ErrorMessages.*;
+import static constants.SuccessMessages.*;
 
 public class EquipmentRepository {
 
     private static final ApplicationData appData = ApplicationData.getInstance();
 
-    public static String addEquipment(ArrayList<String> inputs) {
-        String message;
+    public static Status addEquipment(ArrayList<String> inputs) {
+        Status status = new Status();
         if (inputs.size() != 7) {
-            return ErrorMessages.ARGS_ERROR;
+            status.setStatus(ERROR, ARGS_ERROR);
+            return status;
         }
 
         try {
@@ -31,16 +37,17 @@ public class EquipmentRepository {
                     Integer.parseInt(inputs.get(5)), Integer.parseInt(inputs.get(6))));
 
             appData.setCurrentEquipmentId(appData.getCurrentEquipmentId() + 1);
-            message = SuccessMessages.ADD;
+
+            status.setStatus(SUCCESS, ADD);
         } catch (IllegalArgumentException | ParseException e) {
-            message = ErrorMessages.ADD_ERROR;
+            status.setStatus(ERROR, ADD_ERROR);
         }
-        return message;
+        return status;
     }
 
 
-    public static String deleteEquipment(int id) {
-        String message = ErrorMessages.NONEXISTENT_ID;
+    public static Status deleteEquipment(int id) {
+        Status status = new Status(ERROR, NONEXISTENT_ID);
 
         for (EquipmentEntity equipment : appData.getEquipmentEntities()) {
             if (equipment.getId() == id) {
@@ -48,21 +55,23 @@ public class EquipmentRepository {
 
                 if (quantity > 1) {
                     equipment.setQuantity(quantity - 1);
-                    message = SuccessMessages.DELETE;
-
                 } else {
                     // Only one equipment
                     appData.getEquipmentEntities().remove(equipment);
-                    message = SuccessMessages.DELETE;
-                    break;
                 }
+                status.setStatus(SUCCESS, DELETE);
+                break;
             }
         }
-        return message;
+        return status;
     }
 
-    public static String updateEquipment(int id, ArrayList<String> inputs) {
-        String message = ErrorMessages.UPDATE_ERROR;
+    public static Status updateEquipment(int id, ArrayList<String> inputs) {
+        Status status = new Status(ERROR, UPDATE_ERROR);
+        if (inputs.size() != 6) {
+            status.setStatus(ERROR, ARGS_ERROR);
+            return status;
+        }
 
         for (EquipmentEntity equipment : appData.getEquipmentEntities()) {
 
@@ -76,14 +85,14 @@ public class EquipmentRepository {
                     equipment.setState(EquipmentEntity.State.valueOf(inputs.get(4)));
                     equipment.setStorageId(Integer.parseInt(inputs.get(5)));
 
-                    message = SuccessMessages.UPDATE;
+                    status.setStatus(SUCCESS, UPDATE);
 
                 } catch (ParseException e) {
-                    message = ErrorMessages.TYPE_ERROR;
+                    status.setStatus(ERROR, TYPE_ERROR);
                 }
                 break;
             }
         }
-        return message;
+        return status;
     }
 }

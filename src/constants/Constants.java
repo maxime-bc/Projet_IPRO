@@ -4,6 +4,9 @@ public class Constants {
     public static final String APP_DATA_FILE = "app.data";
     public static final String DATE_FORMAT_PATTERN = "dd/MM/yyyy";
 
+    public static final boolean SUCCESS = true;
+    public static final boolean ERROR = false;
+
     public static final Integer ACTION = 0;
     public static final Integer OBJECT = 1;
 

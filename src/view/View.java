@@ -34,7 +34,7 @@ public class View {
             System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
         } else if (action.equals(objects.get(BORROWING_OBJECT))) {
             System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
-                    "<borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
+                    "<borrowing start: dd/mm/yyyy> <borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
         } else if (action.equals(objects.get(EQUIPMENT_OBJECT))) {
             System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <quantity>");
         } else if (action.equals(objects.get(STORAGE_OBJECT))) {
@@ -49,7 +49,7 @@ public class View {
             System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
                     "<borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
         } else if (action.equals(objects.get(EQUIPMENT_OBJECT))) {
-            System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <quantity>");
+            System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
         } else if (action.equals(objects.get(STORAGE_OBJECT))) {
             System.out.println("<storage_area> <manager_id>");
         }
