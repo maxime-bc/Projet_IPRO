@@ -8,8 +8,7 @@ public class EquipmentEntity implements Serializable {
     public enum State {NEW, GOOD, USED, BROKEN}
     public enum Owner {ENSIIE, TSP, C19, UEVE}
 
-    private final int ID;
-    private static int currentID = 0;
+    private final int id;
     private Owner owner;
     private String brand;
     private Date purchaseDate;
@@ -18,9 +17,8 @@ public class EquipmentEntity implements Serializable {
     private boolean isBorrowed;
     private int storageID, quantity;
 
-    public EquipmentEntity(Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, int quantity) {
-        this.ID = currentID;
-        EquipmentEntity.currentID += 1;
+    public EquipmentEntity(int currentId, Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, int quantity) {
+        this.id = currentId;
         this.owner = owner;
         this.brand = brand;
         this.purchaseDate = purchaseDate;
@@ -31,8 +29,8 @@ public class EquipmentEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public String getBrand() {
@@ -102,7 +100,7 @@ public class EquipmentEntity implements Serializable {
     @Override
     public String toString() {
         return "EquipmentEntity{" +
-                "ID=" + ID +
+                "ID=" + id +
                 ", brand='" + brand + '\'' +
                 ", purchaseDate=" + purchaseDate +
                 ", purchasePrice=" + purchasePrice +

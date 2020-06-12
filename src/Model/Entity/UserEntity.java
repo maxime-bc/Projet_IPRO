@@ -8,14 +8,12 @@ public class UserEntity implements Serializable {
     public enum UserType {JIN_STUDENT, Y2_STUDENT, ENSIIE, C19, TEACHER, OTHER}
 
     private final int ID;
-    private static int currentID = 0;
     private String firstName, lastName, address, phoneNumber, email;
     private final UserType userType;
     private ArrayList<BorrowingEntity> borrowedEquipments = new ArrayList<>();
 
-    public UserEntity(String firstName, String lastName, String address, String phoneNumber, String email, UserType userType) {
-        this.ID = currentID;
-        UserEntity.currentID += 1;
+    public UserEntity(int currentId, String firstName, String lastName, String address, String phoneNumber, String email, UserType userType){
+        this.ID = currentId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;

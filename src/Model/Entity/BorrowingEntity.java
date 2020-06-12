@@ -7,15 +7,13 @@ public class BorrowingEntity implements Serializable {
 
     public enum BorrowingReason {JIN_PROJECT, JIN_UE, Y2_UE, ENSIIE, PERSONAL_WORK, STARTUP, DEMO}
 
-    private final int ID;
-    private static int currentID = 0;
+    private final int id;
     private BorrowingReason reason;
     private Date borrowingStart, borrowingEnd;
     private int borrowedEquipmentID, borrowerID;
 
-    public BorrowingEntity(BorrowingReason reason, Date borrowingStart, Date borrowingEnd, int borrowedEquipmentID, int borrowerID){
-        this.ID = currentID;
-        BorrowingEntity.currentID += 1;
+    public BorrowingEntity(int currentID, BorrowingReason reason, Date borrowingStart, Date borrowingEnd, int borrowedEquipmentID, int borrowerID){
+        this.id = currentID;
         this.reason = reason;
         this.borrowingStart = borrowingStart;
         this.borrowingEnd = borrowingEnd;
@@ -23,8 +21,8 @@ public class BorrowingEntity implements Serializable {
         this.borrowerID = borrowerID;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public BorrowingReason getReason() {
@@ -70,7 +68,7 @@ public class BorrowingEntity implements Serializable {
     @Override
     public String toString() {
         return "BorrowingEntity{" +
-                "ID=" + ID +
+                "ID=" + id +
                 ", reason=" + reason +
                 ", borrowingStart=" + borrowingStart +
                 ", borrowingEnd=" + borrowingEnd +

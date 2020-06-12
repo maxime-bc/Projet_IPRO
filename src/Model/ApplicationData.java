@@ -6,7 +6,6 @@ import Model.Entity.EquipmentEntity;
 import Model.Entity.UserEntity;
 import View.ErrorMessages;
 import View.SuccessMessages;
-import View.View;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -19,6 +18,10 @@ import java.util.Locale;
 import static View.Constants.APP_DATA_FILE;
 
 public class ApplicationData implements Serializable {
+
+    private int currentUserId = 0;
+    private int currentBorrowingId = 0;
+    private int currentEquipmentId = 0;
 
     private ArrayList<UserEntity> userEntities = new ArrayList<>();
     private ArrayList<EquipmentEntity> equipmentEntities = new ArrayList<>();
@@ -74,7 +77,8 @@ public class ApplicationData implements Serializable {
         }
 
         try {
-            this.userEntities.add(new UserEntity(inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], UserEntity.UserType.valueOf(inputs[5])));
+            this.userEntities.add(new UserEntity(currentUserId, inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], UserEntity.UserType.valueOf(inputs[5])));
+            this.currentUserId ++;
             message = SuccessMessages.ADD;
         } catch (IllegalArgumentException e) {
             message = ErrorMessages.ADD_ERROR;
@@ -91,8 +95,9 @@ public class ApplicationData implements Serializable {
         try {
             DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.FRANCE);
 
-            this.borrowingEntities.add(new BorrowingEntity(BorrowingEntity.BorrowingReason.valueOf(inputs[0]),
+            this.borrowingEntities.add(new BorrowingEntity(this.currentBorrowingId, BorrowingEntity.BorrowingReason.valueOf(inputs[0]),
                     new Date(), format.parse(inputs[1]), Integer.parseInt(inputs[2]), Integer.parseInt(inputs[3])));
+            this.currentBorrowingId ++;
             message = SuccessMessages.ADD;
         } catch (IllegalArgumentException | ParseException e) {
             message = ErrorMessages.ADD_ERROR;
@@ -109,10 +114,11 @@ public class ApplicationData implements Serializable {
         try {
             DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.FRANCE);
 
-            this.equipmentEntities.add(new EquipmentEntity(EquipmentEntity.Owner.valueOf(inputs[0]),
+            this.equipmentEntities.add(new EquipmentEntity(currentEquipmentId, EquipmentEntity.Owner.valueOf(inputs[0]),
                     inputs[1], format.parse(inputs[2]), Double.parseDouble(inputs[3]),
                     EquipmentEntity.State.valueOf(inputs[4]), false, Integer.parseInt(inputs[5]),
                     Integer.parseInt(inputs[6])));
+            this.currentEquipmentId ++;
             message = SuccessMessages.ADD;
         } catch (IllegalArgumentException | ParseException e) {
             message = ErrorMessages.ADD_ERROR;
@@ -126,12 +132,24 @@ public class ApplicationData implements Serializable {
     }
 
     public String deleteBorrowing(int id) {
-        borrowingEntities.removeIf(borrowing -> borrowing.getID() == id);
+        borrowingEntities.removeIf(borrowing -> borrowing.getId() == id);
         return SuccessMessages.DELETE;
     }
 
     public String deleteEquipment(int id) {
-        equipmentEntities.removeIf(equipment -> equipment.getID() == id);
+        equipmentEntities.removeIf(equipment -> equipment.getId() == id);
         return SuccessMessages.DELETE;
+    }
+
+    public int getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public int getCurrentBorrowingId() {
+        return currentBorrowingId;
+    }
+
+    public int getCurrentEquipmentId() {
+        return currentEquipmentId;
     }
 }
