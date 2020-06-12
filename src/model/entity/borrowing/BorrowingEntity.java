@@ -1,4 +1,4 @@
-package model.entity;
+package model.entity.borrowing;
 
 import java.io.Serializable;
 import java.util.Date;

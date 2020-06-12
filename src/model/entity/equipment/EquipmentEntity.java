@@ -1,4 +1,4 @@
-package model.entity;
+package model.entity.equipment;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +17,8 @@ public class EquipmentEntity implements Serializable {
     private boolean isBorrowed;
     private int storageID, quantity;
 
-    public EquipmentEntity(int currentId, Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, int quantity) {
+    public EquipmentEntity(int currentId, Owner owner, String brand, Date purchaseDate, double purchasePrice,
+                           State state, boolean isBorrowed, int storageID, int quantity) {
         this.id = currentId;
         this.owner = owner;
         this.brand = brand;

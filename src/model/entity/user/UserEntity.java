@@ -1,7 +1,6 @@
-package model.entity;
+package model.entity.user;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class UserEntity implements Serializable {
 
@@ -9,9 +8,7 @@ public class UserEntity implements Serializable {
 
     private final int ID;
     private String firstName, lastName, address, phoneNumber, email;
-
     private UserType userType;
-    private ArrayList<BorrowingEntity> borrowedEquipments = new ArrayList<>();
 
     public UserEntity(int currentId, String firstName, String lastName, String address, String phoneNumber, String email, UserType userType) {
         this.ID = currentId;
@@ -73,14 +70,6 @@ public class UserEntity implements Serializable {
 
     public void setUserType(UserType userType) { this.userType = userType; }
 
-    public ArrayList<BorrowingEntity> getBorrowedEquipments() {
-        return borrowedEquipments;
-    }
-
-    public void setBorrowedEquipments(ArrayList<BorrowingEntity> borrowedEquipments) {
-        this.borrowedEquipments = borrowedEquipments;
-    }
-
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -91,7 +80,6 @@ public class UserEntity implements Serializable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", userType=" + userType +
-                ", borrowedEquipments=" + borrowedEquipments +
                 "}\n";
     }
 }

@@ -1,12 +1,10 @@
 package model.repository;
 
-import constants.SuccessMessages;
 import data.ApplicationData;
 import data.Status;
-import model.entity.StorageEntity;
+import model.entity.storage.StorageEntity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static constants.Constants.ERROR;
 import static constants.Constants.SUCCESS;

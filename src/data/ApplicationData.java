@@ -1,10 +1,10 @@
 package data;
 
 import controller.Serialize;
-import model.entity.BorrowingEntity;
-import model.entity.EquipmentEntity;
-import model.entity.StorageEntity;
-import model.entity.UserEntity;
+import model.entity.borrowing.BorrowingEntity;
+import model.entity.equipment.EquipmentEntity;
+import model.entity.storage.StorageEntity;
+import model.entity.user.UserEntity;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package model.repository;
 import constants.Constants;
 import data.ApplicationData;
 import data.Status;
-import model.entity.BorrowingEntity;
+import model.entity.borrowing.BorrowingEntity;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -1,10 +1,8 @@
 package model.repository;
 
-import constants.ErrorMessages;
-import constants.SuccessMessages;
 import data.ApplicationData;
 import data.Status;
-import model.entity.UserEntity;
+import model.entity.user.UserEntity;
 
 import java.util.ArrayList;
 

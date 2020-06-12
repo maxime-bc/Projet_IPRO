@@ -16,6 +16,8 @@ public class Controller {
     private final View view;
     private final ApplicationData applicationData = ApplicationData.getInstance();
     // TODO : remove quantity and create 1 object each time
+    // TODO : ask user which type of equipment he wants to add
+    // TODO : change toString
 
     public Controller() {
         this.view = new View();

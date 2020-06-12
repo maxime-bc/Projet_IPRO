@@ -3,13 +3,12 @@ package model.repository;
 import constants.Constants;
 import data.ApplicationData;
 import data.Status;
-import model.entity.EquipmentEntity;
+import model.entity.equipment.EquipmentEntity;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 import static constants.Constants.ERROR;
@@ -44,7 +43,6 @@ public class EquipmentRepository {
         }
         return status;
     }
-
 
     public static Status deleteEquipment(int id) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
