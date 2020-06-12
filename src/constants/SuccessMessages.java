@@ -1,4 +1,4 @@
-package View;
+package constants;
 
 public class SuccessMessages {
     public static final String ADD = "Successful addition";

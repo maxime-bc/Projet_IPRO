@@ -1,4 +1,4 @@
-package Model.Entity;
+package model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -85,7 +85,7 @@ public class EquipmentEntity implements Serializable {
         return storageID;
     }
 
-    public void setStorageID(int storageID) {
+    public void setStorageId(int storageID) {
         this.storageID = storageID;
     }
 

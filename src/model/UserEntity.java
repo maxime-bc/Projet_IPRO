@@ -1,4 +1,4 @@
-package Model.Entity;
+package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,10 +9,11 @@ public class UserEntity implements Serializable {
 
     private final int ID;
     private String firstName, lastName, address, phoneNumber, email;
-    private final UserType userType;
+
+    private UserType userType;
     private ArrayList<BorrowingEntity> borrowedEquipments = new ArrayList<>();
 
-    public UserEntity(int currentId, String firstName, String lastName, String address, String phoneNumber, String email, UserType userType){
+    public UserEntity(int currentId, String firstName, String lastName, String address, String phoneNumber, String email, UserType userType) {
         this.ID = currentId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,7 +23,7 @@ public class UserEntity implements Serializable {
         this.userType = userType;
     }
 
-    public int getID() {
+    public int getId() {
         return ID;
     }
 
@@ -69,6 +70,8 @@ public class UserEntity implements Serializable {
     public UserType getUserType() {
         return userType;
     }
+
+    public void setUserType(UserType userType) { this.userType = userType; }
 
     public ArrayList<BorrowingEntity> getBorrowedEquipments() {
         return borrowedEquipments;

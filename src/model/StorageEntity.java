@@ -1,17 +1,21 @@
-package Model.Entity;
+package model;
 
-public class StorageEntity {
+import java.io.Serializable;
 
-    private final int ID;
-    private static int currentID = 0;
+public class StorageEntity implements Serializable {
+
+    private final int id;
     private String storageArea;
     private int managerID;
 
-    public StorageEntity(String storageArea, int managerID){
-        this.ID = currentID;
-        StorageEntity.currentID += 1;
+    public StorageEntity(int currentId, String storageArea, int managerID){
+        this.id = currentId;
         this.storageArea = storageArea;
         this.managerID = managerID;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getStorageArea() {
@@ -33,7 +37,7 @@ public class StorageEntity {
     @Override
     public String toString() {
         return "StorageEntity{" +
-                "ID=" + ID +
+                "ID=" + id +
                 ", storageArea='" + storageArea + '\'' +
                 ", managerID=" + managerID +
                 '}';
