@@ -6,9 +6,9 @@ import java.util.Date;
 public class EquipmentEntity implements Serializable {
 
     public enum State {NEW, GOOD, USED, BROKEN}
+
     public enum Owner {ENSIIE, TSP, C19, UEVE}
 
-    private final int id;
     private Owner owner;
     private String brand;
     private Date purchaseDate;
@@ -17,9 +17,8 @@ public class EquipmentEntity implements Serializable {
     private boolean isBorrowed;
     private int storageID;
 
-    public EquipmentEntity(int currentId, Owner owner, String brand, Date purchaseDate, double purchasePrice,
+    public EquipmentEntity(Owner owner, String brand, Date purchaseDate, double purchasePrice,
                            State state, boolean isBorrowed, int storageID) {
-        this.id = currentId;
         this.owner = owner;
         this.brand = brand;
         this.purchaseDate = purchaseDate;
@@ -27,10 +26,6 @@ public class EquipmentEntity implements Serializable {
         this.state = state;
         this.isBorrowed = isBorrowed;
         this.storageID = storageID;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getBrand() {
@@ -91,14 +86,12 @@ public class EquipmentEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "EquipmentEntity{" +
-                "ID=" + id +
+        return "owner=" + owner +
                 ", brand='" + brand + '\'' +
                 ", purchaseDate=" + purchaseDate +
                 ", purchasePrice=" + purchasePrice +
                 ", state=" + state +
                 ", isBorrowed=" + isBorrowed +
-                ", storageID=" + storageID +
-                '}';
+                ", storageID=" + storageID;
     }
 }

@@ -17,18 +17,18 @@ public class StorageRepository {
 
     public static Status addStorage(ArrayList<String> inputs) {
         Status status = new Status();
-        if (inputs.size() != 2) {
-            status.setStatus(ERROR, ARGS_ERROR);
-            return status;
-        }
+
         try {
-            appData.getStorageEntities().add(new StorageEntity(appData.getCurrentStorageId(), inputs.get(0),
-                    Integer.parseInt(inputs.get(1))));
+            appData.getStorageEntities().put(appData.getCurrentStorageId(),
+                    new StorageEntity(inputs.get(0),
+                            Integer.parseInt(inputs.get(1))));
             appData.setCurrentStorageId(appData.getCurrentStorageId() + 1);
 
             status.setStatus(SUCCESS, ADD);
-        } catch (IllegalArgumentException e) {
-            status.setStatus(ERROR, ADD_ERROR);
+        } catch (IndexOutOfBoundsException e) {
+            status.setStatus(ERROR, ARGS_ERROR);
+        } catch (NumberFormatException e) {
+            status.setStatus(ERROR, TYPE_ERROR);
         }
         return status;
     }
@@ -36,31 +36,27 @@ public class StorageRepository {
     public static Status deleteStorage(int id) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
-        for (StorageEntity storage : appData.getStorageEntities()) {
-            if (storage.getId() == id) {
-                appData.getStorageEntities().remove(storage);
-                status.setStatus(SUCCESS, DELETE);
-                break;
-            }
+        if (appData.getStorageEntities().containsKey(id)) {
+            appData.getStorageEntities().remove(id);
+            status.setStatus(SUCCESS, DELETE);
         }
         return status;
     }
 
     public static Status updateStorage(int id, ArrayList<String> inputs) {
         Status status = new Status(ERROR, UPDATE_ERROR);
-        if (inputs.size() != 2) {
-            status.setStatus(ERROR, ARGS_ERROR);
-            return status;
-        }
 
-        for (StorageEntity storage : appData.getStorageEntities()) {
-
-            if (storage.getId() == id) {
-                storage.setStorageArea(inputs.get(0));
-                storage.setManagerID(Integer.parseInt(inputs.get(1)));
+        if (appData.getStorageEntities().containsKey(id)) {
+            try {
+                StorageEntity storageEntity = appData.getStorageEntities().get(id);
+                storageEntity.setStorageArea(inputs.get(0));
+                storageEntity.setManagerID(Integer.parseInt(inputs.get(1)));
                 status.setStatus(SUCCESS, ADD);
 
-                break;
+            } catch (NumberFormatException e) {
+                status.setStatus(ERROR, TYPE_ERROR);
+            } catch (IndexOutOfBoundsException e) {
+                status.setStatus(ERROR, ARGS_ERROR);
             }
         }
         return status;

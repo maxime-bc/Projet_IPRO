@@ -7,22 +7,16 @@ public class BorrowingEntity implements Serializable {
 
     public enum BorrowingReason {JIN_PROJECT, JIN_UE, Y2_UE, ENSIIE, PERSONAL_WORK, STARTUP, DEMO}
 
-    private final int id;
     private BorrowingReason reason;
     private Date borrowingStart, borrowingEnd;
     private int borrowedEquipmentID, borrowerID;
 
-    public BorrowingEntity(int currentID, BorrowingReason reason, Date borrowingStart, Date borrowingEnd, int borrowedEquipmentID, int borrowerID){
-        this.id = currentID;
+    public BorrowingEntity(BorrowingReason reason, Date borrowingStart, Date borrowingEnd, int borrowedEquipmentID, int borrowerID) {
         this.reason = reason;
         this.borrowingStart = borrowingStart;
         this.borrowingEnd = borrowingEnd;
         this.borrowedEquipmentID = borrowedEquipmentID;
         this.borrowerID = borrowerID;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public BorrowingReason getReason() {
@@ -67,12 +61,10 @@ public class BorrowingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ID=" + id +
-                ", reason=" + reason +
+        return "reason=" + reason +
                 ", borrowingStart=" + borrowingStart +
                 ", borrowingEnd=" + borrowingEnd +
                 ", borrowedEquipmentID=" + borrowedEquipmentID +
-                ", borrowerID=" + borrowerID +
-                '}';
+                ", borrowerID=" + borrowerID;
     }
 }

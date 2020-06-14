@@ -6,22 +6,16 @@ public class UserEntity implements Serializable {
 
     public enum UserType {JIN_STUDENT, Y2_STUDENT, ENSIIE, C19, TEACHER, OTHER}
 
-    private final int ID;
     private String firstName, lastName, address, phoneNumber, email;
     private UserType userType;
 
-    public UserEntity(int currentId, String firstName, String lastName, String address, String phoneNumber, String email, UserType userType) {
-        this.ID = currentId;
+    public UserEntity(String firstName, String lastName, String address, String phoneNumber, String email, UserType userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.userType = userType;
-    }
-
-    public int getId() {
-        return ID;
     }
 
     public String getFirstName() {
@@ -68,18 +62,17 @@ public class UserEntity implements Serializable {
         return userType;
     }
 
-    public void setUserType(UserType userType) { this.userType = userType; }
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
 
     @Override
     public String toString() {
-        return "UserEntity{" +
-                "ID=" + ID +
-                ", firstName='" + firstName + '\'' +
+        return "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
-                ", userType=" + userType +
-                "}\n";
+                ", userType=" + userType + '\'';
     }
 }

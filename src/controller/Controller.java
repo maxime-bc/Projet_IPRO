@@ -17,8 +17,7 @@ import static constants.ErrorMessages.*;
 public class Controller {
     private final View view;
     private final ApplicationData applicationData = ApplicationData.getInstance();
-    // TODO : ask user which type of equipment he wants to add
-    // TODO : change toString
+    // TODO : format output to arrays ??
     // TODO : add special attributes to classes
     // TODO : check ids when adding/updating objects
 
@@ -68,16 +67,16 @@ public class Controller {
     private void display(String[] arguments) {
         switch (arguments[OBJECT]) {
             case USER_OBJECT:
-                this.view.display(applicationData.getUserEntities());
+                this.view.printHashMap(applicationData.getUserEntities());
                 break;
             case BORROWING_OBJECT:
-                this.view.display(applicationData.getBorrowingEntities());
+                this.view.printHashMap(applicationData.getBorrowingEntities());
                 break;
             case EQUIPMENT_OBJECT:
-                this.view.printEquipments(applicationData.getEquipmentEntities());
+                this.view.printHashMap(applicationData.getEquipmentEntities());
                 break;
             case STORAGE_OBJECT:
-                this.view.display(applicationData.getStorageEntities());
+                this.view.printHashMap(applicationData.getStorageEntities());
                 break;
         }
     }

@@ -5,9 +5,10 @@ import model.entity.borrowing.BorrowingEntity;
 import model.entity.equipment.EquipmentEntity;
 import model.entity.storage.StorageEntity;
 import model.entity.user.UserEntity;
+import test.Test;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import static constants.Constants.APP_DATA_FILE;
 
@@ -18,15 +19,17 @@ public class ApplicationData implements Serializable {
     private int currentEquipmentId = 0;
     private int currentStorageId = 0;
 
-    private ArrayList<UserEntity> userEntities = new ArrayList<>();
-    private ArrayList<EquipmentEntity> equipmentEntities = new ArrayList<>();
-    private ArrayList<BorrowingEntity> borrowingEntities = new ArrayList<>();
-    private ArrayList<StorageEntity> storageEntities = new ArrayList<>();
+    private HashMap<Integer, UserEntity> userEntities = new HashMap<>();
+    private HashMap<Integer, EquipmentEntity> equipmentEntities = new HashMap<>();
+    private HashMap<Integer, BorrowingEntity> borrowingEntities = new HashMap<>();
+    private HashMap<Integer, StorageEntity> storageEntities = new HashMap<>();
     private static ApplicationData applicationData;
 
     public static ApplicationData getInstance() {
         if (applicationData == null && Serialize.deserialize(APP_DATA_FILE) == null) {
             applicationData = new ApplicationData();
+            //TODO : remove the following line when finished
+            new Test();
         } else if (applicationData == null) {
             applicationData = (ApplicationData) Serialize.deserialize(APP_DATA_FILE);
         }
@@ -65,35 +68,35 @@ public class ApplicationData implements Serializable {
         this.currentStorageId = currentStorageId;
     }
 
-    public ArrayList<UserEntity> getUserEntities() {
+    public HashMap<Integer, UserEntity> getUserEntities() {
         return userEntities;
     }
 
-    public void setUserEntities(ArrayList<UserEntity> userEntities) {
+    public void setUserEntities(HashMap<Integer, UserEntity> userEntities) {
         this.userEntities = userEntities;
     }
 
-    public ArrayList<EquipmentEntity> getEquipmentEntities() {
+    public HashMap<Integer, EquipmentEntity> getEquipmentEntities() {
         return equipmentEntities;
     }
 
-    public void setEquipmentEntities(ArrayList<EquipmentEntity> equipmentEntities) {
+    public void setEquipmentEntities(HashMap<Integer, EquipmentEntity> equipmentEntities) {
         this.equipmentEntities = equipmentEntities;
     }
 
-    public ArrayList<BorrowingEntity> getBorrowingEntities() {
+    public HashMap<Integer, BorrowingEntity> getBorrowingEntities() {
         return borrowingEntities;
     }
 
-    public void setBorrowingEntities(ArrayList<BorrowingEntity> borrowingEntities) {
+    public void setBorrowingEntities(HashMap<Integer, BorrowingEntity> borrowingEntities) {
         this.borrowingEntities = borrowingEntities;
     }
 
-    public ArrayList<StorageEntity> getStorageEntities() {
+    public HashMap<Integer, StorageEntity> getStorageEntities() {
         return storageEntities;
     }
 
-    public void setStorageEntities(ArrayList<StorageEntity> storageEntities) {
+    public void setStorageEntities(HashMap<Integer, StorageEntity> storageEntities) {
         this.storageEntities = storageEntities;
     }
 

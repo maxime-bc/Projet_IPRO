@@ -17,19 +17,17 @@ public class UserRepository {
 
     public static Status addUser(ArrayList<String> inputs) {
         Status status = new Status();
-        if (inputs.size() != 6) {
-            status.setStatus(ERROR, ARGS_ERROR);
-            return status;
-        }
 
         try {
-            appData.getUserEntities().add(new UserEntity(appData.getCurrentUserId(), inputs.get(0), inputs.get(1),
+            appData.getUserEntities().put(appData.getCurrentUserId(), new UserEntity(inputs.get(0), inputs.get(1),
                     inputs.get(2), inputs.get(3), inputs.get(4), UserEntity.UserType.valueOf(inputs.get(5))));
             appData.setCurrentUserId(appData.getCurrentUserId() + 1);
-
             status.setStatus(SUCCESS, ADD);
-        } catch (IllegalArgumentException e) {
+
+        } catch (NumberFormatException e) {
             status.setStatus(ERROR, ADD_ERROR);
+        } catch (IndexOutOfBoundsException e) {
+            status.setStatus(ERROR, ARGS_ERROR);
         }
         return status;
     }
@@ -37,30 +35,32 @@ public class UserRepository {
     public static Status deleteUser(int id) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
-        for (UserEntity user : appData.getUserEntities()) {
-            if (user.getId() == id) {
-                appData.getUserEntities().remove(user);
-                status.setStatus(SUCCESS, DELETE);
-                break;
-            }
+        if (appData.getUserEntities().containsKey(id)) {
+            appData.getUserEntities().remove(id);
+            status.setStatus(SUCCESS, DELETE);
         }
         return status;
     }
 
     public static Status updateUser(int id, ArrayList<String> inputs) {
-        Status status = new Status(ERROR, UPDATE_ERROR);
+        Status status = new Status(ERROR, NONEXISTENT_ID);
 
-        for (UserEntity user : appData.getUserEntities()) {
-            if (user.getId() == id) {
-                user.setFirstName(inputs.get(0));
-                user.setLastName(inputs.get(1));
-                user.setAddress(inputs.get(2));
-                user.setPhoneNumber(inputs.get(3));
-                user.setEmail(inputs.get(4));
-                user.setUserType(UserEntity.UserType.valueOf(inputs.get(5)));
+        if (appData.getUserEntities().containsKey(id)) {
+            UserEntity userEntity = appData.getUserEntities().get(id);
 
+            try {
+                userEntity.setFirstName(inputs.get(0));
+                userEntity.setLastName(inputs.get(1));
+                userEntity.setAddress(inputs.get(2));
+                userEntity.setPhoneNumber(inputs.get(3));
+                userEntity.setEmail(inputs.get(4));
+                userEntity.setUserType(UserEntity.UserType.valueOf(inputs.get(5)));
                 status.setStatus(SUCCESS, UPDATE);
-                break;
+
+            } catch (IllegalArgumentException e) {
+                status.setStatus(ERROR, TYPE_ERROR);
+            } catch (IndexOutOfBoundsException e) {
+                status.setStatus(ERROR, ARGS_ERROR);
             }
         }
         return status;

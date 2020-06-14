@@ -6,8 +6,8 @@ public class WebcamEntity extends EquipmentEntity {
 
     private String resolution;
 
-    public WebcamEntity(int currentId, Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, String resolution) {
-        super(currentId, owner, brand, purchaseDate, purchasePrice, state, isBorrowed, storageID);
+    public WebcamEntity(Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, String resolution) {
+        super(owner, brand, purchaseDate, purchasePrice, state, isBorrowed, storageID);
         this.resolution = resolution;
     }
 
@@ -21,8 +21,6 @@ public class WebcamEntity extends EquipmentEntity {
 
     @Override
     public String toString() {
-        return "WebcamEntity{" + super.toString() +
-                "resolution='" + resolution + '\'' +
-                '}';
+        return super.toString() + " resolution='" + resolution + '\'';
     }
 }

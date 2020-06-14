@@ -1,10 +1,6 @@
 package view;
 
-import model.entity.equipment.EquipmentEntity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -166,12 +162,13 @@ public class View {
         }
     }
 
-    public void printEquipments(ArrayList<EquipmentEntity> equipmentEntities) {
+    public void printHashMap(HashMap<Integer, ?> equipmentEntities) {
         if (equipmentEntities.size() == 0) {
             display("Empty.");
         }
-        for (EquipmentEntity equipmentEntity : equipmentEntities) {
-            display(equipmentEntity.getClass().getName() + " : " + equipmentEntity);
+        for (Map.Entry<Integer, ?> entry : equipmentEntities.entrySet()) {
+            display(entry.getValue().getClass().getSimpleName() + " id=" + entry.getKey() + ", " + entry.getValue());
         }
+        display("");
     }
 }
