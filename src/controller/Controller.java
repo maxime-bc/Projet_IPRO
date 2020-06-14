@@ -50,6 +50,9 @@ public class Controller {
             case UPDATE_ACTION:
                 update(arguments);
 
+            case RETURN_ACTION:
+                returnBorrowing();
+
                 break;
             case DELETE_ACTION:
                 delete(arguments);
@@ -128,26 +131,27 @@ public class Controller {
 
     private void update(String[] arguments) {
         Status status = new Status();
+        String message = "Id of the element on which you want to perform this action ? > ";
         try {
             switch (arguments[OBJECT]) {
                 case USER_OBJECT:
                     this.view.printAddUsage(USER_OBJECT);
-                    status = UserRepository.updateUser(this.view.getIdOfElement(), this.view.getUserInput());
+                    status = UserRepository.updateUser(this.view.getId(message), this.view.getUserInput());
 
                     break;
                 case (BORROWING_OBJECT):
                     this.view.printAddUsage(BORROWING_OBJECT);
-                    status = BorrowingRepository.updateBorrowing(this.view.getIdOfElement(), this.view.getUserInput());
+                    status = BorrowingRepository.updateBorrowing(this.view.getId(message), this.view.getUserInput());
 
                     break;
                 case EQUIPMENT_OBJECT:
                     this.view.printAddUsage(EQUIPMENT_OBJECT);
-                    status = EquipmentRepository.updateEquipment(this.view.getIdOfElement(), this.view.getUserInput());
+                    status = EquipmentRepository.updateEquipment(this.view.getId(message), this.view.getUserInput());
 
                     break;
                 case (STORAGE_OBJECT):
                     this.view.printAddUsage(STORAGE_OBJECT);
-                    status = StorageRepository.updateStorage(this.view.getIdOfElement(), this.view.getUserInput());
+                    status = StorageRepository.updateStorage(this.view.getId(message), this.view.getUserInput());
                     break;
             }
 
@@ -163,8 +167,18 @@ public class Controller {
         }
     }
 
+    private void returnBorrowing() {
+        String message = "Id of the borrowing you want to return ? > ";
+        Status status = BorrowingRepository.returnBorrowing(this.view.getId(message));
+        this.view.display(status.getMessage());
+        if (status.getCode()) {
+            Serialize.serialize(this.applicationData, APP_DATA_FILE);
+        }
+    }
+
     private void delete(String[] arguments) {
-        int id = this.view.getIdOfElement();
+        String message = "Id of the element you want to delete ? > ";
+        int id = this.view.getId(message);
         Status status = new Status();
 
         switch (arguments[OBJECT]) {

@@ -16,6 +16,7 @@ public class Constants {
     public static final String ADD_ACTION = "add";
     public static final String UPDATE_ACTION = "update";
     public static final String DELETE_ACTION = "delete";
+    public static final String RETURN_ACTION = "return";
     public static final String QUIT_ACTION = "quit";
 
     public static final String USER_OBJECT = "user";
@@ -23,7 +24,7 @@ public class Constants {
     public static final String EQUIPMENT_OBJECT = "equipment";
     public static final String STORAGE_OBJECT = "storage";
 
-    public static final List<String> ACTIONS = List.of(DISPLAY_ACTION, ADD_ACTION, UPDATE_ACTION, DELETE_ACTION, QUIT_ACTION);
+    public static final List<String> ACTIONS = List.of(DISPLAY_ACTION, ADD_ACTION, UPDATE_ACTION, DELETE_ACTION, RETURN_ACTION, QUIT_ACTION);
     public static final List<String> OBJECTS = List.of(USER_OBJECT, BORROWING_OBJECT, EQUIPMENT_OBJECT, STORAGE_OBJECT);
 
     public static final Integer GAME_CONTROLLER = 1;

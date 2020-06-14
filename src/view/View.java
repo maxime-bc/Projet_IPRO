@@ -19,54 +19,42 @@ public class View {
     }
 
     private void printMenu() {
-        System.out.println("******************************* MENU ********************************");
-        System.out.println("**   Actions : display, add, update, delete, quit                  **");
-        System.out.println("**	 On what data type : user, borrowing, equipment, storage       **");
-        System.out.println("**   Ex : add user <attributes>                                    **");
-        System.out.println("**   Ex : display user                                             **");
-        System.out.println("**   ...                                                           **");
-        System.out.println("*********************************************************************");
+        display("******************************* MENU ********************************");
+        display("**   Actions : display, add, update, delete, return, quit          **");
+        display("**	 On what data type : user, borrowing, equipment, storage       **");
+        display("**   Ex : add user <attributes>                                    **");
+        display("**   Ex : display user                                             **");
+        display("**   ...                                                           **");
+        display("*********************************************************************");
     }
 
     public void printAddUsage(String action) {
         switch (action) {
             case USER_OBJECT:
-                System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
+                display("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
                 break;
             case BORROWING_OBJECT:
-                System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
-                        "<borrowing start: dd/mm/yyyy> <borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
-                break;
-            case EQUIPMENT_OBJECT:
-                System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
-                break;
-            case STORAGE_OBJECT:
-                System.out.println("<storage_area> <manager_id>");
-                break;
-        }
-    }
-
-    public void printUpdateUsage(String action) {
-        switch (action) {
-            case USER_OBJECT:
-                System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
-                break;
-            case BORROWING_OBJECT:
-                System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
+                display("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
                         "<borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
                 break;
             case EQUIPMENT_OBJECT:
-                System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+                display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
                 break;
             case STORAGE_OBJECT:
-                System.out.println("<storage_area> <manager_id>");
+                display("<storage_area> <manager_id>");
                 break;
         }
     }
 
-    public int getIdOfElement() {
-        System.out.println("Id of the element on which you want to perform this action ? > ");
-        return Integer.parseInt(scanInput.nextLine());
+    public int getId(String message) {
+        int id = -1;
+        display(message);
+        try {
+            id = Integer.parseInt(scanInput.nextLine());
+        } catch (NumberFormatException e) {
+            display("Id is not valid.");
+        }
+        return id;
     }
 
     public String[] getAction() {
@@ -74,7 +62,7 @@ public class View {
         String[] arguments = new String[2];
         try {
             do {
-                System.out.print("Enter an action > ");
+                display("Enter an action > ");
                 argument = scanInput.nextLine();
                 String[] arg = argument.split(" ");
                 if (arg.length < 2) {
@@ -89,14 +77,14 @@ public class View {
                     }
                 }
 
-                if (arguments[ACTION].equals(QUIT_ACTION)) {
+                if (arguments[ACTION].equals(QUIT_ACTION) || arguments[ACTION].equals(RETURN_ACTION)) {
                     return arguments;
                 }
 
             } while (!ACTIONS.contains(arguments[ACTION]) || !OBJECTS.contains(arguments[OBJECT]));
 
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
+            display(e.getMessage());
         }
 
         return arguments;
@@ -133,17 +121,17 @@ public class View {
                 if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM).contains(choice)) {
                     valid = true;
                 } else {
-                    System.out.println("Unrecognised choice.");
+                    display("Unrecognised choice.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Unrecognised choice.");
+                display("Unrecognised choice.");
             }
         }
         return choice;
     }
 
     public void printWrongArg(String arg) {
-        System.out.println(arg + " is not a valid argument.\n");
+        display(arg + " is not a valid argument.\n");
     }
 
     public void closeScanner() {
@@ -178,12 +166,12 @@ public class View {
         }
     }
 
-    public void printEquipments(ArrayList<EquipmentEntity> equipmentEntities){
-        if(equipmentEntities.size() == 0){
+    public void printEquipments(ArrayList<EquipmentEntity> equipmentEntities) {
+        if (equipmentEntities.size() == 0) {
             display("Empty.");
         }
-        for(EquipmentEntity equipmentEntity: equipmentEntities){
-             display(equipmentEntity.getClass().getName() + " : " + equipmentEntity);
+        for (EquipmentEntity equipmentEntity : equipmentEntities) {
+            display(equipmentEntity.getClass().getName() + " : " + equipmentEntity);
         }
     }
 }
