@@ -67,8 +67,7 @@ public class BorrowingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "BorrowingEntity{" +
-                "ID=" + id +
+        return "ID=" + id +
                 ", reason=" + reason +
                 ", borrowingStart=" + borrowingStart +
                 ", borrowingEnd=" + borrowingEnd +

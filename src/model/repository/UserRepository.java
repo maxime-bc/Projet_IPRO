@@ -15,11 +15,11 @@ public class UserRepository {
 
     private static final ApplicationData appData = ApplicationData.getInstance();
 
-    //TODO : check user inputs
     public static Status addUser(ArrayList<String> inputs) {
         Status status = new Status();
         if (inputs.size() != 6) {
             status.setStatus(ERROR, ARGS_ERROR);
+            return status;
         }
 
         try {

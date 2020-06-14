@@ -1,7 +1,9 @@
 package view;
 
+import model.entity.equipment.EquipmentEntity;
+
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,9 +11,6 @@ import java.util.regex.Pattern;
 import static constants.Constants.*;
 
 public class View {
-
-    public static final List<String> actions = List.of("display", "add", "update", "delete", "quit");
-    public static final List<String> objects = List.of("user", "borrowing", "equipment", "storage");
     private final Scanner scanInput;
 
     public View() {
@@ -30,28 +29,38 @@ public class View {
     }
 
     public void printAddUsage(String action) {
-        if (action.equals(objects.get(USER_OBJECT))) {
-            System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
-        } else if (action.equals(objects.get(BORROWING_OBJECT))) {
-            System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
-                    "<borrowing start: dd/mm/yyyy> <borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
-        } else if (action.equals(objects.get(EQUIPMENT_OBJECT))) {
-            System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
-        } else if (action.equals(objects.get(STORAGE_OBJECT))) {
-            System.out.println("<storage_area> <manager_id>");
+        switch (action) {
+            case USER_OBJECT:
+                System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
+                break;
+            case BORROWING_OBJECT:
+                System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
+                        "<borrowing start: dd/mm/yyyy> <borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
+                break;
+            case EQUIPMENT_OBJECT:
+                System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+                break;
+            case STORAGE_OBJECT:
+                System.out.println("<storage_area> <manager_id>");
+                break;
         }
     }
 
     public void printUpdateUsage(String action) {
-        if (action.equals(objects.get(USER_OBJECT))) {
-            System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
-        } else if (action.equals(objects.get(BORROWING_OBJECT))) {
-            System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
-                    "<borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
-        } else if (action.equals(objects.get(EQUIPMENT_OBJECT))) {
-            System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
-        } else if (action.equals(objects.get(STORAGE_OBJECT))) {
-            System.out.println("<storage_area> <manager_id>");
+        switch (action) {
+            case USER_OBJECT:
+                System.out.println("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
+                break;
+            case BORROWING_OBJECT:
+                System.out.println("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
+                        "<borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
+                break;
+            case EQUIPMENT_OBJECT:
+                System.out.println("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+                break;
+            case STORAGE_OBJECT:
+                System.out.println("<storage_area> <manager_id>");
+                break;
         }
     }
 
@@ -80,11 +89,11 @@ public class View {
                     }
                 }
 
-                if (arguments[ACTION].equals(View.actions.get(QUIT_ACTION))) {
+                if (arguments[ACTION].equals(QUIT_ACTION)) {
                     return arguments;
                 }
 
-            } while (!actions.contains(arguments[ACTION]) || !objects.contains(arguments[OBJECT]));
+            } while (!ACTIONS.contains(arguments[ACTION]) || !OBJECTS.contains(arguments[OBJECT]));
 
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
@@ -108,16 +117,29 @@ public class View {
         return list;
     }
 
-    public int askQuantity(){
+    public int askQuantity() {
         display("Quantity > ");
         String string = scanInput.nextLine();
         return Integer.parseInt(string);
     }
 
-    public String askEquipmentType(){
-        display("GameController | Headset | Mouse | Phone | Tablet | VRController | VRHeadset | Webcam");
-        display("Type > ");
-        return scanInput.nextLine();
+    public int askEquipmentType() {
+        boolean valid = false;
+        int choice = -1;
+        display("1 - GameController\n2 - Headset\n3 - Mouse\n4 - Phone\n5 - Tablet\n6 - VRController\n7 - VRHeadset\n8 - Webcam");
+        while (!valid) {
+            try {
+                choice = Integer.parseInt(scanInput.nextLine());
+                if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM).contains(choice)) {
+                    valid = true;
+                } else {
+                    System.out.println("Unrecognised choice.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Unrecognised choice.");
+            }
+        }
+        return choice;
     }
 
     public void printWrongArg(String arg) {
@@ -126,5 +148,42 @@ public class View {
 
     public void closeScanner() {
         scanInput.close();
+    }
+
+    public void printUsage(int type) {
+        if (type == GAME_CONTROLLER) {
+            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+        } else if (type == HEADSET) {
+            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+        } else if (type == MOUSE) {
+            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+        } else if (type == PHONE) {
+            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <screen_size> <operating_system : IOS | ANDROID | WINDOWS>");
+        } else if (type == TABLET) {
+            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <screen_size> <operating_system : IOS | ANDROID | WINDOWS>");
+        } else if (type == VR_CONTROLLER) {
+            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+        } else if (type == VR_HEADSET) {
+            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+        } else if (type == WEBCAM) {
+            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <resolution>");
+        }
+    }
+
+    public void printEquipments(ArrayList<EquipmentEntity> equipmentEntities){
+        if(equipmentEntities.size() == 0){
+            display("Empty.");
+        }
+        for(EquipmentEntity equipmentEntity: equipmentEntities){
+             display(equipmentEntity.getClass().getName() + " : " + equipmentEntity);
+        }
     }
 }
