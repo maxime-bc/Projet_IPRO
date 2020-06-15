@@ -24,55 +24,62 @@ public class EquipmentRepository {
 
         try {
             DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
+            int storageAreaId = Integer.parseInt(inputs.get(5));
 
-            if (type == GAME_CONTROLLER) {
-                appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(),
-                        new GameControllerEntity(EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1),
-                                format.parse(inputs.get(2)), Double.parseDouble(inputs.get(3)),
-                                EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                                Integer.parseInt(inputs.get(5))));
-            } else if (type == HEADSET) {
-                appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(),
-                        new HeadsetEntity(EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1),
-                                format.parse(inputs.get(2)), Double.parseDouble(inputs.get(3)),
-                                EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                                Integer.parseInt(inputs.get(5))));
-            } else if (type == MOUSE) {
-                appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new MouseEntity(
-                        EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
-                        Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                        Integer.parseInt(inputs.get(5))));
-            } else if (type == PHONE) {
-                appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new PhoneEntity(
-                        EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
-                        Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                        Integer.parseInt(inputs.get(5)), Double.parseDouble(inputs.get(6)),
-                        PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7))));
-            } else if (type == TABLET) {
-                appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new TabletEntity(
-                        EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
-                        Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                        Integer.parseInt(inputs.get(5)), Double.parseDouble(inputs.get(6)),
-                        PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7))));
-            } else if (type == VR_CONTROLLER) {
-                appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new VRControllerEntity(
-                        EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
-                        Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                        Integer.parseInt(inputs.get(5))));
-            } else if (type == VR_HEADSET) {
-                appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new VRHeadsetEntity(
-                        EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
-                        Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                        Integer.parseInt(inputs.get(5))));
-            } else if (type == WEBCAM) {
-                appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new WebcamEntity(
-                        EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
-                        Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                        Integer.parseInt(inputs.get(5)), inputs.get(6)));
+            if (appData.getStorageEntities().containsKey(storageAreaId)) {
+
+
+                if (type == GAME_CONTROLLER) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(),
+                            new GameControllerEntity(EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1),
+                                    format.parse(inputs.get(2)), Double.parseDouble(inputs.get(3)),
+                                    EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                                    Integer.parseInt(inputs.get(5))));
+                } else if (type == HEADSET) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(),
+                            new HeadsetEntity(EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1),
+                                    format.parse(inputs.get(2)), Double.parseDouble(inputs.get(3)),
+                                    EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                                    Integer.parseInt(inputs.get(5))));
+                } else if (type == MOUSE) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new MouseEntity(
+                            EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
+                            Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                            Integer.parseInt(inputs.get(5))));
+                } else if (type == PHONE) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new PhoneEntity(
+                            EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
+                            Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                            Integer.parseInt(inputs.get(5)), Double.parseDouble(inputs.get(6)),
+                            PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7))));
+                } else if (type == TABLET) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new TabletEntity(
+                            EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
+                            Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                            Integer.parseInt(inputs.get(5)), Double.parseDouble(inputs.get(6)),
+                            PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7))));
+                } else if (type == VR_CONTROLLER) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new VRControllerEntity(
+                            EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
+                            Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                            Integer.parseInt(inputs.get(5))));
+                } else if (type == VR_HEADSET) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new VRHeadsetEntity(
+                            EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
+                            Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                            Integer.parseInt(inputs.get(5))));
+                } else if (type == WEBCAM) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new WebcamEntity(
+                            EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
+                            Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                            Integer.parseInt(inputs.get(5)), inputs.get(6)));
+                }
+                appData.setCurrentEquipmentId(appData.getCurrentEquipmentId() + 1);
+                status.setStatus(SUCCESS, ADD);
+
+            } else {
+                status.setStatus(ERROR, NONEXISTENT_ID);
             }
-            appData.setCurrentEquipmentId(appData.getCurrentEquipmentId() + 1);
-            status.setStatus(SUCCESS, ADD);
-
         } catch (IllegalArgumentException | ParseException e) {
             status.setStatus(ERROR, ADD_ERROR);
         } catch (IndexOutOfBoundsException e) {
@@ -97,15 +104,21 @@ public class EquipmentRepository {
         if (appData.getEquipmentEntities().containsKey(id)) {
             EquipmentEntity equipmentEntity = appData.getEquipmentEntities().get(id);
             try {
-                DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
-                equipmentEntity.setOwner(EquipmentEntity.Owner.valueOf(inputs.get(0)));
-                equipmentEntity.setBrand(inputs.get(1));
-                equipmentEntity.setPurchaseDate(format.parse(inputs.get(2)));
-                equipmentEntity.setPurchasePrice(Double.parseDouble(inputs.get(3)));
-                equipmentEntity.setState(EquipmentEntity.State.valueOf(inputs.get(4)));
-                equipmentEntity.setStorageId(Integer.parseInt(inputs.get(5)));
-                status.setStatus(SUCCESS, UPDATE);
+                int storageAreaId = Integer.parseInt(inputs.get(5));
 
+                if (appData.getStorageEntities().containsKey(storageAreaId)) {
+                    DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
+                    equipmentEntity.setOwner(EquipmentEntity.Owner.valueOf(inputs.get(0)));
+                    equipmentEntity.setBrand(inputs.get(1));
+                    equipmentEntity.setPurchaseDate(format.parse(inputs.get(2)));
+                    equipmentEntity.setPurchasePrice(Double.parseDouble(inputs.get(3)));
+                    equipmentEntity.setState(EquipmentEntity.State.valueOf(inputs.get(4)));
+                    equipmentEntity.setStorageId(storageAreaId);
+                    status.setStatus(SUCCESS, UPDATE);
+
+                } else {
+                    status.setStatus(ERROR, NONEXISTENT_ID);
+                }
             } catch (ParseException e) {
                 status.setStatus(ERROR, TYPE_ERROR);
             } catch (IndexOutOfBoundsException | IllegalArgumentException e) {

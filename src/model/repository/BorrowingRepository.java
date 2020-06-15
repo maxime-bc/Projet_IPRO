@@ -26,15 +26,28 @@ public class BorrowingRepository {
         Status status = new Status();
 
         try {
-            DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
+            int borrowedId = Integer.parseInt(inputs.get(3));
 
-            appData.getBorrowingEntities().put(appData.getCurrentBorrowingId(),
-                    new BorrowingEntity(BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)),
-                            new Date(), format.parse(inputs.get(1)), Integer.parseInt(inputs.get(2)),
-                            Integer.parseInt(inputs.get(3))));
-            appData.setCurrentBorrowingId(appData.getCurrentBorrowingId() + 1);
+            if (appData.getUserEntities().containsKey(borrowedId)) {
 
-            status.setStatus(SUCCESS, ADD);
+                int equipmentId = Integer.parseInt(inputs.get(2));
+                if (appData.getEquipmentEntities().containsKey(equipmentId)) {
+
+                    DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
+                    appData.getBorrowingEntities().put(appData.getCurrentBorrowingId(),
+                            new BorrowingEntity(BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)),
+                                    new Date(), format.parse(inputs.get(1)), equipmentId, borrowedId));
+                    appData.setCurrentBorrowingId(appData.getCurrentBorrowingId() + 1);
+
+                    appData.getEquipmentEntities().get(equipmentId).setBorrowed(true);
+
+                    status.setStatus(SUCCESS, ADD);
+                } else {
+                    status.setStatus(ERROR, NONEXISTENT_ID);
+                }
+            } else {
+                status.setStatus(ERROR, NONEXISTENT_ID);
+            }
         } catch (IllegalArgumentException | ParseException e) {
             status.setStatus(ERROR, ADD_ERROR);
         } catch (IndexOutOfBoundsException e) {
@@ -59,13 +72,20 @@ public class BorrowingRepository {
         if (appData.getBorrowingEntities().containsKey(id)) {
             BorrowingEntity borrowing = appData.getBorrowingEntities().get(id);
             try {
-                DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
-                borrowing.setReason(BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)));
-                borrowing.setBorrowingStart(format.parse(inputs.get(1)));
-                borrowing.setBorrowingEnd(format.parse(inputs.get(2)));
-                borrowing.setBorrowedEquipmentID(Integer.parseInt(inputs.get(3)));
-                borrowing.setBorrowerID(Integer.parseInt(inputs.get(4)));
-                status.setStatus(SUCCESS, UPDATE);
+                int borrowerId = Integer.parseInt(inputs.get(4));
+
+                if (appData.getUserEntities().containsKey(borrowerId)) {
+                    DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
+                    borrowing.setReason(BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)));
+                    borrowing.setBorrowingStart(format.parse(inputs.get(1)));
+                    borrowing.setBorrowingEnd(format.parse(inputs.get(2)));
+                    borrowing.setBorrowedEquipmentID(Integer.parseInt(inputs.get(3)));
+                    borrowing.setBorrowerID(borrowerId);
+                    status.setStatus(SUCCESS, UPDATE);
+
+                } else {
+                    status.setStatus(ERROR, NONEXISTENT_ID);
+                }
 
             } catch (ParseException | IllegalArgumentException e) {
                 status.setStatus(ERROR, TYPE_ERROR);

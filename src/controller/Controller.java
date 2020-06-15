@@ -19,7 +19,6 @@ public class Controller {
     private final ApplicationData applicationData = ApplicationData.getInstance();
     // TODO : format output to arrays ??
     // TODO : add special attributes to classes
-    // TODO : check ids when adding/updating objects
 
     public Controller() {
         this.view = new View();
