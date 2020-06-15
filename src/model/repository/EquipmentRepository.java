@@ -9,7 +9,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static constants.Constants.*;
 import static constants.ErrorMessages.*;
@@ -126,5 +128,65 @@ public class EquipmentRepository {
             }
         }
         return status;
+    }
+
+    public static HashMap<Integer, EquipmentEntity> getAvailableEquipment() {
+        HashMap<Integer, EquipmentEntity> availableEquipments = new HashMap<>();
+
+        for (Map.Entry<Integer, EquipmentEntity> entry : appData.getEquipmentEntities().entrySet()) {
+            int key = entry.getKey();
+            EquipmentEntity equipmentEntity = entry.getValue();
+
+            if (!equipmentEntity.isBorrowed() || (equipmentEntity.getState() != EquipmentEntity.State.BROKEN)) {
+                availableEquipments.put(key, equipmentEntity);
+            }
+        }
+
+        return availableEquipments;
+    }
+
+    public static HashMap<Integer, EquipmentEntity> getBorrowedEquipment() {
+        HashMap<Integer, EquipmentEntity> borrowedEquipments = new HashMap<>();
+
+        for (Map.Entry<Integer, EquipmentEntity> entry : appData.getEquipmentEntities().entrySet()) {
+            int key = entry.getKey();
+            EquipmentEntity equipmentEntity = entry.getValue();
+
+            if (equipmentEntity.isBorrowed() || (equipmentEntity.getState() != EquipmentEntity.State.BROKEN)) {
+                borrowedEquipments.put(key, equipmentEntity);
+            }
+        }
+
+        return borrowedEquipments;
+    }
+
+    public static HashMap<Integer, EquipmentEntity> getEquipment(int type) {
+        HashMap<Integer, EquipmentEntity> equipments = new HashMap<>();
+
+        for (Map.Entry<Integer, EquipmentEntity> entry : appData.getEquipmentEntities().entrySet()) {
+            int key = entry.getKey();
+            if (type == GAME_CONTROLLER && entry.getValue() instanceof GameControllerEntity) {
+                equipments.put(key, entry.getValue());
+            } else if (type == HEADSET && entry.getValue() instanceof HeadsetEntity) {
+                equipments.put(key, entry.getValue());
+            } else if (type == MOUSE && entry.getValue() instanceof MouseEntity) {
+                equipments.put(key, entry.getValue());
+            } else if (type == PHONE && entry.getValue() instanceof PhoneEntity) {
+                equipments.put(key, entry.getValue());
+            } else if (type == TABLET && entry.getValue() instanceof TabletEntity) {
+                equipments.put(key, entry.getValue());
+            } else if (type == VR_CONTROLLER && entry.getValue() instanceof VRControllerEntity) {
+                equipments.put(key, entry.getValue());
+            } else if (type == VR_HEADSET && entry.getValue() instanceof VRHeadsetEntity) {
+                equipments.put(key, entry.getValue());
+            } else if (type == WEBCAM && entry.getValue() instanceof WebcamEntity) {
+                equipments.put(key, entry.getValue());
+            }
+        }
+        return equipments;
+    }
+
+    public static EquipmentEntity.State getEquipmentState(int borrowingId) {
+        return appData.getEquipmentEntities().get(borrowingId).getState();
     }
 }

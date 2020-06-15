@@ -1,5 +1,8 @@
 package view;
 
+import model.entity.borrowing.BorrowingEntity;
+import model.entity.equipment.EquipmentEntity;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,15 +45,15 @@ public class View {
         }
     }
 
-    public int getId(String message) {
-        int id = -1;
+    public int askInt(String message) {
+        int integer = -1;
         display(message);
         try {
-            id = Integer.parseInt(scanInput.nextLine());
+            integer = Integer.parseInt(scanInput.nextLine());
         } catch (NumberFormatException e) {
-            display("Id is not valid.");
+            display("Input is not an integer.");
         }
-        return id;
+        return integer;
     }
 
     public String[] getAction() {
@@ -101,33 +104,18 @@ public class View {
         return list;
     }
 
-    public int askQuantity() {
-        display("Quantity > ");
-        String string = scanInput.nextLine();
-        return Integer.parseInt(string);
-    }
-
     public int askEquipmentType() {
-        boolean valid = false;
         int choice = -1;
         display("1 - GameController\n2 - Headset\n3 - Mouse\n4 - Phone\n5 - Tablet\n6 - VRController\n7 - VRHeadset\n8 - Webcam");
-        while (!valid) {
-            try {
-                choice = Integer.parseInt(scanInput.nextLine());
-                if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM).contains(choice)) {
-                    valid = true;
-                } else {
-                    display("Unrecognised choice.");
-                }
-            } catch (NumberFormatException e) {
-                display("Unrecognised choice.");
+        try {
+            choice = Integer.parseInt(scanInput.nextLine());
+            if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM).contains(choice)) {
+                return choice;
             }
+        } catch (NumberFormatException e) {
+            display("Unrecognised choice.");
         }
         return choice;
-    }
-
-    public void printWrongArg(String arg) {
-        display(arg + " is not a valid argument.\n");
     }
 
     public void closeScanner() {
@@ -162,13 +150,51 @@ public class View {
         }
     }
 
-    public void printHashMap(HashMap<Integer, ?> equipmentEntities) {
-        if (equipmentEntities.size() == 0) {
+    public int askDisplayType(List<Integer> choices, String message) {
+
+        int choice = -1;
+        display(message);
+        try {
+            choice = Integer.parseInt(scanInput.nextLine());
+            if (choices.contains(choice)) {
+                return choice;
+            }
+        } catch (NumberFormatException e) {
+            display("Unrecognised choice.");
+        }
+
+        return choice;
+    }
+
+    public void printHashMap(HashMap<Integer, ?> map) {
+        if (map.size() == 0) {
             display("Empty.");
         }
-        for (Map.Entry<Integer, ?> entry : equipmentEntities.entrySet()) {
+        for (Map.Entry<Integer, ?> entry : map.entrySet()) {
             display(entry.getValue().getClass().getSimpleName() + " id=" + entry.getKey() + ", " + entry.getValue());
         }
         display("");
+    }
+
+    public BorrowingEntity.BorrowingReason askBorrowingReason() {
+        BorrowingEntity.BorrowingReason borrowingReason = null;
+        display("reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO");
+        try {
+            borrowingReason = BorrowingEntity.BorrowingReason.valueOf(scanInput.nextLine());
+        } catch (IllegalArgumentException e) {
+            display("Unrecognized reason, ");
+        }
+        return borrowingReason;
+    }
+
+    public EquipmentEntity.State getState() {
+        EquipmentEntity.State equipmentState = null;
+        display("state: NEW | GOOD | USED | BROKEN");
+        try {
+            equipmentState = EquipmentEntity.State.valueOf(scanInput.nextLine());
+        } catch (IllegalArgumentException e) {
+            display("Unrecognized state.");
+        }
+        return equipmentState;
     }
 }

@@ -30,7 +30,7 @@ public class StorageRepository {
                     appData.setCurrentStorageId(appData.getCurrentStorageId() + 1);
                     status.setStatus(SUCCESS, ADD);
                 } else {
-                    status.setStatus(ERROR, STORAGE_OBJECT);
+                    status.setStatus(ERROR, AREA_EXISTS);
                 }
             } else {
                 status.setStatus(ERROR, NONEXISTENT_ID);
@@ -84,6 +84,8 @@ public class StorageRepository {
             } catch (IndexOutOfBoundsException e) {
                 status.setStatus(ERROR, ARGS_ERROR);
             }
+        }else {
+            status.setStatus(ERROR, AREA_EXISTS);
         }
         return status;
     }

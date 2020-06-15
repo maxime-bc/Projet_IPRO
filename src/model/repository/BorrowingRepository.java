@@ -9,9 +9,7 @@ import model.entity.equipment.EquipmentEntity;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 import static constants.Constants.ERROR;
 import static constants.Constants.SUCCESS;
@@ -29,28 +27,37 @@ public class BorrowingRepository {
             int borrowedId = Integer.parseInt(inputs.get(3));
 
             if (appData.getUserEntities().containsKey(borrowedId)) {
-
                 int equipmentId = Integer.parseInt(inputs.get(2));
+
                 if (appData.getEquipmentEntities().containsKey(equipmentId)) {
+                    if (!appData.getEquipmentEntities().get(equipmentId).isBorrowed()) {
+                        if (appData.getEquipmentEntities().get(equipmentId).getState() != EquipmentEntity.State.BROKEN) {
 
-                    DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
-                    appData.getBorrowingEntities().put(appData.getCurrentBorrowingId(),
-                            new BorrowingEntity(BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)),
-                                    new Date(), format.parse(inputs.get(1)), equipmentId, borrowedId));
-                    appData.setCurrentBorrowingId(appData.getCurrentBorrowingId() + 1);
+                            DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
+                            appData.getBorrowingEntities().put(appData.getCurrentBorrowingId(),
+                                    new BorrowingEntity(BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)),
+                                            new Date(), format.parse(inputs.get(1)), equipmentId, borrowedId));
+                            appData.setCurrentBorrowingId(appData.getCurrentBorrowingId() + 1);
+                            appData.getEquipmentEntities().get(equipmentId).setBorrowed(true);
+                            status.setStatus(SUCCESS, ADD);
 
-                    appData.getEquipmentEntities().get(equipmentId).setBorrowed(true);
-
-                    status.setStatus(SUCCESS, ADD);
+                        } else {
+                            status.setStatus(ERROR, BROKEN);
+                        }
+                    } else {
+                        status.setStatus(ERROR, ALREADY_BORROWED);
+                    }
                 } else {
                     status.setStatus(ERROR, NONEXISTENT_ID);
                 }
             } else {
                 status.setStatus(ERROR, NONEXISTENT_ID);
             }
-        } catch (IllegalArgumentException | ParseException e) {
+        } catch (IllegalArgumentException |
+                ParseException e) {
             status.setStatus(ERROR, ADD_ERROR);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (
+                IndexOutOfBoundsException e) {
             status.setStatus(ERROR, ARGS_ERROR);
         }
         return status;
@@ -96,7 +103,7 @@ public class BorrowingRepository {
         return status;
     }
 
-    public static Status returnBorrowing(int id) {
+    public static Status returnBorrowing(int id, EquipmentEntity.State state) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
         if (appData.getBorrowingEntities().containsKey(id)) {
@@ -106,10 +113,53 @@ public class BorrowingRepository {
                 EquipmentEntity equipmentEntity =
                         appData.getEquipmentEntities().get(borrowingEntity.getBorrowedEquipmentID());
                 equipmentEntity.setBorrowed(false);
+                equipmentEntity.setState(state);
                 status.setStatus(SUCCESS, RETURN);
             }
             appData.getBorrowingEntities().remove(id);
         }
         return status;
+    }
+
+    public static HashMap<Integer, BorrowingEntity> getBorrowingsByReason(BorrowingEntity.BorrowingReason borrowingReason) {
+        HashMap<Integer, BorrowingEntity> borrowings = new HashMap<>();
+
+        for (Map.Entry<Integer, BorrowingEntity> entry : appData.getBorrowingEntities().entrySet()) {
+            int key = entry.getKey();
+            BorrowingEntity value = entry.getValue();
+
+            if (value.getReason() == borrowingReason) {
+                borrowings.put(key, value);
+            }
+        }
+        return borrowings;
+    }
+
+    public static HashMap<Integer, BorrowingEntity> getBorrowingsByUserId(int borrowerId) {
+        HashMap<Integer, BorrowingEntity> borrowings = new HashMap<>();
+
+        for (Map.Entry<Integer, BorrowingEntity> entry : appData.getBorrowingEntities().entrySet()) {
+            int key = entry.getKey();
+            BorrowingEntity value = entry.getValue();
+
+            if (value.getBorrowerID() == borrowerId) {
+                borrowings.put(key, value);
+            }
+        }
+        return borrowings;
+    }
+
+    public static HashMap<Integer, BorrowingEntity> getOverdueBorrowings() {
+        HashMap<Integer, BorrowingEntity> borrowings = new HashMap<>();
+
+        for (Map.Entry<Integer, BorrowingEntity> entry : appData.getBorrowingEntities().entrySet()) {
+            int key = entry.getKey();
+            BorrowingEntity value = entry.getValue();
+
+            if (value.getBorrowingEnd().before(new Date())) {
+                borrowings.put(key, value);
+            }
+        }
+        return borrowings;
     }
 }
