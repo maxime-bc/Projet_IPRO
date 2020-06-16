@@ -22,6 +22,10 @@ public class Controller {
     private final ApplicationData applicationData = ApplicationData.getInstance();
     // TODO : format output to arrays ??
     // TODO : add special attributes to classes
+    // TODO : check email
+    // TODO : javadoc
+    // TODO : diagramme de classes
+    // TODO : readme.txt
 
     public Controller() {
         this.view = new View();
@@ -42,23 +46,24 @@ public class Controller {
         switch (arguments[ACTION]) {
             case DISPLAY_ACTION:
                 display(arguments);
-
                 break;
+
             case ADD_ACTION:
                 add(arguments);
-
                 break;
+
             case UPDATE_ACTION:
                 update(arguments);
+                break;
 
             case RETURN_ACTION:
                 returnBorrowing();
-
                 break;
+
             case DELETE_ACTION:
                 delete(arguments);
-
                 break;
+
             default:
                 return arguments[ACTION].equals(QUIT_ACTION);
         }

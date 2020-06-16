@@ -16,10 +16,19 @@ import static constants.Constants.SUCCESS;
 import static constants.ErrorMessages.*;
 import static constants.SuccessMessages.*;
 
+/**
+ * Manipulate borrowings stored inside the ApplicationData class.
+ * @see ApplicationData
+ */
 public class BorrowingRepository {
 
     private static final ApplicationData appData = ApplicationData.getInstance();
 
+    /**
+     * Add a borrowing to the borrowings dictionary stored inside the ApplicationData class.
+     * @param inputs list of attributes for the borrowing.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status addBorrowing(ArrayList<String> inputs) {
         Status status = new Status();
 
@@ -63,6 +72,11 @@ public class BorrowingRepository {
         return status;
     }
 
+    /**
+     * Delete a borrowing from the borrowings dictionary stored inside the ApplicationData class.
+     * @param id identifier of the borrowing to remove.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status deleteBorrowing(int id) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
@@ -73,6 +87,12 @@ public class BorrowingRepository {
         return status;
     }
 
+    /**
+     * Update a borrowing from the borrowings dictionary stored inside the ApplicationData class.
+     * @param id identifier of the borrowing to update.
+     * @param inputs list of updated attributes for the borrowing.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status updateBorrowing(int id, ArrayList<String> inputs) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
@@ -103,6 +123,12 @@ public class BorrowingRepository {
         return status;
     }
 
+    /**
+     * Return a borrowing.
+     * @param id identifier of the borrowing to return.
+     * @param state state of the returned borrowing.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status returnBorrowing(int id, EquipmentEntity.State state) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
@@ -121,6 +147,11 @@ public class BorrowingRepository {
         return status;
     }
 
+    /**
+     * Create a dictionary of borrowings filtered by a reason.
+     * @param borrowingReason reason for which we want to filter borrowings.
+     * @return a dictionary of borrowings with the same reason.
+     */
     public static HashMap<Integer, BorrowingEntity> getBorrowingsByReason(BorrowingEntity.BorrowingReason borrowingReason) {
         HashMap<Integer, BorrowingEntity> borrowings = new HashMap<>();
 
@@ -135,6 +166,11 @@ public class BorrowingRepository {
         return borrowings;
     }
 
+    /**
+     * Create a dictionary of borrowings filtered by a borrower identifier.
+     * @param borrowerId identifier of the borrower for which we want to filter borrowings.
+     * @return a dictionary of borrowings from the same borrower.
+     */
     public static HashMap<Integer, BorrowingEntity> getBorrowingsByUserId(int borrowerId) {
         HashMap<Integer, BorrowingEntity> borrowings = new HashMap<>();
 
@@ -149,6 +185,10 @@ public class BorrowingRepository {
         return borrowings;
     }
 
+    /**
+     * Create a dictionary of borrowings that are overdue.
+     * @return a dictionary of overdue borrowings.
+     */
     public static HashMap<Integer, BorrowingEntity> getOverdueBorrowings() {
         HashMap<Integer, BorrowingEntity> borrowings = new HashMap<>();
 

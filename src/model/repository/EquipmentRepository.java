@@ -17,10 +17,20 @@ import static constants.Constants.*;
 import static constants.ErrorMessages.*;
 import static constants.SuccessMessages.*;
 
+/**
+ * Manipulate equipments stored inside the class ApplicationData.
+ * @see ApplicationData
+ */
 public class EquipmentRepository {
 
     private static final ApplicationData appData = ApplicationData.getInstance();
 
+    /**
+     * Add an equipment to the equipments dictionary stored inside the class ApplicationData.
+     * @param inputs list of attributes for the equipment.
+     * @param type type of the equipment to be added.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status addEquipment(ArrayList<String> inputs, int type) {
         Status status = new Status();
 
@@ -90,6 +100,11 @@ public class EquipmentRepository {
         return status;
     }
 
+    /**
+     * Delete an equipment from the equipments dictionary stored inside the class ApplicationData.
+     * @param id identifier of the equipment to delete.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status deleteEquipment(int id) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
@@ -100,6 +115,12 @@ public class EquipmentRepository {
         return status;
     }
 
+    /**
+     * Update an equipment from the equipments dictionary stored inside the class ApplicationData.
+     * @param id identifier of the equipment to update.
+     * @param inputs list of updated attributes for the equipment.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status updateEquipment(int id, ArrayList<String> inputs) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
@@ -130,6 +151,10 @@ public class EquipmentRepository {
         return status;
     }
 
+    /**
+     * Create a dictionary of available equipments.
+     * @return a dictionary of available equipments.
+     */
     public static HashMap<Integer, EquipmentEntity> getAvailableEquipment() {
         HashMap<Integer, EquipmentEntity> availableEquipments = new HashMap<>();
 
@@ -145,6 +170,10 @@ public class EquipmentRepository {
         return availableEquipments;
     }
 
+    /**
+     * Create a dictionary of borrowed equipments.
+     * @return a dictionary of borrowed equipments.
+     */
     public static HashMap<Integer, EquipmentEntity> getBorrowedEquipment() {
         HashMap<Integer, EquipmentEntity> borrowedEquipments = new HashMap<>();
 
@@ -160,6 +189,10 @@ public class EquipmentRepository {
         return borrowedEquipments;
     }
 
+    /**
+     * Create a dictionary of equipments filtered by their type.
+     * @return a dictionary of equipments with the same type.
+     */
     public static HashMap<Integer, EquipmentEntity> getEquipment(int type) {
         HashMap<Integer, EquipmentEntity> equipments = new HashMap<>();
 
@@ -186,6 +219,11 @@ public class EquipmentRepository {
         return equipments;
     }
 
+    /**
+     * Get the state of a equipment.
+     * @param borrowingId identifier of the equipment.
+     * @return the state of the equipment.
+     */
     public static EquipmentEntity.State getEquipmentState(int borrowingId) {
         return appData.getEquipmentEntities().get(borrowingId).getState();
     }

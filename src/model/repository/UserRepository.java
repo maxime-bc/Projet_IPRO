@@ -11,10 +11,21 @@ import static constants.Constants.SUCCESS;
 import static constants.ErrorMessages.*;
 import static constants.SuccessMessages.*;
 
+/**
+ * Manipulate users stored inside the class ApplicationData.
+ *
+ * @see ApplicationData
+ */
 public class UserRepository {
 
     private static final ApplicationData appData = ApplicationData.getInstance();
 
+    /**
+     * Add an user to the users dictionary stored inside the ApplicationData class.
+     *
+     * @param inputs list of attributes for the user.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status addUser(ArrayList<String> inputs) {
         Status status = new Status();
 
@@ -32,6 +43,12 @@ public class UserRepository {
         return status;
     }
 
+    /**
+     * Delete an user from the users dictionary stored inside the ApplicationData class.
+     *
+     * @param id identifier of the user to delete.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status deleteUser(int id) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 
@@ -42,6 +59,13 @@ public class UserRepository {
         return status;
     }
 
+    /**
+     * Update an user from the users dictionary stored inside the ApplicationData class.
+     *
+     * @param id     identifier of the user to update.
+     * @param inputs list of updated attributes for the user.
+     * @return Status, a class containing a code and a message.
+     */
     public static Status updateUser(int id, ArrayList<String> inputs) {
         Status status = new Status(ERROR, NONEXISTENT_ID);
 

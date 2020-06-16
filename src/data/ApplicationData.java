@@ -12,6 +12,9 @@ import java.util.HashMap;
 
 import static constants.Constants.APP_DATA_FILE;
 
+/**
+ * Singleton storing all objets manipulated by the application.
+ */
 public class ApplicationData implements Serializable {
 
     private int currentUserId = 0;
@@ -25,6 +28,10 @@ public class ApplicationData implements Serializable {
     private HashMap<Integer, StorageEntity> storageEntities = new HashMap<>();
     private static ApplicationData applicationData;
 
+    /**
+     * Get an instance of this class to access all stored objects.
+     * @return an instance of the ApplicationData class.
+     */
     public static ApplicationData getInstance() {
         if (applicationData == null && Serialize.deserialize(APP_DATA_FILE) == null) {
             applicationData = new ApplicationData();
