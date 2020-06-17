@@ -257,4 +257,29 @@ public class EquipmentRepository {
     public static EquipmentEntity.State getEquipmentState(int borrowingId) {
         return appData.getEquipmentEntities().get(borrowingId).getState();
     }
+
+    public static int getEquipmentTypeById(int id) {
+        EquipmentEntity equipmentEntity = appData.getEquipmentEntities().get(id);
+
+        if(equipmentEntity instanceof GameControllerEntity){
+            return GAME_CONTROLLER;
+        }else if(equipmentEntity instanceof HeadsetEntity){
+            return HEADSET;
+        }else if(equipmentEntity instanceof MotionSensorEntity){
+            return MOTION_SENSOR;
+        }else if(equipmentEntity instanceof MouseEntity){
+            return MOUSE;
+        }else if(equipmentEntity instanceof PhoneEntity){
+            return PHONE;
+        }else if(equipmentEntity instanceof TabletEntity){
+            return TABLET;
+        }else if(equipmentEntity instanceof VRControllerEntity){
+            return VR_CONTROLLER;
+        }else if(equipmentEntity instanceof VRHeadsetEntity){
+            return VR_HEADSET;
+        }else if(equipmentEntity instanceof WebcamEntity) {
+            return WEBCAM;
+        }
+        return -1;
+    }
 }

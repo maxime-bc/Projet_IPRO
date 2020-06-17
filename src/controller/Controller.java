@@ -151,9 +151,8 @@ public class Controller {
 
                     for (int i = 0; i < quantity; i++) {
                         status = EquipmentRepository.addEquipment(inputs, type);
-                        if (!status.getCode()) {
+                        if (!status.getCode())
                             break;
-                        }
                     }
                     break;
                 case STORAGE_OBJECT:
@@ -191,9 +190,14 @@ public class Controller {
 
                     break;
                 case EQUIPMENT_OBJECT:
-                    this.view.printObjectUsage(EQUIPMENT_OBJECT);
-                    status = EquipmentRepository.updateEquipment(this.view.askPositiveInt(message), this.view.getUserInput());
-
+                    int id = this.view.askPositiveInt(message);
+                    int type = EquipmentRepository.getEquipmentTypeById(id);
+                    if(type == -1 )
+                        this.view.display(NONEXISTENT_ID);
+                    else {
+                        this.view.printEquipmentUsage(type);
+                        status = EquipmentRepository.updateEquipment(id, this.view.getUserInput());
+                    }
                     break;
                 case (STORAGE_OBJECT):
                     this.view.printObjectUsage(STORAGE_OBJECT);
