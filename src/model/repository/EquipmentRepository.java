@@ -8,10 +8,7 @@ import model.entity.equipment.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static constants.Constants.*;
 import static constants.ErrorMessages.*;
@@ -192,7 +189,7 @@ public class EquipmentRepository {
             int key = entry.getKey();
             EquipmentEntity equipmentEntity = entry.getValue();
 
-            if (!equipmentEntity.isBorrowed() || (equipmentEntity.getState() != EquipmentEntity.State.BROKEN)) {
+            if (!equipmentEntity.isBorrowed() && (equipmentEntity.getState() != EquipmentEntity.State.BROKEN)) {
                 availableEquipments.put(key, equipmentEntity);
             }
         }
@@ -211,7 +208,7 @@ public class EquipmentRepository {
             int key = entry.getKey();
             EquipmentEntity equipmentEntity = entry.getValue();
 
-            if (equipmentEntity.isBorrowed() || (equipmentEntity.getState() != EquipmentEntity.State.BROKEN)) {
+            if (equipmentEntity.isBorrowed() && (equipmentEntity.getState() != EquipmentEntity.State.BROKEN)) {
                 borrowedEquipments.put(key, equipmentEntity);
             }
         }
@@ -225,6 +222,7 @@ public class EquipmentRepository {
      */
     public static HashMap<Integer, EquipmentEntity> getEquipment(int type) {
         HashMap<Integer, EquipmentEntity> equipments = new HashMap<>();
+
 
         for (Map.Entry<Integer, EquipmentEntity> entry : appData.getEquipmentEntities().entrySet()) {
             int key = entry.getKey();
@@ -243,6 +241,8 @@ public class EquipmentRepository {
             } else if (type == VR_HEADSET && entry.getValue() instanceof VRHeadsetEntity) {
                 equipments.put(key, entry.getValue());
             } else if (type == WEBCAM && entry.getValue() instanceof WebcamEntity) {
+                equipments.put(key, entry.getValue());
+            } else if (type == MOTION_SENSOR && entry.getValue() instanceof MotionSensorEntity) {
                 equipments.put(key, entry.getValue());
             }
         }

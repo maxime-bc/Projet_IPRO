@@ -123,17 +123,13 @@ public class View {
     }
 
     public int askEquipmentType() {
-        int choice = -1;
         display("1 - GameController\n2 - Headset\n3 - Mouse\n4 - Phone\n5 - Tablet\n6 - VRController\n7 - VRHeadset\n8 - Webcam\n9 - Motion Sensor");
         try {
-            choice = Integer.parseInt(scanInput.nextLine());
-            if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM, MOTION_SENSOR).contains(choice)) {
-                return choice;
-            }
+            return Integer.parseInt(scanInput.nextLine());
         } catch (NumberFormatException e) {
-            display("Unrecognised choice.");
+            display("Select a number corresponding to an equipment type");
         }
-        return choice;
+        return -1;
     }
 
     public void closeScanner() {
@@ -188,7 +184,6 @@ public class View {
         for (Map.Entry<Integer, ?> entry : map.entrySet()) {
             display(entry.getValue().getClass().getSimpleName() + " id=" + entry.getKey() + ", " + entry.getValue());
         }
-        display("");
     }
 
     public BorrowingEntity.BorrowingReason askBorrowingReason() {

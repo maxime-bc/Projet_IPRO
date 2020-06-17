@@ -12,6 +12,7 @@ import view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static constants.Constants.*;
 import static constants.ErrorMessages.*;
@@ -24,14 +25,11 @@ public class Controller {
     private final View view;
     private final ApplicationData applicationData = ApplicationData.getInstance();
     // TODO : format output to arrays ??
-    // TODO : add special attributes to classes
     // TODO : check email
     // TODO : javadoc
     // TODO : diagramme de classes
     // TODO : readme.txt
-    // TODO : use motionSensor
-    // TODO : change updateEquipment (take the equipment type)
-
+    // TODO : test update
     /**
      * Construct a controller.
      */
@@ -104,7 +102,6 @@ public class Controller {
                     this.view.printHashMap(BorrowingRepository.getOverdueBorrowings());
                 }
 
-                this.view.printHashMap(applicationData.getBorrowingEntities());
                 break;
             case EQUIPMENT_OBJECT:
                 displayType = this.view.askDisplayType(Arrays.asList(TOTAL, AVAILABLE, BORROWED, BY_TYPE),
@@ -118,7 +115,10 @@ public class Controller {
                     this.view.printHashMap(EquipmentRepository.getBorrowedEquipment());
                 } else if (displayType == BY_TYPE) {
                     int equipmentType = this.view.askEquipmentType();
-                    this.view.printHashMap(EquipmentRepository.getEquipment(equipmentType));
+                    if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM, MOTION_SENSOR).contains(equipmentType))
+                        this.view.printHashMap(EquipmentRepository.getEquipment(equipmentType));
+                    else
+                        this.view.display("Equipment type not recognized");
                 }
 
                 break;
