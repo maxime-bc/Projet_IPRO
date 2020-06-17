@@ -46,46 +46,53 @@ public class EquipmentRepository {
                             new GameControllerEntity(EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1),
                                     format.parse(inputs.get(2)), Double.parseDouble(inputs.get(3)),
                                     EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                                    Integer.parseInt(inputs.get(5))));
+                                    Integer.parseInt(inputs.get(5)), inputs.get(6))); //inputs.get(6) == console
                 } else if (type == HEADSET) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(),
                             new HeadsetEntity(EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1),
                                     format.parse(inputs.get(2)), Double.parseDouble(inputs.get(3)),
                                     EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                                    Integer.parseInt(inputs.get(5))));
+                                    Integer.parseInt(inputs.get(5)), Boolean.parseBoolean(inputs.get(6))));
                 } else if (type == MOUSE) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new MouseEntity(
                             EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                             Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                            Integer.parseInt(inputs.get(5))));
+                            Integer.parseInt(inputs.get(5)), Float.parseFloat(inputs.get(6))));
                 } else if (type == PHONE) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new PhoneEntity(
                             EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                             Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
                             Integer.parseInt(inputs.get(5)), Double.parseDouble(inputs.get(6)),
-                            PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7))));
+                            PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7)), Integer.parseInt(inputs.get(8))));
                 } else if (type == TABLET) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new TabletEntity(
                             EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                             Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
                             Integer.parseInt(inputs.get(5)), Double.parseDouble(inputs.get(6)),
-                            PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7))));
+                            PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7)), Boolean.parseBoolean(inputs.get(8))));
                 } else if (type == VR_CONTROLLER) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new VRControllerEntity(
                             EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                             Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                            Integer.parseInt(inputs.get(5))));
+                            Integer.parseInt(inputs.get(5)), Integer.parseInt(inputs.get(6))));
                 } else if (type == VR_HEADSET) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new VRHeadsetEntity(
                             EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                             Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                            Integer.parseInt(inputs.get(5))));
+                            Integer.parseInt(inputs.get(5)),Integer.parseInt(inputs.get(6))));
                 } else if (type == WEBCAM) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new WebcamEntity(
                             EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                             Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
                             Integer.parseInt(inputs.get(5)), inputs.get(6)));
+                }else if (type == MOTION_SENSOR) {
+                    appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new MotionSensorEntity(
+                    EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
+                    Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                    Integer.parseInt(inputs.get(5)), Float.parseFloat(inputs.get(6))));
                 }
+
+
                 appData.setCurrentEquipmentId(appData.getCurrentEquipmentId() + 1);
                 status.setStatus(SUCCESS, ADD);
 
@@ -137,6 +144,29 @@ public class EquipmentRepository {
                     equipmentEntity.setPurchasePrice(Double.parseDouble(inputs.get(3)));
                     equipmentEntity.setState(EquipmentEntity.State.valueOf(inputs.get(4)));
                     equipmentEntity.setStorageId(storageAreaId);
+                    if(equipmentEntity instanceof GameControllerEntity){
+                        ((GameControllerEntity) equipmentEntity).setConsole(inputs.get(6));
+                    }else if(equipmentEntity instanceof HeadsetEntity){
+                        ((HeadsetEntity) equipmentEntity).setWithMicrophone(Boolean.parseBoolean(inputs.get(6)));
+                    }else if(equipmentEntity instanceof MotionSensorEntity){
+                        ((MotionSensorEntity) equipmentEntity).setScope(Integer.parseInt(inputs.get(6)));
+                    }else if(equipmentEntity instanceof MouseEntity){
+                        ((MouseEntity) equipmentEntity).setDpi(Float.parseFloat(inputs.get(6)));
+                    }else if(equipmentEntity instanceof PhoneEntity){
+                        ((PhoneEntity) equipmentEntity).setScreenSize(Double.parseDouble(inputs.get(6)));
+                        ((PhoneEntity) equipmentEntity).setOperatingSystem(PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7)));
+                        ((PhoneEntity) equipmentEntity).setNbSimCard(Integer.parseInt(inputs.get(8)));
+                    }else if(equipmentEntity instanceof TabletEntity){
+                        ((TabletEntity) equipmentEntity).setScreenSize(Double.parseDouble(inputs.get(6)));
+                        ((TabletEntity) equipmentEntity).setOperatingSystem(PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7)));
+                        ((TabletEntity) equipmentEntity).setWithStylus(Boolean.parseBoolean(inputs.get(8)));
+                    }else if(equipmentEntity instanceof VRControllerEntity){
+                        ((VRControllerEntity) equipmentEntity).setNbCaptors(Integer.parseInt(inputs.get(6)));
+                    }else if(equipmentEntity instanceof VRHeadsetEntity){
+                        ((VRHeadsetEntity) equipmentEntity).setRefreshRate(Integer.parseInt(inputs.get(6)));
+                    }else if(equipmentEntity instanceof WebcamEntity) {
+                        ((WebcamEntity) equipmentEntity).setResolution(inputs.get(6));
+                    }
                     status.setStatus(SUCCESS, UPDATE);
 
                 } else {

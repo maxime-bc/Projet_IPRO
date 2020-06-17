@@ -35,6 +35,7 @@ public class Constants {
     public static final Integer VR_CONTROLLER = 6;
     public static final Integer VR_HEADSET = 7;
     public static final Integer WEBCAM = 8;
+    public static final Integer MOTION_SENSOR = 9;
 
     public static final Integer TOTAL = 1;
     public static final Integer AVAILABLE = 2;

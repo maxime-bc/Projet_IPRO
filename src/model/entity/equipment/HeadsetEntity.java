@@ -7,7 +7,18 @@ import java.util.Date;
  */
 public class HeadsetEntity extends EquipmentEntity {
 
-    public HeadsetEntity(Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID) {
+    private boolean withMicrophone;
+
+    public HeadsetEntity(Owner owner, String brand, Date purchaseDate, double purchasePrice, State state, boolean isBorrowed, int storageID, boolean withMicrophone) {
         super(owner, brand, purchaseDate, purchasePrice, state, isBorrowed, storageID);
+        this.withMicrophone = withMicrophone;
+    }
+
+    public boolean isWithMicrophone() {
+        return withMicrophone;
+    }
+
+    public void setWithMicrophone(boolean withMicrophone) {
+        this.withMicrophone = withMicrophone;
     }
 }

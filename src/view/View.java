@@ -2,6 +2,7 @@ package view;
 
 import model.entity.borrowing.BorrowingEntity;
 import model.entity.equipment.EquipmentEntity;
+import model.entity.equipment.MotionSensorEntity;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -123,10 +124,10 @@ public class View {
 
     public int askEquipmentType() {
         int choice = -1;
-        display("1 - GameController\n2 - Headset\n3 - Mouse\n4 - Phone\n5 - Tablet\n6 - VRController\n7 - VRHeadset\n8 - Webcam");
+        display("1 - GameController\n2 - Headset\n3 - Mouse\n4 - Phone\n5 - Tablet\n6 - VRController\n7 - VRHeadset\n8 - Webcam\n9 - Motion Sensor");
         try {
             choice = Integer.parseInt(scanInput.nextLine());
-            if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM).contains(choice)) {
+            if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM, MOTION_SENSOR).contains(choice)) {
                 return choice;
             }
         } catch (NumberFormatException e) {
@@ -140,31 +141,28 @@ public class View {
     }
 
     public void printEquipmentUsage(int type) {
+        String usage = "<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+                "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>";
         if (type == GAME_CONTROLLER) {
-            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
-                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+            usage += " <console>";
         } else if (type == HEADSET) {
-            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
-                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+            usage += " <microphone : True | False>";
         } else if (type == MOUSE) {
-            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
-                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+            usage += " <dpi>";
         } else if (type == PHONE) {
-            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
-                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <screen_size> <operating_system : IOS | ANDROID | WINDOWS>");
+            usage += " <sreen size> <OS : ANDROID | IOS | WINDOWS> <number of sim cards>";
         } else if (type == TABLET) {
-            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
-                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <screen_size> <operating_system : IOS | ANDROID | WINDOWS>");
+            usage += " <sreen size> <OS : ANDROID | IOS | WINDOWS> <stylus : True | False>";
         } else if (type == VR_CONTROLLER) {
-            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
-                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+            usage += " <number of captors>";
         } else if (type == VR_HEADSET) {
-            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
-                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
+            usage += " <refresh rate>";
         } else if (type == WEBCAM) {
-            display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
-                    "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id> <resolution>");
+            usage += " <resolution>";
+        } else if (type == MOTION_SENSOR) {
+            usage += " <scope>";
         }
+        display(usage);
     }
 
     public int askDisplayType(List<Integer> choices, String message) {

@@ -6,7 +6,19 @@ import java.util.Date;
  * Represents a tablet and inherits from a portable device.
  */
 public class TabletEntity extends PortableDeviceEntity {
-    public TabletEntity(EquipmentEntity.Owner owner, String brand, Date purchaseDate, double purchasePrice, EquipmentEntity.State state, boolean isBorrowed, int storageID, double screenSize, OperatingSystem operatingSystem) {
+
+    private boolean withStylus;
+
+    public TabletEntity(EquipmentEntity.Owner owner, String brand, Date purchaseDate, double purchasePrice, EquipmentEntity.State state, boolean isBorrowed, int storageID, double screenSize, OperatingSystem operatingSystem, boolean withStylus) {
         super(owner, brand, purchaseDate, purchasePrice, state, isBorrowed, storageID, screenSize, operatingSystem);
+        this.withStylus = withStylus;
+    }
+
+    public boolean isWithStylus() {
+        return withStylus;
+    }
+
+    public void setWithStylus(boolean withStylus) {
+        this.withStylus = withStylus;
     }
 }
