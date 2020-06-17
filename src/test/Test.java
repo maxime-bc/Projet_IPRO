@@ -10,6 +10,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+/**
+ * Used to automatically insert data for tests purposes.
+ */
 public class Test {
     private static final ApplicationData appData = ApplicationData.getInstance();
 

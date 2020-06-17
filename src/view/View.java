@@ -9,14 +9,24 @@ import java.util.regex.Pattern;
 
 import static constants.Constants.*;
 
+/**
+ * View of the application.
+ * Called by the controller to display information in console.
+ */
 public class View {
     private final Scanner scanInput;
 
+    /**
+     * Construct a view.
+     */
     public View() {
         printMenu();
         this.scanInput = new Scanner(System.in);
     }
 
+    /**
+     * Prints the appliation menu.
+     */
     private void printMenu() {
         display("******************************* MENU ********************************");
         display("**   Actions : display, add, update, delete, return, quit          **");
@@ -27,8 +37,13 @@ public class View {
         display("*********************************************************************");
     }
 
-    public void printAddUsage(String action) {
-        switch (action) {
+    /**
+     * Prints the usage of an action.
+     * @param object object for which we want to print the usage (ex: user, borrowing or storage).
+     *               For an equipment object, use printEquipmentUsage().
+     */
+    public void printObjectUsage(String object) {
+        switch (object) {
             case USER_OBJECT:
                 display("<first_name> <last_name> <address> <phone_number> <email> <user_type : JIN_STUDENT | Y2_STUDENT | ENSIIE | C19 | TEACHER | OTHER>");
                 break;
@@ -36,16 +51,18 @@ public class View {
                 display("<reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO> " +
                         "<borrowing end: dd/mm/yyyy> <borrowed_equipment_id> <borrower_id>");
                 break;
-            case EQUIPMENT_OBJECT:
-                display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> <purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");
-                break;
             case STORAGE_OBJECT:
                 display("<storage_area> <manager_id>");
                 break;
         }
     }
 
-    public int askInt(String message) {
+    /**
+     * Ask a positive integer to the user, with a given message.
+     * @param message a message which is going to be printed before asking an integer to the user.
+     * @return if valid, the integer given by the user, else -1.
+     */
+    public int askPositiveInt(String message) {
         int integer = -1;
         display(message);
         try {
@@ -122,7 +139,7 @@ public class View {
         scanInput.close();
     }
 
-    public void printUsage(int type) {
+    public void printEquipmentUsage(int type) {
         if (type == GAME_CONTROLLER) {
             display("<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
                     "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>");

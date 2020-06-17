@@ -16,7 +16,10 @@ import java.util.Arrays;
 import static constants.Constants.*;
 import static constants.ErrorMessages.*;
 
-
+/**
+ * Controller of the application.
+ * Links the view with the model.
+ */
 public class Controller {
     private final View view;
     private final ApplicationData applicationData = ApplicationData.getInstance();
@@ -26,7 +29,12 @@ public class Controller {
     // TODO : javadoc
     // TODO : diagramme de classes
     // TODO : readme.txt
+    // TODO : use motionSensor
+    // TODO : change updateEquipment (take the equipment type)
 
+    /**
+     * Construct a controller.
+     */
     public Controller() {
         this.view = new View();
         loop();
@@ -89,7 +97,7 @@ public class Controller {
                         this.view.printHashMap(BorrowingRepository.getBorrowingsByReason(borrowingReason));
                     }
                 } else if (displayType == BY_BORROWER) {
-                    int borrowerId = this.view.askInt("Id of the borrower ? > ");
+                    int borrowerId = this.view.askPositiveInt("Id of the borrower ? > ");
                     this.view.printHashMap(BorrowingRepository.getBorrowingsByUserId(borrowerId));
 
                 } else if (displayType == OVERDUE) {
@@ -126,20 +134,20 @@ public class Controller {
         try {
             switch (arguments[OBJECT]) {
                 case USER_OBJECT:
-                    this.view.printAddUsage(USER_OBJECT);
+                    this.view.printObjectUsage(USER_OBJECT);
                     status = UserRepository.addUser(this.view.getUserInput());
 
                     break;
                 case BORROWING_OBJECT:
-                    this.view.printAddUsage(BORROWING_OBJECT);
+                    this.view.printObjectUsage(BORROWING_OBJECT);
                     status = BorrowingRepository.addBorrowing(this.view.getUserInput());
 
                     break;
                 case EQUIPMENT_OBJECT:
                     int type = this.view.askEquipmentType();
-                    this.view.printUsage(type);
+                    this.view.printEquipmentUsage(type);
                     ArrayList<String> inputs = this.view.getUserInput();
-                    int quantity = this.view.askInt("Quantity > ?");
+                    int quantity = this.view.askPositiveInt("Quantity > ?");
 
                     for (int i = 0; i < quantity; i++) {
                         status = EquipmentRepository.addEquipment(inputs, type);
@@ -149,7 +157,7 @@ public class Controller {
                     }
                     break;
                 case STORAGE_OBJECT:
-                    this.view.printAddUsage(STORAGE_OBJECT);
+                    this.view.printObjectUsage(STORAGE_OBJECT);
                     status = StorageRepository.addStorage(this.view.getUserInput());
                     break;
             }
@@ -173,23 +181,23 @@ public class Controller {
         try {
             switch (arguments[OBJECT]) {
                 case USER_OBJECT:
-                    this.view.printAddUsage(USER_OBJECT);
-                    status = UserRepository.updateUser(this.view.askInt(message), this.view.getUserInput());
+                    this.view.printObjectUsage(USER_OBJECT);
+                    status = UserRepository.updateUser(this.view.askPositiveInt(message), this.view.getUserInput());
 
                     break;
                 case (BORROWING_OBJECT):
-                    this.view.printAddUsage(BORROWING_OBJECT);
-                    status = BorrowingRepository.updateBorrowing(this.view.askInt(message), this.view.getUserInput());
+                    this.view.printObjectUsage(BORROWING_OBJECT);
+                    status = BorrowingRepository.updateBorrowing(this.view.askPositiveInt(message), this.view.getUserInput());
 
                     break;
                 case EQUIPMENT_OBJECT:
-                    this.view.printAddUsage(EQUIPMENT_OBJECT);
-                    status = EquipmentRepository.updateEquipment(this.view.askInt(message), this.view.getUserInput());
+                    this.view.printObjectUsage(EQUIPMENT_OBJECT);
+                    status = EquipmentRepository.updateEquipment(this.view.askPositiveInt(message), this.view.getUserInput());
 
                     break;
                 case (STORAGE_OBJECT):
-                    this.view.printAddUsage(STORAGE_OBJECT);
-                    status = StorageRepository.updateStorage(this.view.askInt(message), this.view.getUserInput());
+                    this.view.printObjectUsage(STORAGE_OBJECT);
+                    status = StorageRepository.updateStorage(this.view.askPositiveInt(message), this.view.getUserInput());
                     break;
             }
 
@@ -207,7 +215,7 @@ public class Controller {
 
     private void returnBorrowing() {
         String message = "Id of the borrowing you want to return ? > ";
-        int borrowingId = this.view.askInt(message);
+        int borrowingId = this.view.askPositiveInt(message);
 
         EquipmentEntity.State equipmentState = EquipmentRepository.getEquipmentState(borrowingId);
 
@@ -223,7 +231,7 @@ public class Controller {
 
     private void delete(String[] arguments) {
         String message = "Id of the element you want to delete ? > ";
-        int id = this.view.askInt(message);
+        int id = this.view.askPositiveInt(message);
         Status status = new Status();
 
         switch (arguments[OBJECT]) {

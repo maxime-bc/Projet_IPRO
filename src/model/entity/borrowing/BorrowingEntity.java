@@ -3,6 +3,9 @@ package model.entity.borrowing;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Represents a borrowing.
+ */
 public class BorrowingEntity implements Serializable {
 
     public enum BorrowingReason {JIN_PROJECT, JIN_UE, Y2_UE, ENSIIE, PERSONAL_WORK, STARTUP, DEMO}

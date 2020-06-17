@@ -2,6 +2,9 @@ package model.entity.equipment;
 
 import java.util.Date;
 
+/**
+ * Represents a webcam and inherits from an equipment.
+ */
 public class WebcamEntity extends EquipmentEntity {
 
     private String resolution;

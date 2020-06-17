@@ -2,6 +2,9 @@ package model.entity.equipment;
 
 import java.util.Date;
 
+/**
+ * Represents a portable device and inherits from an equipment.
+ */
 public class PortableDeviceEntity extends EquipmentEntity {
 
     public enum OperatingSystem {IOS, ANDROID, WINDOWS}

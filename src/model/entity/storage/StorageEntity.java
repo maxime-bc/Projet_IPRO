@@ -2,6 +2,9 @@ package model.entity.storage;
 
 import java.io.Serializable;
 
+/**
+ * Represents a storage area.
+ */
 public class StorageEntity implements Serializable {
 
     private String storageArea;

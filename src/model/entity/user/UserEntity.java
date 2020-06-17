@@ -2,6 +2,9 @@ package model.entity.user;
 
 import java.io.Serializable;
 
+/**
+ * Represents a user.
+ */
 public class UserEntity implements Serializable {
 
     public enum UserType {JIN_STUDENT, Y2_STUDENT, ENSIIE, C19, TEACHER, OTHER}

@@ -3,6 +3,9 @@ package model.entity.equipment;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Represents an equipment.
+ */
 public class EquipmentEntity implements Serializable {
 
     public enum State {NEW, GOOD, USED, BROKEN}
