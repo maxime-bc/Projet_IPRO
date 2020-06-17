@@ -18,7 +18,7 @@ public class View {
     private final Scanner scanInput;
 
     /**
-     * Construct a view.
+     * Constructs a view.
      */
     public View() {
         printMenu();
@@ -32,9 +32,8 @@ public class View {
         display("******************************* MENU ********************************");
         display("**   Actions : display, add, update, delete, return, quit          **");
         display("**	 On what data type : user, borrowing, equipment, storage       **");
-        display("**   Ex : add user <attributes>                                    **");
-        display("**   Ex : display user                                             **");
-        display("**   ...                                                           **");
+        display("**   Ex : add user, display user, add storage, delete equipment... **");
+        display("**   Other actions : return, quit                                  **");
         display("*********************************************************************");
     }
 
@@ -59,7 +58,7 @@ public class View {
     }
 
     /**
-     * Ask a positive integer to the user, with a given message.
+     * Asks a positive integer to the user, with a given message.
      * @param message a message which is going to be printed before asking an integer to the user.
      * @return if valid, the integer given by the user, else -1.
      */
@@ -74,6 +73,11 @@ public class View {
         return integer;
     }
 
+    /**
+     * Asks an action (display, add, delete, update, return, quit) from the user,
+     * realised on a object (user, storage, equipment, borrowing).
+     * @return an array of string containing actions entered by the user.
+     */
     public String[] getAction() {
         String argument;
         String[] arguments = new String[2];
@@ -107,10 +111,18 @@ public class View {
         return arguments;
     }
 
+    /**
+     * Displays an object
+     * @param object object to print.
+     */
     public void display(Object object) {
         System.out.println(object);
     }
 
+    /**
+     * Get inputs from the user.
+     * @return an array of string containing strings entered by the user.
+     */
     public ArrayList<String> getUserInput() {
         String string = scanInput.nextLine();
 
@@ -122,6 +134,10 @@ public class View {
         return list;
     }
 
+    /**
+     * Asks an equipment type to the user.
+     * @return an
+     */
     public int askEquipmentType() {
         display("1 - GameController\n2 - Headset\n3 - Mouse\n4 - Phone\n5 - Tablet\n6 - VRController\n7 - VRHeadset\n8 - Webcam\n9 - Motion Sensor");
         try {
@@ -132,10 +148,17 @@ public class View {
         return -1;
     }
 
+    /**
+     * Closes the scanner used to get user input.
+     */
     public void closeScanner() {
         scanInput.close();
     }
 
+    /**
+     * Print usage depending on the equipment type.
+     * @param type type of the equipment for which we want to print the usage.
+     */
     public void printEquipmentUsage(int type) {
         String usage = "<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
                 "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>";
@@ -161,6 +184,12 @@ public class View {
         display(usage);
     }
 
+    /**
+     * Asks how the user want to display the data.
+     * @param choices list of valid choices.
+     * @param message message to print before asking an input from the user.
+     * @return the choice of the user.
+     */
     public int askDisplayType(List<Integer> choices, String message) {
 
         int choice = -1;
@@ -177,6 +206,10 @@ public class View {
         return choice;
     }
 
+    /**
+     * Prints a dictionary.
+     * @param map the dictionary to print.
+     */
     public void printHashMap(HashMap<Integer, ?> map) {
         if (map.size() == 0) {
             display("Empty.");
@@ -186,6 +219,10 @@ public class View {
         }
     }
 
+    /**
+     * Asks the reason of a borrowing to the user.
+     * @return the borrowing reason.
+     */
     public BorrowingEntity.BorrowingReason askBorrowingReason() {
         BorrowingEntity.BorrowingReason borrowingReason = null;
         display("reason : JIN_PROJECT | JIN_UE | Y2_UE | ENSIIE | PERSONAL_WORK | STARTUP | DEMO");
@@ -197,6 +234,10 @@ public class View {
         return borrowingReason;
     }
 
+    /**
+     * Asks the state of an equipment to the user.
+     * @return the state of the equipment.
+     */
     public EquipmentEntity.State getState() {
         EquipmentEntity.State equipmentState = null;
         display("state: NEW | GOOD | USED | BROKEN");
