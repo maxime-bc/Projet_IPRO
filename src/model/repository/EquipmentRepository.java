@@ -218,6 +218,7 @@ public class EquipmentRepository {
 
     /**
      * Create a dictionary of equipments filtered by their type.
+     * @param type type of equipments to be filered.
      * @return a dictionary of equipments with the same type.
      */
     public static HashMap<Integer, EquipmentEntity> getEquipment(int type) {
