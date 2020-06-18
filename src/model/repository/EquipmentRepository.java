@@ -307,4 +307,18 @@ public class EquipmentRepository {
         }
         return equipments;
     }
+
+    public static HashMap<Integer, EquipmentEntity> getEquipmentByNumberOfYears(int years) {
+        HashMap<Integer, EquipmentEntity> equipments = new HashMap<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -years);
+
+        for (Map.Entry<Integer, EquipmentEntity> equipmentEntityEntry : appData.getEquipmentEntities().entrySet()) {
+            if (equipmentEntityEntry.getValue().getPurchaseDate().after(calendar.getTime())) {
+                equipments.put(equipmentEntityEntry.getKey(), equipmentEntityEntry.getValue());
+            }
+        }
+        return equipments;
+    }
 }

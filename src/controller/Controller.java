@@ -105,8 +105,8 @@ public class Controller {
 
                 break;
             case EQUIPMENT_OBJECT:
-                displayType = this.view.askDisplayType(Arrays.asList(TOTAL, AVAILABLE, BORROWED, BY_TYPE, BY_STORAGE_AREA),
-                        "1 - Total\n2 - Available\n3 - Borrowed\n4 - By type\n5 - By storage area");
+                displayType = this.view.askDisplayType(Arrays.asList(TOTAL, AVAILABLE, BORROWED, BY_TYPE, BY_STORAGE_AREA, BY_PURCHASE_DATE),
+                        "1 - Total\n2 - Available\n3 - Borrowed\n4 - By type\n5 - By storage area\n6 - By purchase date");
 
                 if (displayType == TOTAL) {
                     this.view.printHashMap(applicationData.getEquipmentEntities());
@@ -142,6 +142,13 @@ public class Controller {
                         this.view.printHashMap(EquipmentRepository.getEquipmentByStorageAreaId(storageAreaId));
                     } else {
                         this.view.display(NONEXISTENT_ID);
+                    }
+                } else if (displayType == BY_PURCHASE_DATE){
+                    int numberOfYears = this.view.askPositiveInt("Enter the number of years > ");
+                    if(numberOfYears > 0){
+                        this.view.printHashMap(EquipmentRepository.getEquipmentByNumberOfYears(numberOfYears));
+                    }else{
+                        this.view.display("Incorrect number of years.");
                     }
                 }
 
