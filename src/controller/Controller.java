@@ -12,7 +12,6 @@ import view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import static constants.Constants.*;
 import static constants.ErrorMessages.*;
@@ -25,9 +24,6 @@ public class Controller {
     private final View view;
     private final ApplicationData applicationData = ApplicationData.getInstance();
     // TODO : format output to arrays ??
-    // TODO : check email
-    // TODO : javadoc
-    // TODO : diagramme de classes
     // TODO : readme.txt
     // TODO : test update
     /**

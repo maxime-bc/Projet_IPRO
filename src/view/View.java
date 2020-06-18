@@ -31,7 +31,7 @@ public class View {
     private void printMenu() {
         display("******************************* MENU ********************************");
         display("**   Actions : display, add, update, delete, return, quit          **");
-        display("**	 On what data type : user, borrowing, equipment, storage       **");
+        display("**   On what data type : user, borrowing, equipment, storage       **");
         display("**   Ex : add user, display user, add storage, delete equipment... **");
         display("**   Other actions : return, quit                                  **");
         display("*********************************************************************");
