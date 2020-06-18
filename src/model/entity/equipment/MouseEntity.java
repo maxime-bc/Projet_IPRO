@@ -21,4 +21,9 @@ public class MouseEntity extends EquipmentEntity {
     public void setDpi(float dpi) {
         this.dpi = dpi;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "dpi=" + dpi;
+    }
 }

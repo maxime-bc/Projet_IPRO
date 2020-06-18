@@ -21,4 +21,9 @@ public class HeadsetEntity extends EquipmentEntity {
     public void setWithMicrophone(boolean withMicrophone) {
         this.withMicrophone = withMicrophone;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "withMicrophone=" + withMicrophone;
+    }
 }

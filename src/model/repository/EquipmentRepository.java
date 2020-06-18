@@ -4,6 +4,7 @@ import constants.Constants;
 import data.ApplicationData;
 import data.Status;
 import model.entity.equipment.*;
+import model.entity.storage.StorageEntity;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,6 +17,7 @@ import static constants.SuccessMessages.*;
 
 /**
  * Manipulate equipments stored inside the class ApplicationData.
+ *
  * @see ApplicationData
  */
 public class EquipmentRepository {
@@ -24,8 +26,9 @@ public class EquipmentRepository {
 
     /**
      * Add an equipment to the equipments dictionary stored inside the class ApplicationData.
+     *
      * @param inputs list of attributes for the equipment.
-     * @param type type of the equipment to be added.
+     * @param type   type of the equipment to be added.
      * @return Status, a class containing a code and a message.
      */
     public static Status addEquipment(ArrayList<String> inputs, int type) {
@@ -76,17 +79,17 @@ public class EquipmentRepository {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new VRHeadsetEntity(
                             EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                             Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                            Integer.parseInt(inputs.get(5)),Integer.parseInt(inputs.get(6))));
+                            Integer.parseInt(inputs.get(5)), Integer.parseInt(inputs.get(6))));
                 } else if (type == WEBCAM) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new WebcamEntity(
                             EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
                             Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
                             Integer.parseInt(inputs.get(5)), inputs.get(6)));
-                }else if (type == MOTION_SENSOR) {
+                } else if (type == MOTION_SENSOR) {
                     appData.getEquipmentEntities().put(appData.getCurrentEquipmentId(), new MotionSensorEntity(
-                    EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
-                    Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
-                    Integer.parseInt(inputs.get(5)), Float.parseFloat(inputs.get(6))));
+                            EquipmentEntity.Owner.valueOf(inputs.get(0)), inputs.get(1), format.parse(inputs.get(2)),
+                            Double.parseDouble(inputs.get(3)), EquipmentEntity.State.valueOf(inputs.get(4)), false,
+                            Integer.parseInt(inputs.get(5)), Float.parseFloat(inputs.get(6))));
                 }
 
 
@@ -106,6 +109,7 @@ public class EquipmentRepository {
 
     /**
      * Delete an equipment from the equipments dictionary stored inside the class ApplicationData.
+     *
      * @param id identifier of the equipment to delete.
      * @return Status, a class containing a code and a message.
      */
@@ -121,7 +125,8 @@ public class EquipmentRepository {
 
     /**
      * Update an equipment from the equipments dictionary stored inside the class ApplicationData.
-     * @param id identifier of the equipment to update.
+     *
+     * @param id     identifier of the equipment to update.
      * @param inputs list of updated attributes for the equipment.
      * @return Status, a class containing a code and a message.
      */
@@ -141,27 +146,27 @@ public class EquipmentRepository {
                     equipmentEntity.setPurchasePrice(Double.parseDouble(inputs.get(3)));
                     equipmentEntity.setState(EquipmentEntity.State.valueOf(inputs.get(4)));
                     equipmentEntity.setStorageId(storageAreaId);
-                    if(equipmentEntity instanceof GameControllerEntity){
+                    if (equipmentEntity instanceof GameControllerEntity) {
                         ((GameControllerEntity) equipmentEntity).setConsole(inputs.get(6));
-                    }else if(equipmentEntity instanceof HeadsetEntity){
+                    } else if (equipmentEntity instanceof HeadsetEntity) {
                         ((HeadsetEntity) equipmentEntity).setWithMicrophone(Boolean.parseBoolean(inputs.get(6)));
-                    }else if(equipmentEntity instanceof MotionSensorEntity){
+                    } else if (equipmentEntity instanceof MotionSensorEntity) {
                         ((MotionSensorEntity) equipmentEntity).setScope(Integer.parseInt(inputs.get(6)));
-                    }else if(equipmentEntity instanceof MouseEntity){
+                    } else if (equipmentEntity instanceof MouseEntity) {
                         ((MouseEntity) equipmentEntity).setDpi(Float.parseFloat(inputs.get(6)));
-                    }else if(equipmentEntity instanceof PhoneEntity){
+                    } else if (equipmentEntity instanceof PhoneEntity) {
                         ((PhoneEntity) equipmentEntity).setScreenSize(Double.parseDouble(inputs.get(6)));
                         ((PhoneEntity) equipmentEntity).setOperatingSystem(PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7)));
                         ((PhoneEntity) equipmentEntity).setNbSimCard(Integer.parseInt(inputs.get(8)));
-                    }else if(equipmentEntity instanceof TabletEntity){
+                    } else if (equipmentEntity instanceof TabletEntity) {
                         ((TabletEntity) equipmentEntity).setScreenSize(Double.parseDouble(inputs.get(6)));
                         ((TabletEntity) equipmentEntity).setOperatingSystem(PortableDeviceEntity.OperatingSystem.valueOf(inputs.get(7)));
                         ((TabletEntity) equipmentEntity).setWithStylus(Boolean.parseBoolean(inputs.get(8)));
-                    }else if(equipmentEntity instanceof VRControllerEntity){
+                    } else if (equipmentEntity instanceof VRControllerEntity) {
                         ((VRControllerEntity) equipmentEntity).setNbCaptors(Integer.parseInt(inputs.get(6)));
-                    }else if(equipmentEntity instanceof VRHeadsetEntity){
+                    } else if (equipmentEntity instanceof VRHeadsetEntity) {
                         ((VRHeadsetEntity) equipmentEntity).setRefreshRate(Integer.parseInt(inputs.get(6)));
-                    }else if(equipmentEntity instanceof WebcamEntity) {
+                    } else if (equipmentEntity instanceof WebcamEntity) {
                         ((WebcamEntity) equipmentEntity).setResolution(inputs.get(6));
                     }
                     status.setStatus(SUCCESS, UPDATE);
@@ -180,6 +185,7 @@ public class EquipmentRepository {
 
     /**
      * Create a dictionary of available equipments.
+     *
      * @return a dictionary of available equipments.
      */
     public static HashMap<Integer, EquipmentEntity> getAvailableEquipment() {
@@ -199,6 +205,7 @@ public class EquipmentRepository {
 
     /**
      * Create a dictionary of borrowed equipments.
+     *
      * @return a dictionary of borrowed equipments.
      */
     public static HashMap<Integer, EquipmentEntity> getBorrowedEquipment() {
@@ -218,6 +225,7 @@ public class EquipmentRepository {
 
     /**
      * Create a dictionary of equipments filtered by their type.
+     *
      * @param type type of equipments to be filered.
      * @return a dictionary of equipments with the same type.
      */
@@ -252,6 +260,7 @@ public class EquipmentRepository {
 
     /**
      * Get the state of a equipment.
+     *
      * @param borrowingId identifier of the equipment.
      * @return the state of the equipment.
      */
@@ -259,28 +268,43 @@ public class EquipmentRepository {
         return appData.getEquipmentEntities().get(borrowingId).getState();
     }
 
+    public static String getEquipmentName(int borrowingId) {
+        return appData.getEquipmentEntities().get(borrowingId).getBrand();
+    }
+
     public static int getEquipmentTypeById(int id) {
         EquipmentEntity equipmentEntity = appData.getEquipmentEntities().get(id);
 
-        if(equipmentEntity instanceof GameControllerEntity){
+        if (equipmentEntity instanceof GameControllerEntity) {
             return GAME_CONTROLLER;
-        }else if(equipmentEntity instanceof HeadsetEntity){
+        } else if (equipmentEntity instanceof HeadsetEntity) {
             return HEADSET;
-        }else if(equipmentEntity instanceof MotionSensorEntity){
+        } else if (equipmentEntity instanceof MotionSensorEntity) {
             return MOTION_SENSOR;
-        }else if(equipmentEntity instanceof MouseEntity){
+        } else if (equipmentEntity instanceof MouseEntity) {
             return MOUSE;
-        }else if(equipmentEntity instanceof PhoneEntity){
+        } else if (equipmentEntity instanceof PhoneEntity) {
             return PHONE;
-        }else if(equipmentEntity instanceof TabletEntity){
+        } else if (equipmentEntity instanceof TabletEntity) {
             return TABLET;
-        }else if(equipmentEntity instanceof VRControllerEntity){
+        } else if (equipmentEntity instanceof VRControllerEntity) {
             return VR_CONTROLLER;
-        }else if(equipmentEntity instanceof VRHeadsetEntity){
+        } else if (equipmentEntity instanceof VRHeadsetEntity) {
             return VR_HEADSET;
-        }else if(equipmentEntity instanceof WebcamEntity) {
+        } else if (equipmentEntity instanceof WebcamEntity) {
             return WEBCAM;
         }
         return -1;
+    }
+
+    public static HashMap<Integer, EquipmentEntity> getEquipmentByStorageAreaId(int storageAreaId) {
+        HashMap<Integer, EquipmentEntity> equipments = new HashMap<>();
+
+        for (Map.Entry<Integer, EquipmentEntity> equipmentEntityEntry : appData.getEquipmentEntities().entrySet()) {
+            if (equipmentEntityEntry.getValue().getStorageID() == storageAreaId) {
+                equipments.put(equipmentEntityEntry.getKey(), equipmentEntityEntry.getValue());
+            }
+        }
+        return equipments;
     }
 }

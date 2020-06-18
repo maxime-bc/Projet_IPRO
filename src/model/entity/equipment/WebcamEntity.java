@@ -24,6 +24,6 @@ public class WebcamEntity extends EquipmentEntity {
 
     @Override
     public String toString() {
-        return super.toString() + " resolution='" + resolution + '\'';
+        return super.toString() + "resolution='" + resolution + '\'';
     }
 }

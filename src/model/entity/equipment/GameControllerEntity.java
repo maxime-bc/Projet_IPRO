@@ -23,4 +23,8 @@ public class GameControllerEntity extends EquipmentEntity {
         this.console = console;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "console='" + console + '\'';
+    }
 }

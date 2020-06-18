@@ -21,4 +21,9 @@ public class PhoneEntity extends PortableDeviceEntity {
     public void setNbSimCard(int nbSimCard) {
         this.nbSimCard = nbSimCard;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "nbSimCard=" + nbSimCard;
+    }
 }

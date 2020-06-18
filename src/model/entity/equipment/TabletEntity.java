@@ -21,4 +21,9 @@ public class TabletEntity extends PortableDeviceEntity {
     public void setWithStylus(boolean withStylus) {
         this.withStylus = withStylus;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "withStylus=" + withStylus;
+    }
 }

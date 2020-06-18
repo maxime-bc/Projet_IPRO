@@ -39,6 +39,7 @@ public class View {
 
     /**
      * Prints the usage of an action.
+     *
      * @param object object for which we want to print the usage (ex: user, borrowing or storage).
      *               For an equipment object, use printEquipmentUsage().
      */
@@ -59,6 +60,7 @@ public class View {
 
     /**
      * Asks a positive integer to the user, with a given message.
+     *
      * @param message a message which is going to be printed before asking an integer to the user.
      * @return if valid, the integer given by the user, else -1.
      */
@@ -76,6 +78,7 @@ public class View {
     /**
      * Asks an action (display, add, delete, update, return, quit) from the user,
      * realised on a object (user, storage, equipment, borrowing).
+     *
      * @return an array of string containing actions entered by the user.
      */
     public String[] getAction() {
@@ -113,6 +116,7 @@ public class View {
 
     /**
      * Displays an object
+     *
      * @param object object to print.
      */
     public void display(Object object) {
@@ -121,6 +125,7 @@ public class View {
 
     /**
      * Get inputs from the user.
+     *
      * @return an array of string containing strings entered by the user.
      */
     public ArrayList<String> getUserInput() {
@@ -136,6 +141,7 @@ public class View {
 
     /**
      * Asks an equipment type to the user.
+     *
      * @return an
      */
     public int askEquipmentType() {
@@ -157,6 +163,7 @@ public class View {
 
     /**
      * Print usage depending on the equipment type.
+     *
      * @param type type of the equipment for which we want to print the usage.
      */
     public void printEquipmentUsage(int type) {
@@ -186,6 +193,7 @@ public class View {
 
     /**
      * Asks how the user want to display the data.
+     *
      * @param choices list of valid choices.
      * @param message message to print before asking an input from the user.
      * @return the choice of the user.
@@ -208,6 +216,7 @@ public class View {
 
     /**
      * Prints a dictionary.
+     *
      * @param map the dictionary to print.
      */
     public void printHashMap(HashMap<Integer, ?> map) {
@@ -215,12 +224,18 @@ public class View {
             display("Empty.");
         }
         for (Map.Entry<Integer, ?> entry : map.entrySet()) {
-            display(entry.getValue().getClass().getSimpleName() + " id=" + entry.getKey() + ", " + entry.getValue());
+            if (entry.getValue() instanceof EquipmentEntity) {
+                String className = entry.getValue().getClass().getSimpleName().replace("Entity", "");
+                display(String.format("%s %-10s %-15s", "[" + entry.getKey() + "] ", className, entry.getValue()));
+            }else{
+                display(String.format("%s %-10s", "[" + entry.getKey() + "] ", entry.getValue()));
+            }
         }
     }
 
     /**
      * Asks the reason of a borrowing to the user.
+     *
      * @return the borrowing reason.
      */
     public BorrowingEntity.BorrowingReason askBorrowingReason() {
@@ -236,6 +251,7 @@ public class View {
 
     /**
      * Asks the state of an equipment to the user.
+     *
      * @return the state of the equipment.
      */
     public EquipmentEntity.State getState() {

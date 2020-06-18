@@ -71,11 +71,12 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", userType=" + userType + '\'';
+        return String.format("%-30s %-30s %-40s %-25s %-30s %s",
+                "firstName='" + firstName + '\'',
+                "lastName='" + lastName + '\'',
+                "address='" + address + '\'',
+                "phoneNumber='" + phoneNumber + '\'',
+                "email='" + email + '\'',
+                "userType=" + userType + '\'');
     }
 }

@@ -1,7 +1,10 @@
 package model.entity.equipment;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static constants.Constants.DATE_FORMAT_PATTERN;
 
 /**
  * Represents an equipment.
@@ -89,12 +92,13 @@ public class EquipmentEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "owner=" + owner +
-                ", brand='" + brand + '\'' +
-                ", purchaseDate=" + purchaseDate +
-                ", purchasePrice=" + purchasePrice +
-                ", state=" + state +
-                ", isBorrowed=" + isBorrowed +
-                ", storageID=" + storageID;
+        return String.format("%s %-30s %-25s %-20s %-15s %-20s %-15s",
+                "owner=" + owner,
+                "brand='" + brand + '\'' ,
+                "purchaseDate=" + new SimpleDateFormat(DATE_FORMAT_PATTERN).format(purchaseDate) ,
+                "purchasePrice=" + purchasePrice ,
+                "state=" + state ,
+                "isBorrowed=" + isBorrowed ,
+                "storageID=" + storageID);
     }
 }

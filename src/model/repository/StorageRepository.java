@@ -114,4 +114,13 @@ public class StorageRepository {
         }
         return false;
     }
+
+    public static boolean storageAreaExists(int storageAreaId) {
+        for (Map.Entry<Integer, StorageEntity> storageEntityEntry : appData.getStorageEntities().entrySet()) {
+            if (storageEntityEntry.getKey() == storageAreaId) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

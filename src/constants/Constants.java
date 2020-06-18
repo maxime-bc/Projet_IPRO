@@ -38,9 +38,11 @@ public class Constants {
     public static final Integer MOTION_SENSOR = 9;
 
     public static final Integer TOTAL = 1;
+    public static final Integer BY_USER = 2;
     public static final Integer AVAILABLE = 2;
     public static final Integer BORROWED = 3;
     public static final Integer BY_TYPE = 4;
+    public static final Integer BY_STORAGE_AREA = 5;
     public static final Integer BY_REASON = 2;
     public static final Integer BY_BORROWER = 3;
     public static final Integer OVERDUE = 4;

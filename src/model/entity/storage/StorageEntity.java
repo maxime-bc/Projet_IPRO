@@ -33,6 +33,8 @@ public class StorageEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "storageArea='" + storageArea + '\'' + ", managerID='" + managerID + '\'';
+        return String.format("%-40s %s",
+                "storageArea='" + storageArea + '\'',
+                "managerID='" + managerID + '\'');
     }
 }

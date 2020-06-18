@@ -21,4 +21,9 @@ public class VRControllerEntity extends EquipmentEntity {
     public void setNbCaptors(int nbCaptors) {
         this.nbCaptors = nbCaptors;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "nbCaptors=" + nbCaptors;
+    }
 }

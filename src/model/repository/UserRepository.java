@@ -2,9 +2,11 @@ package model.repository;
 
 import data.ApplicationData;
 import data.Status;
+import model.entity.storage.StorageEntity;
 import model.entity.user.UserEntity;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static constants.Constants.ERROR;
 import static constants.Constants.SUCCESS;
@@ -88,5 +90,14 @@ public class UserRepository {
             }
         }
         return status;
+    }
+
+    public static boolean userExists(int userId) {
+        for (Map.Entry<Integer, UserEntity> userEntityEntry : appData.getUserEntities().entrySet()) {
+            if (userEntityEntry.getKey() == userId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

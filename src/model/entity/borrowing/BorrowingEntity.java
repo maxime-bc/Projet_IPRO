@@ -1,7 +1,10 @@
 package model.entity.borrowing;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static constants.Constants.DATE_FORMAT_PATTERN;
 
 /**
  * Represents a borrowing.
@@ -64,10 +67,11 @@ public class BorrowingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "reason=" + reason +
-                ", borrowingStart=" + borrowingStart +
-                ", borrowingEnd=" + borrowingEnd +
-                ", borrowedEquipmentID=" + borrowedEquipmentID +
-                ", borrowerID=" + borrowerID;
+        return String.format("%-20s %-30s %-30s %30s %20s",
+                "reason=" + reason,
+                "borrowingStart=" + new SimpleDateFormat(DATE_FORMAT_PATTERN).format(borrowingStart),
+                "borrowingEnd=" + new SimpleDateFormat(DATE_FORMAT_PATTERN).format(borrowingEnd),
+                "borrowedEquipmentID=" + borrowedEquipmentID,
+                "borrowerID=" + borrowerID);
     }
 }

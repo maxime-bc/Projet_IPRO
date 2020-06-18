@@ -26,6 +26,7 @@ public class Controller {
     // TODO : format output to arrays ??
     // TODO : readme.txt
     // TODO : test update
+
     /**
      * Construct a controller.
      */
@@ -92,7 +93,11 @@ public class Controller {
                     }
                 } else if (displayType == BY_BORROWER) {
                     int borrowerId = this.view.askPositiveInt("Id of the borrower ? > ");
-                    this.view.printHashMap(BorrowingRepository.getBorrowingsByUserId(borrowerId));
+                    if (UserRepository.userExists(borrowerId)) {
+                        this.view.printHashMap(BorrowingRepository.getBorrowingsByUserId(borrowerId));
+                    } else {
+                        this.view.display(NONEXISTENT_ID);
+                    }
 
                 } else if (displayType == OVERDUE) {
                     this.view.printHashMap(BorrowingRepository.getOverdueBorrowings());
@@ -100,21 +105,44 @@ public class Controller {
 
                 break;
             case EQUIPMENT_OBJECT:
-                displayType = this.view.askDisplayType(Arrays.asList(TOTAL, AVAILABLE, BORROWED, BY_TYPE),
-                        "1 - Total\n2 - Available\n3 - Borrowed\n4 - By type");
+                displayType = this.view.askDisplayType(Arrays.asList(TOTAL, AVAILABLE, BORROWED, BY_TYPE, BY_STORAGE_AREA),
+                        "1 - Total\n2 - Available\n3 - Borrowed\n4 - By type\n5 - By storage area");
 
                 if (displayType == TOTAL) {
                     this.view.printHashMap(applicationData.getEquipmentEntities());
                 } else if (displayType == AVAILABLE) {
                     this.view.printHashMap(EquipmentRepository.getAvailableEquipment());
                 } else if (displayType == BORROWED) {
-                    this.view.printHashMap(EquipmentRepository.getBorrowedEquipment());
+                    displayType = this.view.askDisplayType(Arrays.asList(TOTAL, BY_USER), "1 - Display all borrowings\n2 - Display borrowings by user");
+
+                    if (displayType == TOTAL) {
+                        this.view.printHashMap(EquipmentRepository.getBorrowedEquipment());
+                    } else if (displayType == BY_USER) {
+                        this.view.printHashMap(applicationData.getUserEntities());
+                        int borrowerId = this.view.askPositiveInt("Id of the borrower ? > ");
+
+                        if (UserRepository.userExists(borrowerId)) {
+                            this.view.printHashMap(BorrowingRepository.getBorrowingsByUserId(borrowerId));
+                        } else {
+                            this.view.display(NONEXISTENT_ID);
+                        }
+                    }
+
                 } else if (displayType == BY_TYPE) {
                     int equipmentType = this.view.askEquipmentType();
                     if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM, MOTION_SENSOR).contains(equipmentType))
                         this.view.printHashMap(EquipmentRepository.getEquipment(equipmentType));
                     else
                         this.view.display("Equipment type not recognized");
+                } else if (displayType == BY_STORAGE_AREA) {
+                    this.view.printHashMap(applicationData.getStorageEntities());
+                    int storageAreaId = this.view.askPositiveInt("Id of the storage area ? > ");
+
+                    if (StorageRepository.storageAreaExists(storageAreaId)) {
+                        this.view.printHashMap(EquipmentRepository.getEquipmentByStorageAreaId(storageAreaId));
+                    } else {
+                        this.view.display(NONEXISTENT_ID);
+                    }
                 }
 
                 break;
@@ -188,7 +216,7 @@ public class Controller {
                 case EQUIPMENT_OBJECT:
                     int id = this.view.askPositiveInt(message);
                     int type = EquipmentRepository.getEquipmentTypeById(id);
-                    if(type == -1 )
+                    if (type == -1)
                         this.view.display(NONEXISTENT_ID);
                     else {
                         this.view.printEquipmentUsage(type);
@@ -214,18 +242,23 @@ public class Controller {
     }
 
     private void returnBorrowing() {
+        this.view.printHashMap(applicationData.getBorrowingEntities());
         String message = "Id of the borrowing you want to return ? > ";
         int borrowingId = this.view.askPositiveInt(message);
 
         EquipmentEntity.State equipmentState = EquipmentRepository.getEquipmentState(borrowingId);
+        String equipmentName = EquipmentRepository.getEquipmentName(borrowingId);
 
-        this.view.display("In what state is the returned (previous was " + equipmentState + ").");
+        this.view.display("In what state is the returned equipment `" +
+                equipmentName + "` ? (previous was " + equipmentState + ")");
         EquipmentEntity.State state = this.view.getState();
 
-        Status status = BorrowingRepository.returnBorrowing(borrowingId, state);
-        this.view.display(status.getMessage());
-        if (status.getCode()) {
-            Serialize.serialize(this.applicationData, APP_DATA_FILE);
+        if (state != null) {
+            Status status = BorrowingRepository.returnBorrowing(borrowingId, state);
+            this.view.display(status.getMessage());
+            if (status.getCode()) {
+                Serialize.serialize(this.applicationData, APP_DATA_FILE);
+            }
         }
     }
 

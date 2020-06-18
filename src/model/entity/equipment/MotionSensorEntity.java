@@ -21,4 +21,9 @@ public class MotionSensorEntity extends EquipmentEntity {
     public void setScope(float scope) {
         this.scope = scope;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "scope=" + scope;
+    }
 }

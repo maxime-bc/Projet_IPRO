@@ -21,5 +21,10 @@ public class VRHeadsetEntity extends EquipmentEntity {
     public void setRefreshRate(int refreshRate) {
         this.refreshRate = refreshRate;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "refreshRate=" + refreshRate;
+    }
 }
 

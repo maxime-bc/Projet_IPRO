@@ -36,6 +36,8 @@ public class PortableDeviceEntity extends EquipmentEntity {
 
     @Override
     public String toString() {
-        return super.toString() + " screenSize=" + screenSize + ", operatingSystem=" + operatingSystem;
+        return super.toString() + String.format("%-15s %-25s",
+                "screenSize=" + screenSize,
+                "operatingSystem=" + operatingSystem);
     }
 }
