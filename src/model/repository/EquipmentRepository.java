@@ -321,4 +321,16 @@ public class EquipmentRepository {
         }
         return equipments;
     }
+
+    public static HashMap<Integer, EquipmentEntity> getEquipmentById(int id) {
+        HashMap<Integer, EquipmentEntity> equipments = new HashMap<>();
+
+        for (Map.Entry<Integer, EquipmentEntity> equipmentEntityEntry : appData.getEquipmentEntities().entrySet()) {
+            if (equipmentEntityEntry.getKey() == id) {
+                equipments.put(equipmentEntityEntry.getKey(), equipmentEntityEntry.getValue());
+                break;
+            }
+        }
+        return equipments;
+    }
 }

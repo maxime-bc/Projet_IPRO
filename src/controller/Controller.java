@@ -12,6 +12,8 @@ import view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static constants.Constants.*;
 import static constants.ErrorMessages.*;
@@ -94,7 +96,21 @@ public class Controller {
                 } else if (displayType == BY_BORROWER) {
                     int borrowerId = this.view.askPositiveInt("Id of the borrower ? > ");
                     if (UserRepository.userExists(borrowerId)) {
-                        this.view.printHashMap(BorrowingRepository.getBorrowingsByUserId(borrowerId));
+
+                        HashMap<Integer, BorrowingEntity> borrowingEntity = BorrowingRepository.getBorrowingsByUserId(borrowerId);
+
+                        if (borrowingEntity.size() > 0) {
+                            this.view.display("Borrowings :");
+                            this.view.printHashMap(borrowingEntity);
+
+                            this.view.display("Borrowed equipments :");
+                            for (Map.Entry<Integer, BorrowingEntity> entry : borrowingEntity.entrySet()) {
+                                this.view.printHashMap(EquipmentRepository.getEquipmentById(entry.getValue().getBorrowedEquipmentID()));
+                            }
+                        } else {
+                            this.view.display("Empty.");
+                        }
+
                     } else {
                         this.view.display(NONEXISTENT_ID);
                     }
@@ -143,11 +159,11 @@ public class Controller {
                     } else {
                         this.view.display(NONEXISTENT_ID);
                     }
-                } else if (displayType == BY_PURCHASE_DATE){
+                } else if (displayType == BY_PURCHASE_DATE) {
                     int numberOfYears = this.view.askPositiveInt("Enter the number of years > ");
-                    if(numberOfYears > 0){
+                    if (numberOfYears > 0) {
                         this.view.printHashMap(EquipmentRepository.getEquipmentByNumberOfYears(numberOfYears));
-                    }else{
+                    } else {
                         this.view.display("Incorrect number of years.");
                     }
                 }
