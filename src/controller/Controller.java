@@ -35,6 +35,9 @@ public class Controller {
         Serialize.serialize(this.applicationData, APP_DATA_FILE);
     }
 
+    /**
+     * Manage the infinite loop of the program.
+     */
     private void loop() {
         boolean quit = false;
         while (!quit) {
@@ -43,6 +46,12 @@ public class Controller {
         this.view.closeScanner();
     }
 
+    /**
+     * Execute the action entered by the user.
+     * @param arguments commands entered by the user. The first string is the action and
+     *                  the second is the object on which the action will be applied.
+     * @return true if the user has entered the `quit` command, else false.
+     */
     private boolean executeAction(String[] arguments) {
 
         switch (arguments[ACTION]) {
@@ -73,6 +82,10 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Display objects in the console.
+     * @param arguments object to display.
+     */
     private void display(String[] arguments) {
         int displayType;
         switch (arguments[OBJECT]) {
@@ -172,6 +185,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Add an object.
+     * @param arguments name of the object to add.
+     */
     private void add(String[] arguments) {
         Status status = new Status();
 
@@ -223,6 +240,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Update an object.
+     * @param arguments name of the object to update.
+     */
     private void update(String[] arguments) {
         Status status = new Status();
         String message = "Id of the element on which you want to perform this action ? > ";
@@ -253,7 +274,6 @@ public class Controller {
                     status = StorageRepository.updateStorage(this.view.askPositiveInt(message), this.view.getUserInput());
                     break;
             }
-
         } catch (NumberFormatException e) {
             status.setStatus(ERROR, TYPE_ERROR);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -266,6 +286,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Return a borrowing.
+     */
     private void returnBorrowing() {
         this.view.printHashMap(applicationData.getBorrowingEntities());
         String message = "Id of the borrowing you want to return ? > ";
@@ -287,8 +310,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Delete an object.
+     * @param arguments name of the object to object to delete.
+     */
     private void delete(String[] arguments) {
-        String message = "";
+        String message;
         int id;
         Status status = new Status();
 

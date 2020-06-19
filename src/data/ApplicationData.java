@@ -5,7 +5,6 @@ import model.entity.borrowing.BorrowingEntity;
 import model.entity.equipment.EquipmentEntity;
 import model.entity.storage.StorageEntity;
 import model.entity.user.UserEntity;
-import test.Test;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -35,8 +34,7 @@ public class ApplicationData implements Serializable {
     public static ApplicationData getInstance() {
         if (applicationData == null && Serialize.deserialize(APP_DATA_FILE) == null) {
             applicationData = new ApplicationData();
-            //TODO : remove the following line when finished
-            new Test();
+            //new Test();
         } else if (applicationData == null) {
             applicationData = (ApplicationData) Serialize.deserialize(APP_DATA_FILE);
         }
