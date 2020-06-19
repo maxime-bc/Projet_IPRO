@@ -30,8 +30,8 @@ public class Test {
                         "pierre@test.gmail", UserEntity.UserType.ENSIIE));
         appData.setCurrentUserId(appData.getCurrentUserId() + 1);
         appData.getUserEntities().put(appData.getCurrentUserId(),
-                new UserEntity("Je suis", "le responsable",
-                        "resp", "090929092", "res@onsable.com", UserEntity.UserType.TEACHER));
+                new UserEntity("Un prof", "Un prof",
+                        "resp", "090929092", "test@responsable.com", UserEntity.UserType.TEACHER));
         appData.setCurrentUserId(appData.getCurrentUserId() + 1);
 
         // Add storage areas

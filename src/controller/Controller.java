@@ -25,9 +25,6 @@ import static constants.ErrorMessages.*;
 public class Controller {
     private final View view;
     private final ApplicationData applicationData = ApplicationData.getInstance();
-    // TODO : format output to arrays ??
-    // TODO : readme.txt
-    // TODO : test update
 
     /**
      * Construct a controller.
@@ -192,14 +189,19 @@ public class Controller {
                     break;
                 case EQUIPMENT_OBJECT:
                     int type = this.view.askEquipmentType();
-                    this.view.printEquipmentUsage(type);
-                    ArrayList<String> inputs = this.view.getUserInput();
-                    int quantity = this.view.askPositiveInt("Quantity > ?");
+                    if (type > 0) {
 
-                    for (int i = 0; i < quantity; i++) {
-                        status = EquipmentRepository.addEquipment(inputs, type);
-                        if (!status.getCode())
-                            break;
+                        this.view.printEquipmentUsage(type);
+                        ArrayList<String> inputs = this.view.getUserInput();
+                        int quantity = this.view.askPositiveInt("Quantity > ?");
+
+                        for (int i = 0; i < quantity; i++) {
+                            status = EquipmentRepository.addEquipment(inputs, type);
+                            if (!status.getCode())
+                                break;
+                        }
+                    } else {
+                        this.view.display("This type is not valid.");
                     }
                     break;
                 case STORAGE_OBJECT:
@@ -286,24 +288,29 @@ public class Controller {
     }
 
     private void delete(String[] arguments) {
-        String message = "Id of the element you want to delete ? > ";
-        int id = this.view.askPositiveInt(message);
+        String message = "";
+        int id;
         Status status = new Status();
 
         switch (arguments[OBJECT]) {
             case USER_OBJECT:
+                this.view.printHashMap(applicationData.getUserEntities());
+                message = "Id of the element you want to delete ? > ";
+                id = this.view.askPositiveInt(message);
                 status = UserRepository.deleteUser(id);
-
                 break;
-            case BORROWING_OBJECT:
-                status = BorrowingRepository.deleteBorrowing(id);
 
-                break;
             case EQUIPMENT_OBJECT:
+                this.view.printHashMap(applicationData.getEquipmentEntities());
+                message = "Id of the element you want to delete ? > ";
+                id = this.view.askPositiveInt(message);
                 status = EquipmentRepository.deleteEquipment(id);
 
                 break;
             case STORAGE_OBJECT:
+                this.view.printHashMap(applicationData.getStorageEntities());
+                message = "Id of the element you want to delete ? > ";
+                id = this.view.askPositiveInt(message);
                 status = StorageRepository.deleteStorage(id);
                 break;
         }

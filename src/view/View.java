@@ -2,7 +2,6 @@ package view;
 
 import model.entity.borrowing.BorrowingEntity;
 import model.entity.equipment.EquipmentEntity;
-import model.entity.equipment.MotionSensorEntity;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -30,11 +29,19 @@ public class View {
      */
     private void printMenu() {
         display("******************************* MENU ********************************");
-        display("**   Actions : display, add, update, delete, return, quit          **");
-        display("**   On what data type : user, borrowing, equipment, storage       **");
-        display("**   Ex : add user, display user, add storage, delete equipment... **");
-        display("**   Other actions : return, quit                                  **");
-        display("*********************************************************************");
+        display("**                                                                 **");
+        display("**   Actions :                                                     **");
+        display("**                                                                 **");
+        display("**   display   user, equipment, storage, borrowing                 **");
+        display("**   add       user, equipment, storage, borrowing                 **");
+        display("**   update    user, equipment, storage, borrowing                 **");
+        display("**   delete    user, equipment, storage                            **");
+        display("**                                                                 **");
+        display("**   To delete a borrowing, use return                             **");
+        display("**                                                                 **");
+        display("**   To quit to program, use quit                                  **");
+        display("**                                                                 **");
+        display("*********************************************************************\n");
     }
 
     /**
@@ -167,7 +174,7 @@ public class View {
      * @param type type of the equipment for which we want to print the usage.
      */
     public void printEquipmentUsage(int type) {
-        String usage = "<equipment_owner: ENSIIE | TSP | C19 | UEVE> <brand> <purchase_date: dd/mm/yyyy> " +
+        String usage = "<equipment_owner: ENSIIE | TSP | C19 | UEVE> <name> <purchase_date: dd/mm/yyyy> " +
                 "<purchase_price> <state: NEW | GOOD | USED | BROKEN> <storage_id>";
         if (type == GAME_CONTROLLER) {
             usage += " <console>";
@@ -227,7 +234,7 @@ public class View {
             if (entry.getValue() instanceof EquipmentEntity) {
                 String className = entry.getValue().getClass().getSimpleName().replace("Entity", "");
                 display(String.format("%s %-10s %-15s", "[" + entry.getKey() + "] ", className, entry.getValue()));
-            }else{
+            } else {
                 display(String.format("%s %-10s", "[" + entry.getKey() + "] ", entry.getValue()));
             }
         }

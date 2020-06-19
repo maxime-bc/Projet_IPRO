@@ -4,7 +4,6 @@ import constants.Constants;
 import data.ApplicationData;
 import data.Status;
 import model.entity.equipment.*;
-import model.entity.storage.StorageEntity;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -141,7 +140,7 @@ public class EquipmentRepository {
                 if (appData.getStorageEntities().containsKey(storageAreaId)) {
                     DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
                     equipmentEntity.setOwner(EquipmentEntity.Owner.valueOf(inputs.get(0)));
-                    equipmentEntity.setBrand(inputs.get(1));
+                    equipmentEntity.setName(inputs.get(1));
                     equipmentEntity.setPurchaseDate(format.parse(inputs.get(2)));
                     equipmentEntity.setPurchasePrice(Double.parseDouble(inputs.get(3)));
                     equipmentEntity.setState(EquipmentEntity.State.valueOf(inputs.get(4)));
@@ -269,7 +268,7 @@ public class EquipmentRepository {
     }
 
     public static String getEquipmentName(int borrowingId) {
-        return appData.getEquipmentEntities().get(borrowingId).getBrand();
+        return appData.getEquipmentEntities().get(borrowingId).getName();
     }
 
     public static int getEquipmentTypeById(int id) {

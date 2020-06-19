@@ -16,17 +16,17 @@ public class EquipmentEntity implements Serializable {
     public enum Owner {ENSIIE, TSP, C19, UEVE}
 
     private Owner owner;
-    private String brand;
+    private String name;
     private Date purchaseDate;
     private double purchasePrice;
     private State state;
     private boolean isBorrowed;
     private int storageID;
 
-    public EquipmentEntity(Owner owner, String brand, Date purchaseDate, double purchasePrice,
+    public EquipmentEntity(Owner owner, String name, Date purchaseDate, double purchasePrice,
                            State state, boolean isBorrowed, int storageID) {
         this.owner = owner;
-        this.brand = brand;
+        this.name = name;
         this.purchaseDate = purchaseDate;
         this.purchasePrice = purchasePrice;
         this.state = state;
@@ -34,8 +34,8 @@ public class EquipmentEntity implements Serializable {
         this.storageID = storageID;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getName() {
+        return name;
     }
 
     public Owner getOwner() {
@@ -46,8 +46,8 @@ public class EquipmentEntity implements Serializable {
         this.owner = owner;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getPurchaseDate() {
@@ -94,7 +94,7 @@ public class EquipmentEntity implements Serializable {
     public String toString() {
         return String.format("%s %-30s %-25s %-20s %-15s %-20s %-15s",
                 "owner=" + owner,
-                "brand='" + brand + '\'' ,
+                "name='" + name + '\'' ,
                 "purchaseDate=" + new SimpleDateFormat(DATE_FORMAT_PATTERN).format(purchaseDate) ,
                 "purchasePrice=" + purchasePrice ,
                 "state=" + state ,
