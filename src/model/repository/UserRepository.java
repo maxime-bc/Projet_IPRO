@@ -37,8 +37,8 @@ public class UserRepository {
             appData.setCurrentUserId(appData.getCurrentUserId() + 1);
             status.setStatus(SUCCESS, ADD);
 
-        } catch (NumberFormatException e) {
-            status.setStatus(ERROR, ADD_ERROR);
+        } catch (IllegalArgumentException e) {
+            status.setStatus(ERROR, TYPE_ERROR);
         } catch (IndexOutOfBoundsException e) {
             status.setStatus(ERROR, ARGS_ERROR);
         }
@@ -75,12 +75,21 @@ public class UserRepository {
             UserEntity userEntity = appData.getUserEntities().get(id);
 
             try {
-                userEntity.setFirstName(inputs.get(0));
-                userEntity.setLastName(inputs.get(1));
-                userEntity.setAddress(inputs.get(2));
-                userEntity.setPhoneNumber(inputs.get(3));
-                userEntity.setEmail(inputs.get(4));
-                userEntity.setUserType(UserEntity.UserType.valueOf(inputs.get(5)));
+                // avoid update when args are not valid.
+                String firstName = inputs.get(0),
+                        lastName = inputs.get(1),
+                        address = inputs.get(2),
+                        phoneNumber = inputs.get(3),
+                        email = inputs.get(4);
+
+                UserEntity.UserType userType = UserEntity.UserType.valueOf(inputs.get(5));
+
+                userEntity.setFirstName(firstName);
+                userEntity.setLastName(lastName);
+                userEntity.setAddress(address);
+                userEntity.setPhoneNumber(phoneNumber);
+                userEntity.setEmail(email);
+                userEntity.setUserType(userType);
                 status.setStatus(SUCCESS, UPDATE);
 
             } catch (IllegalArgumentException e) {

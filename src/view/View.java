@@ -32,16 +32,21 @@ public class View {
         display("**                                                                 **");
         display("**   Actions :                                                     **");
         display("**                                                                 **");
-        display("**   display   user, equipment, storage, borrowing                 **");
-        display("**   add       user, equipment, storage, borrowing                 **");
-        display("**   update    user, equipment, storage, borrowing                 **");
-        display("**   delete    user, equipment, storage                            **");
+        display("**   display   <user | equipment | storage | borrowing>            **");
+        display("**   add       <user | equipment | storage | borrowing>            **");
+        display("**   update    <user | equipment | storage | borrowing>            **");
+        display("**   delete    <user | equipment | storage>                        **");
+        display("**                                                                 **");
+        display("**   /!\\ arguments containing spaces must be surrounded            **");
+        display("**   by double quotes !                                            **");
         display("**                                                                 **");
         display("**   To delete a borrowing, use return                             **");
         display("**                                                                 **");
-        display("**   To quit to program, use quit                                  **");
+        display("**   To quit the program, use quit                                 **");
         display("**                                                                 **");
         display("*********************************************************************\n");
+
+
     }
 
     /**
@@ -139,6 +144,7 @@ public class View {
         String string = scanInput.nextLine();
 
         ArrayList<String> list = new ArrayList<>();
+        // arguments containing spaces must be surrounded by double quotes to be used as a single argument.
         Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(string);
         while (m.find()) {
             list.add(m.group(1).replace("\"", ""));

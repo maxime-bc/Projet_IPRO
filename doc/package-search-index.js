@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"constants"},{"l":"controller"},{"l":"data"},{"l":"model.entity.borrowing"},{"l":"model.entity.equipment"},{"l":"model.entity.storage"},{"l":"model.entity.user"},{"l":"model.repository"},{"l":"test"},{"l":"view"}]

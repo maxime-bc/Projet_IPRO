@@ -99,7 +99,7 @@ public class EquipmentRepository {
                 status.setStatus(ERROR, NONEXISTENT_ID);
             }
         } catch (IllegalArgumentException | ParseException e) {
-            status.setStatus(ERROR, ADD_ERROR);
+            status.setStatus(ERROR, TYPE_ERROR);
         } catch (IndexOutOfBoundsException e) {
             status.setStatus(ERROR, ARGS_ERROR);
         }
@@ -173,11 +173,13 @@ public class EquipmentRepository {
                 } else {
                     status.setStatus(ERROR, NONEXISTENT_ID);
                 }
-            } catch (ParseException e) {
+            } catch (ParseException | IllegalArgumentException e) {
                 status.setStatus(ERROR, TYPE_ERROR);
-            } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
+            } catch (IndexOutOfBoundsException e) {
                 status.setStatus(ERROR, ARGS_ERROR);
             }
+        } else {
+            status.setStatus(ERROR, NONEXISTENT_ID);
         }
         return status;
     }

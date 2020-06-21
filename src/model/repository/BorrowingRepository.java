@@ -18,6 +18,7 @@ import static constants.SuccessMessages.*;
 
 /**
  * Manipulate borrowings stored inside the ApplicationData class.
+ *
  * @see ApplicationData
  */
 public class BorrowingRepository {
@@ -26,6 +27,7 @@ public class BorrowingRepository {
 
     /**
      * Add a borrowing to the borrowings dictionary stored inside the ApplicationData class.
+     *
      * @param inputs list of attributes for the borrowing.
      * @return Status, a class containing a code and a message.
      */
@@ -43,13 +45,19 @@ public class BorrowingRepository {
                         if (appData.getEquipmentEntities().get(equipmentId).getState() != EquipmentEntity.State.BROKEN) {
 
                             DateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT_PATTERN, Locale.FRANCE);
-                            appData.getBorrowingEntities().put(appData.getCurrentBorrowingId(),
-                                    new BorrowingEntity(BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)),
-                                            new Date(), format.parse(inputs.get(1)), equipmentId, borrowedId));
-                            appData.setCurrentBorrowingId(appData.getCurrentBorrowingId() + 1);
-                            appData.getEquipmentEntities().get(equipmentId).setBorrowed(true);
-                            status.setStatus(SUCCESS, ADD);
+                            Date returnDate = format.parse(inputs.get(1));
+                            Date currentDate = new Date();
 
+                            if (returnDate.before(currentDate)) {
+                                status.setStatus(ERROR, RETURN_DATE);
+                            } else {
+                                appData.getBorrowingEntities().put(appData.getCurrentBorrowingId(),
+                                        new BorrowingEntity(BorrowingEntity.BorrowingReason.valueOf(inputs.get(0)),
+                                                new Date(), format.parse(inputs.get(1)), equipmentId, borrowedId));
+                                appData.setCurrentBorrowingId(appData.getCurrentBorrowingId() + 1);
+                                appData.getEquipmentEntities().get(equipmentId).setBorrowed(true);
+                                status.setStatus(SUCCESS, ADD);
+                            }
                         } else {
                             status.setStatus(ERROR, BROKEN);
                         }
@@ -64,9 +72,8 @@ public class BorrowingRepository {
             }
         } catch (IllegalArgumentException |
                 ParseException e) {
-            status.setStatus(ERROR, ADD_ERROR);
-        } catch (
-                IndexOutOfBoundsException e) {
+            status.setStatus(ERROR, TYPE_ERROR);
+        } catch (IndexOutOfBoundsException e) {
             status.setStatus(ERROR, ARGS_ERROR);
         }
         return status;
@@ -74,6 +81,7 @@ public class BorrowingRepository {
 
     /**
      * Delete a borrowing from the borrowings dictionary stored inside the ApplicationData class.
+     *
      * @param id identifier of the borrowing to remove.
      * @return Status, a class containing a code and a message.
      */
@@ -89,7 +97,8 @@ public class BorrowingRepository {
 
     /**
      * Update a borrowing from the borrowings dictionary stored inside the ApplicationData class.
-     * @param id identifier of the borrowing to update.
+     *
+     * @param id     identifier of the borrowing to update.
      * @param inputs list of updated attributes for the borrowing.
      * @return Status, a class containing a code and a message.
      */
@@ -125,7 +134,8 @@ public class BorrowingRepository {
 
     /**
      * Return a borrowing.
-     * @param id identifier of the borrowing to return.
+     *
+     * @param id    identifier of the borrowing to return.
      * @param state state of the returned borrowing.
      * @return Status, a class containing a code and a message.
      */
@@ -149,6 +159,7 @@ public class BorrowingRepository {
 
     /**
      * Create a dictionary of borrowings filtered by a reason.
+     *
      * @param borrowingReason reason for which we want to filter borrowings.
      * @return a dictionary of borrowings with the same reason.
      */
@@ -168,6 +179,7 @@ public class BorrowingRepository {
 
     /**
      * Create a dictionary of borrowings filtered by a borrower identifier.
+     *
      * @param borrowerId identifier of the borrower for which we want to filter borrowings.
      * @return a dictionary of borrowings from the same borrower.
      */
@@ -187,6 +199,7 @@ public class BorrowingRepository {
 
     /**
      * Create a dictionary of borrowings that are overdue.
+     *
      * @return a dictionary of overdue borrowings.
      */
     public static HashMap<Integer, BorrowingEntity> getOverdueBorrowings() {

@@ -48,6 +48,7 @@ public class Controller {
 
     /**
      * Execute the action entered by the user.
+     *
      * @param arguments commands entered by the user. The first string is the action and
      *                  the second is the object on which the action will be applied.
      * @return true if the user has entered the `quit` command, else false.
@@ -84,100 +85,19 @@ public class Controller {
 
     /**
      * Display objects in the console.
+     *
      * @param arguments object to display.
      */
     private void display(String[] arguments) {
-        int displayType;
         switch (arguments[OBJECT]) {
             case USER_OBJECT:
                 this.view.printHashMap(applicationData.getUserEntities());
                 break;
             case BORROWING_OBJECT:
-                displayType = this.view.askDisplayType(Arrays.asList(TOTAL, BY_REASON, BY_BORROWER, OVERDUE),
-                        "1 - Total\n2 - By reason\n3 - By borrower\n4 - Overdue");
-
-                if (displayType == TOTAL) {
-                    this.view.printHashMap(applicationData.getBorrowingEntities());
-                } else if (displayType == BY_REASON) {
-                    BorrowingEntity.BorrowingReason borrowingReason = this.view.askBorrowingReason();
-                    if (borrowingReason != null) {
-                        this.view.printHashMap(BorrowingRepository.getBorrowingsByReason(borrowingReason));
-                    }
-                } else if (displayType == BY_BORROWER) {
-                    int borrowerId = this.view.askPositiveInt("Id of the borrower ? > ");
-                    if (UserRepository.userExists(borrowerId)) {
-
-                        HashMap<Integer, BorrowingEntity> borrowingEntity = BorrowingRepository.getBorrowingsByUserId(borrowerId);
-
-                        if (borrowingEntity.size() > 0) {
-                            this.view.display("Borrowings :");
-                            this.view.printHashMap(borrowingEntity);
-
-                            this.view.display("Borrowed equipments :");
-                            for (Map.Entry<Integer, BorrowingEntity> entry : borrowingEntity.entrySet()) {
-                                this.view.printHashMap(EquipmentRepository.getEquipmentById(entry.getValue().getBorrowedEquipmentID()));
-                            }
-                        } else {
-                            this.view.display("Empty.");
-                        }
-
-                    } else {
-                        this.view.display(NONEXISTENT_ID);
-                    }
-
-                } else if (displayType == OVERDUE) {
-                    this.view.printHashMap(BorrowingRepository.getOverdueBorrowings());
-                }
-
+                displayBorrowings();
                 break;
             case EQUIPMENT_OBJECT:
-                displayType = this.view.askDisplayType(Arrays.asList(TOTAL, AVAILABLE, BORROWED, BY_TYPE, BY_STORAGE_AREA, BY_PURCHASE_DATE),
-                        "1 - Total\n2 - Available\n3 - Borrowed\n4 - By type\n5 - By storage area\n6 - By purchase date");
-
-                if (displayType == TOTAL) {
-                    this.view.printHashMap(applicationData.getEquipmentEntities());
-                } else if (displayType == AVAILABLE) {
-                    this.view.printHashMap(EquipmentRepository.getAvailableEquipment());
-                } else if (displayType == BORROWED) {
-                    displayType = this.view.askDisplayType(Arrays.asList(TOTAL, BY_USER), "1 - Display all borrowings\n2 - Display borrowings by user");
-
-                    if (displayType == TOTAL) {
-                        this.view.printHashMap(EquipmentRepository.getBorrowedEquipment());
-                    } else if (displayType == BY_USER) {
-                        this.view.printHashMap(applicationData.getUserEntities());
-                        int borrowerId = this.view.askPositiveInt("Id of the borrower ? > ");
-
-                        if (UserRepository.userExists(borrowerId)) {
-                            this.view.printHashMap(BorrowingRepository.getBorrowingsByUserId(borrowerId));
-                        } else {
-                            this.view.display(NONEXISTENT_ID);
-                        }
-                    }
-
-                } else if (displayType == BY_TYPE) {
-                    int equipmentType = this.view.askEquipmentType();
-                    if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM, MOTION_SENSOR).contains(equipmentType))
-                        this.view.printHashMap(EquipmentRepository.getEquipment(equipmentType));
-                    else
-                        this.view.display("Equipment type not recognized");
-                } else if (displayType == BY_STORAGE_AREA) {
-                    this.view.printHashMap(applicationData.getStorageEntities());
-                    int storageAreaId = this.view.askPositiveInt("Id of the storage area ? > ");
-
-                    if (StorageRepository.storageAreaExists(storageAreaId)) {
-                        this.view.printHashMap(EquipmentRepository.getEquipmentByStorageAreaId(storageAreaId));
-                    } else {
-                        this.view.display(NONEXISTENT_ID);
-                    }
-                } else if (displayType == BY_PURCHASE_DATE) {
-                    int numberOfYears = this.view.askPositiveInt("Enter the number of years > ");
-                    if (numberOfYears > 0) {
-                        this.view.printHashMap(EquipmentRepository.getEquipmentByNumberOfYears(numberOfYears));
-                    } else {
-                        this.view.display("Incorrect number of years.");
-                    }
-                }
-
+                displayEquipment();
                 break;
             case STORAGE_OBJECT:
                 this.view.printHashMap(applicationData.getStorageEntities());
@@ -185,54 +105,155 @@ public class Controller {
         }
     }
 
+
+    /**
+     * Display equipment in the console.
+     */
+    private void displayEquipment() {
+        int displayType;
+        displayType = this.view.askDisplayType(
+                Arrays.asList(TOTAL, AVAILABLE, BORROWED, BY_TYPE, BY_STORAGE_AREA, BY_PURCHASE_DATE),
+                "1 - Total\n2 - Available\n3 - Borrowed\n4 - By type\n5 - By storage area\n6 - By purchase date");
+
+        if (displayType == TOTAL) {
+            this.view.printHashMap(applicationData.getEquipmentEntities());
+
+        } else if (displayType == AVAILABLE) {
+            this.view.printHashMap(EquipmentRepository.getAvailableEquipment());
+
+        } else if (displayType == BORROWED) {
+            displayType = this.view.askDisplayType(
+                    Arrays.asList(TOTAL, BY_USER),
+                    "1 - Display all borrowings\n2 - Display borrowings by user");
+
+            if (displayType == TOTAL) {
+                this.view.printHashMap(EquipmentRepository.getBorrowedEquipment());
+
+            } else if (displayType == BY_USER) {
+                this.view.printHashMap(applicationData.getUserEntities());
+                int borrowerId = this.view.askPositiveInt("Id of the borrower ? > ");
+
+                if (UserRepository.userExists(borrowerId)) {
+                    this.view.printHashMap(BorrowingRepository.getBorrowingsByUserId(borrowerId));
+                } else {
+                    this.view.display(NONEXISTENT_ID);
+                }
+            }
+
+        } else if (displayType == BY_TYPE) {
+            int equipmentType = this.view.askEquipmentType();
+
+            if (Arrays.asList(GAME_CONTROLLER, HEADSET, MOUSE, PHONE, TABLET, VR_CONTROLLER, VR_HEADSET, WEBCAM, MOTION_SENSOR).contains(equipmentType)) {
+                this.view.printHashMap(EquipmentRepository.getEquipment(equipmentType));
+            } else {
+                this.view.display("Equipment type not recognized");
+            }
+
+        } else if (displayType == BY_STORAGE_AREA) {
+            this.view.printHashMap(applicationData.getStorageEntities());
+            int storageAreaId = this.view.askPositiveInt("Id of the storage area ? > ");
+
+            if (StorageRepository.storageAreaExists(storageAreaId)) {
+                this.view.printHashMap(EquipmentRepository.getEquipmentByStorageAreaId(storageAreaId));
+            } else {
+                this.view.display(NONEXISTENT_ID);
+            }
+
+        } else if (displayType == BY_PURCHASE_DATE) {
+            int numberOfYears = this.view.askPositiveInt("Enter the number of years > ");
+            if (numberOfYears > 0) {
+                this.view.printHashMap(EquipmentRepository.getEquipmentByNumberOfYears(numberOfYears));
+            } else {
+                this.view.display("Incorrect number of years.");
+            }
+        }
+    }
+
+    /**
+     * Display borrowings in the console.
+     */
+    private void displayBorrowings() {
+        int displayType;
+        displayType = this.view.askDisplayType(Arrays.asList(TOTAL, BY_REASON, BY_BORROWER, OVERDUE),
+                "1 - Total\n2 - By reason\n3 - By borrower\n4 - Overdue");
+
+        if (displayType == TOTAL) {
+            this.view.printHashMap(applicationData.getBorrowingEntities());
+
+        } else if (displayType == BY_REASON) {
+            BorrowingEntity.BorrowingReason borrowingReason = this.view.askBorrowingReason();
+            if (borrowingReason != null) {
+                this.view.printHashMap(BorrowingRepository.getBorrowingsByReason(borrowingReason));
+            }
+
+        } else if (displayType == BY_BORROWER) {
+            int borrowerId = this.view.askPositiveInt("Id of the borrower ? > ");
+
+            if (UserRepository.userExists(borrowerId)) {
+                HashMap<Integer, BorrowingEntity> borrowingEntity = BorrowingRepository.getBorrowingsByUserId(borrowerId);
+
+                if (borrowingEntity.size() > 0) {
+                    this.view.display("Borrowings :");
+                    this.view.printHashMap(borrowingEntity);
+
+                    this.view.display("Borrowed equipments :");
+                    for (Map.Entry<Integer, BorrowingEntity> entry : borrowingEntity.entrySet()) {
+                        this.view.printHashMap(EquipmentRepository.getEquipmentById(entry.getValue().getBorrowedEquipmentID()));
+                    }
+                } else {
+                    this.view.display("Empty.");
+                }
+            } else {
+                this.view.display(NONEXISTENT_ID);
+            }
+
+        } else if (displayType == OVERDUE) {
+            this.view.printHashMap(BorrowingRepository.getOverdueBorrowings());
+        }
+    }
+
     /**
      * Add an object.
+     *
      * @param arguments name of the object to add.
      */
     private void add(String[] arguments) {
         Status status = new Status();
 
-        try {
-            switch (arguments[OBJECT]) {
-                case USER_OBJECT:
-                    this.view.printObjectUsage(USER_OBJECT);
-                    status = UserRepository.addUser(this.view.getUserInput());
+        switch (arguments[OBJECT]) {
+            case USER_OBJECT:
+                this.view.printObjectUsage(USER_OBJECT);
+                status = UserRepository.addUser(this.view.getUserInput());
 
-                    break;
-                case BORROWING_OBJECT:
-                    this.view.printObjectUsage(BORROWING_OBJECT);
-                    status = BorrowingRepository.addBorrowing(this.view.getUserInput());
+                break;
+            case BORROWING_OBJECT:
+                this.view.printObjectUsage(BORROWING_OBJECT);
+                status = BorrowingRepository.addBorrowing(this.view.getUserInput());
 
-                    break;
-                case EQUIPMENT_OBJECT:
-                    int type = this.view.askEquipmentType();
-                    if (type > 0) {
+                break;
+            case EQUIPMENT_OBJECT:
+                int type = this.view.askEquipmentType();
+                if (type > 0) {
 
-                        this.view.printEquipmentUsage(type);
-                        ArrayList<String> inputs = this.view.getUserInput();
-                        int quantity = this.view.askPositiveInt("Quantity > ?");
+                    this.view.printEquipmentUsage(type);
+                    ArrayList<String> inputs = this.view.getUserInput();
+                    int quantity = this.view.askPositiveInt("Quantity > ?");
 
-                        for (int i = 0; i < quantity; i++) {
-                            status = EquipmentRepository.addEquipment(inputs, type);
-                            if (!status.getCode())
-                                break;
-                        }
-                    } else {
-                        this.view.display("This type is not valid.");
+                    for (int i = 0; i < quantity; i++) {
+                        status = EquipmentRepository.addEquipment(inputs, type);
+                        if (!status.getCode())
+                            break;
                     }
-                    break;
-                case STORAGE_OBJECT:
-                    this.view.printObjectUsage(STORAGE_OBJECT);
-                    status = StorageRepository.addStorage(this.view.getUserInput());
-                    break;
-            }
-
-        } catch (NumberFormatException e) {
-            status.setStatus(ERROR, TYPE_ERROR);
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            status.setStatus(ERROR, ARGS_ERROR);
+                } else {
+                    this.view.display("This type is not valid.");
+                }
+                break;
+            case STORAGE_OBJECT:
+                this.view.printObjectUsage(STORAGE_OBJECT);
+                status = StorageRepository.addStorage(this.view.getUserInput());
+                break;
         }
+
         this.view.display(status.getMessage());
 
         if (status.getCode()) {
@@ -242,42 +263,54 @@ public class Controller {
 
     /**
      * Update an object.
+     *
      * @param arguments name of the object to update.
      */
     private void update(String[] arguments) {
         Status status = new Status();
         String message = "Id of the element on which you want to perform this action ? > ";
-        try {
-            switch (arguments[OBJECT]) {
-                case USER_OBJECT:
+        int id;
+
+        switch (arguments[OBJECT]) {
+            case USER_OBJECT:
+                this.view.printHashMap(applicationData.getUserEntities());
+                id = this.view.askPositiveInt(message);
+                if (id != -1) {
                     this.view.printObjectUsage(USER_OBJECT);
-                    status = UserRepository.updateUser(this.view.askPositiveInt(message), this.view.getUserInput());
+                    status = UserRepository.updateUser(id, this.view.getUserInput());
+                }
+                break;
 
-                    break;
-                case (BORROWING_OBJECT):
+            case (BORROWING_OBJECT):
+                this.view.printHashMap(applicationData.getBorrowingEntities());
+                id = this.view.askPositiveInt(message);
+                if (id != -1) {
                     this.view.printObjectUsage(BORROWING_OBJECT);
-                    status = BorrowingRepository.updateBorrowing(this.view.askPositiveInt(message), this.view.getUserInput());
+                    status = BorrowingRepository.updateBorrowing(id, this.view.getUserInput());
+                }
+                break;
 
-                    break;
-                case EQUIPMENT_OBJECT:
-                    int id = this.view.askPositiveInt(message);
+            case EQUIPMENT_OBJECT:
+                this.view.printHashMap(applicationData.getEquipmentEntities());
+                id = this.view.askPositiveInt(message);
+                if (id != -1) {
                     int type = EquipmentRepository.getEquipmentTypeById(id);
-                    if (type == -1)
+                    if (type == -1) {
                         this.view.display(NONEXISTENT_ID);
-                    else {
+                    } else {
                         this.view.printEquipmentUsage(type);
                         status = EquipmentRepository.updateEquipment(id, this.view.getUserInput());
                     }
-                    break;
-                case (STORAGE_OBJECT):
+                }
+                break;
+            case (STORAGE_OBJECT):
+                this.view.printHashMap(applicationData.getStorageEntities());
+                id = this.view.askPositiveInt(message);
+                if (id != -1) {
                     this.view.printObjectUsage(STORAGE_OBJECT);
-                    status = StorageRepository.updateStorage(this.view.askPositiveInt(message), this.view.getUserInput());
-                    break;
-            }
-        } catch (NumberFormatException e) {
-            status.setStatus(ERROR, TYPE_ERROR);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            status.setStatus(ERROR, ARGS_ERROR);
+                    status = StorageRepository.updateStorage(id, this.view.getUserInput());
+                }
+                break;
         }
 
         this.view.display(status.getMessage());
@@ -312,6 +345,7 @@ public class Controller {
 
     /**
      * Delete an object.
+     *
      * @param arguments name of the object to object to delete.
      */
     private void delete(String[] arguments) {
